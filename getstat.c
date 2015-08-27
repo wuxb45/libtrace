@@ -109,15 +109,15 @@ main(int argc, char ** argv)
     nacc += ycount[i];
     nkey ++;
     if ((nacc - acc0) > pk) {
-      printf("nkey %" PRIu64 " (%.2lf%%) nacc %" PRIu64 " (%.2lf%%)\n", nkey, ((double)nkey)/((double)keycount)*100.0, nacc, ((double)nacc)/((double)get)*100.0);
+      printf("nkey %" PRIu64 " (%.2lf%%) nacc %" PRIu64 " (%.2lf%%) // current access %" PRIu64 "\n", nkey, ((double)nkey)/((double)keycount)*100.0, nacc, ((double)nacc)/((double)get)*100.0, ycount[i]);
       acc0 = nacc;
     }
   }
-  for (uint64_t i = 0; i < NX; i++) {
-    nacc += (NX-i-1) * xcount[NX-i-1];
-    nkey += xcount[NX-i-1];
+  for (uint64_t i = NX-1; i > 0; i--) {
+    nacc += i * xcount[i];
+    nkey += xcount[i];
     if ((nacc - acc0) > pk) {
-      printf("nkey %" PRIu64 " (%.2lf%%) nacc %" PRIu64 " (%.2lf%%)\n", nkey, ((double)nkey)/((double)keycount)*100.0, nacc, ((double)nacc)/((double)get)*100.0);
+      printf("nkey %" PRIu64 " (%.2lf%%) nacc %" PRIu64 " (%.2lf%%) // current class %" PRIu64 " keys %" PRIu64 "\n", nkey, ((double)nkey)/((double)keycount)*100.0, nacc, ((double)nacc)/((double)get)*100.0, i, xcount[i]);
       acc0 = nacc;
     }
   }
