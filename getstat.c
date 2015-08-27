@@ -104,11 +104,12 @@ main(int argc, char ** argv)
   uint64_t acc0 = 0;
   uint64_t nacc = 0;
   uint64_t nkey = 0;
+  printf("==== %" PRIu64 " keys, %" PRIu64 " gets\n", keycount, get);
   for (uint64_t i = 0; i < yy; i++) {
     nacc += ycount[i];
     nkey ++;
     if ((nacc - acc0) > pk) {
-      printf("nkey %" PRIu64 " (%lf) nacc %" PRIu64 " (%lf)\n", nkey, ((double)nkey)/((double)keycount), nacc, ((double)nacc)/((double)get));
+      printf("nkey %" PRIu64 " (%.2lf%%) nacc %" PRIu64 " (%.2lf%%)\n", nkey, ((double)nkey)/((double)keycount)*100.0, nacc, ((double)nacc)/((double)get)*100.0);
       acc0 = nacc;
     }
   }
@@ -116,13 +117,9 @@ main(int argc, char ** argv)
     nacc += (NX-i-1) * xcount[NX-i-1];
     nkey += xcount[NX-i-1];
     if ((nacc - acc0) > pk) {
-      printf("nkey %" PRIu64 " (%lf) nacc %" PRIu64 " (%lf)\n", nkey, ((double)nkey)/((double)keycount), nacc, ((double)nacc)/((double)get));
+      printf("nkey %" PRIu64 " (%.2lf%%) nacc %" PRIu64 " (%.2lf%%)\n", nkey, ((double)nkey)/((double)keycount)*100.0, nacc, ((double)nacc)/((double)get)*100.0);
       acc0 = nacc;
     }
   }
-  
-  //for (uint64_t i = 0; i < NX; i++) {
-    //if (xcount[i]) printf("X %04" PRIu64 " %" PRIu64 "\n", i, xcount[i]);
-  //}
   return 0;
 }
