@@ -30,7 +30,7 @@ __comp(const void * const p1, const void * const p2)
 }
 
   void
-one_get(struct slot ** const slots, const uint64_t hkey)
+one_op(struct slot ** const slots, const uint64_t hkey)
 {
   struct slot * slot = slots[hkey % N1];
   for (uint64_t i = 0; i < slot->nr; i++) {
@@ -62,14 +62,12 @@ main(int argc, char ** argv)
   }
   struct event e;
   uint64_t ts =0;
-  uint64_t get = 0;
+  uint64_t op = 0;
   while(next_event(stdin, &ts, &e)) {
-    if (e.op == 'G') {
-      one_get(slots, e.hkey);
-      get++;
-    }
+    one_op(slots, e.hkey);
+    op++;
   }
-  const uint64_t pk = get/1000u;
+  const uint64_t pk = op/1000u;
   uint64_t xcount[NX] = {};
   uint64_t y = 0;
   uint64_t keycount = 0;
@@ -104,12 +102,12 @@ main(int argc, char ** argv)
   uint64_t acc0 = 0;
   uint64_t nacc = 0;
   uint64_t nkey = 0;
-  printf("==== %" PRIu64 " keys, %" PRIu64 " gets\n", keycount, get);
+  printf("==== %" PRIu64 " keys, %" PRIu64 " gets\n", keycount, op);
   for (uint64_t i = 0; i < yy; i++) {
     nacc += ycount[i];
     nkey ++;
     if ((nacc - acc0) > pk) {
-      printf("nkey %" PRIu64 " (%.2lf%%) nacc %" PRIu64 " (%.2lf%%) // current access %" PRIu64 "\n", nkey, ((double)nkey)/((double)keycount)*100.0, nacc, ((double)nacc)/((double)get)*100.0, ycount[i]);
+      printf("nkey %" PRIu64 " (%.2lf%%) nacc %" PRIu64 " (%.2lf%%) // current access %" PRIu64 "\n", nkey, ((double)nkey)/((double)keycount)*100.0, nacc, ((double)nacc)/((double)op)*100.0, ycount[i]);
       acc0 = nacc;
     }
   }
@@ -117,7 +115,7 @@ main(int argc, char ** argv)
     nacc += i * xcount[i];
     nkey += xcount[i];
     if (((nacc - acc0) > pk) || (i == 1)) {
-      printf("nkey %" PRIu64 " (%.2lf%%) nacc %" PRIu64 " (%.2lf%%) // current class %" PRIu64 " keys %" PRIu64 "\n", nkey, ((double)nkey)/((double)keycount)*100.0, nacc, ((double)nacc)/((double)get)*100.0, i, xcount[i]);
+      printf("nkey %" PRIu64 " (%.2lf%%) nacc %" PRIu64 " (%.2lf%%) // current class %" PRIu64 " keys %" PRIu64 "\n", nkey, ((double)nkey)/((double)keycount)*100.0, nacc, ((double)nacc)/((double)op)*100.0, i, xcount[i]);
       acc0 = nacc;
     }
   }
