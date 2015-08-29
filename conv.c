@@ -55,9 +55,9 @@ one_op(struct slot ** const slots, const uint64_t hkey, uint32_t op)
   write(1, &o, sizeof(o));
 
   if (slot->nr == slot->alloc) {
-    slot = (typeof(slot))realloc(slot, sizeof(*slot) + (slot->alloc * 2 * sizeof(slot->entries[0])));
+    slot = (typeof(slot))realloc(slot, sizeof(*slot) + ((slot->alloc + 4) * sizeof(slot->entries[0])));
     slots[hkey % N1] = slot;
-    slot->alloc *= 2;
+    slot->alloc += 4;
   }
   slot->entries[slot->nr].hkey = hkey;
   slot->entries[slot->nr].id = next_id;
