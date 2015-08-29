@@ -33,8 +33,8 @@ __comp(const void * const p1, const void * const p2)
 }
 
 struct out {
-  uint32_t id:30;
-  uint32_t op:2;
+  uint64_t id:62;
+  uint64_t op:2;
 } __attribute__((packed));
 
   void
