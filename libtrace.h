@@ -6,13 +6,13 @@
 #include <stdint.h>
 #include <inttypes.h>
 
-#define OP_GET 0
-#define OP_ADD 1
-#define OP_SET 2
-#define OP_DEL 3
+#define OP_GET ((0))
+#define OP_ADD ((1))
+#define OP_SET ((2))
+#define OP_DEL ((3))
 
-#define PROT_TCP 0
-#define PROT_UDP 1
+#define PROT_TCP ((0))
+#define PROT_UDP ((1))
 
 #define PROT_MAP     ((0x80))
 #define OP_MAP       ((0x70))
