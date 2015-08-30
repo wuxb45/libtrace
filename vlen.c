@@ -6,7 +6,7 @@
 int
 main(int argc, char ** argv)
 {
-  if (argc != 5) {
+  if (argc != 4) {
     printf("usage: %s <out1> <out2> <out4>\n", argv[0]);
     exit(0);
   }
