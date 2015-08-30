@@ -54,6 +54,10 @@ main(int argc, char ** argv)
     lr24[0xffffff].r = right0;
   }
 
+  uint64_t ops = 0;
+  uint32_t ids[32];
+  uint32_t clock = 0;
+
   struct event e;
   uint64_t ts = 0;
   while(next_event(stdin, &ts, &e)) {
@@ -81,9 +85,23 @@ main(int argc, char ** argv)
     }
     const uint32_t w = (typeof(w))mid;
     assert(((uint64_t)w) == mid);
-    fwrite(&w, sizeof(w), 1, stdout);
+    //fwrite(&w, sizeof(w), 1, stdout);
+    uint64_t op = (uint64_t)((e.flags & OP_MAP) >> 4);
+    ids[clock] = w;
+    ops |= (op << (clock << 1));
+    clock++;
+    if (clock == 32) {
+      fwrite(&ops, sizeof(ops), 1, stdout);
+      fwrite(ids, sizeof(ids[0]), 32, stdout);
+      clock = 0;
+      ops = 0;
+    }
   }
+  if (clock) {
+    fwrite(&ops, sizeof(ops), 1, stdout);
+    fwrite(ids, sizeof(ids[0]), clock, stdout);
+  }
+  fflush(stdout);
   munmap((void *)input, size);
   close(fdkeymap);
-  fflush(stdout);
 }
