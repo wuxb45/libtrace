@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <stdio.h>
+#include <string.h>
 
   static int
 __comp(const void * const p1, const void * const p2)
@@ -35,18 +36,26 @@ main(int argc, char ** argv)
   }
   struct stat st;
   assert(sizeof(st.st_size) == 8);
+  assert(sizeof(size_t) == 8);
   stat(argv[1], &st);
   const uint64_t size = st.st_size;
   assert((size % 8) == 0);
   const int fdinput = open(argv[1], O_RDONLY);
   assert(fdinput >= 0);
-  void * const data = malloc(size);
-  const uint64_t nread = read(fdinput, data, size);
-  assert(nread == size);
+  void * const input = mmap(NULL, size, PROT_READ, MAP_PRIVATE, fdinput, 0);
+  assert(input != MAP_FAILED);
+  const int fdoutput = open(argv[2], O_CREAT | O_TRUNC | O_RDWR, 00644);
+  ftruncate(fdoutput, size);
+  fdatasync(fdoutput);
+  void * const output = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_SHARED, fdoutput, 0);
+  assert(output != MAP_FAILED);
+  memcpy(output, input, size);
+  munmap(input, size);
   close(fdinput);
-  qsort(data, size>>3, sizeof(uint64_t), __comp);
-  const int fdoutput = open(argv[2], O_CREAT | O_TRUNC | O_WRONLY);
-  write(fdoutput, data, size);
+
+  qsort(output, size>>3, sizeof(uint64_t), __comp);
+  msync(output, size, MS_SYNC);
+  munmap(output, size);
   fdatasync(fdoutput);
   close(fdoutput);
 }
