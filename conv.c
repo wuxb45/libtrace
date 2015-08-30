@@ -31,7 +31,7 @@ main(int argc, char ** argv)
   stat(argv[1], &st);
   const uint64_t size = st.st_size;
   assert((size % 8) == 0);
-  assert(size < UINT64_C(0xffffffff));
+  assert((size >> 3) < UINT64_C(0xffffffff));
   const int fdkeymap = open(argv[1], O_RDONLY);
   assert(fdkeymap >= 0);
   const uint64_t * const input = (const uint64_t *)mmap(NULL, size, PROT_READ, MAP_PRIVATE, fdkeymap, 0);
