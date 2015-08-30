@@ -15,6 +15,11 @@
 
 #include "libtrace.h"
 
+struct lr {
+  uint32_t l;
+  uint32_t r;
+};
+
 int
 main(int argc, char ** argv)
 {
@@ -33,15 +38,32 @@ main(int argc, char ** argv)
   assert(input != MAP_FAILED);
   const uint64_t right0 = (size>>3) - 1;
 
+  struct lr *lr24 = (typeof(lr24))malloc(sizeof(*lr24) * 0x1000000);
+  assert(lr24);
+  {
+    uint32_t id = 0;
+    for (uint64_t head = 0; head < 0x1000000; head++) {
+      while ((id <= right0) && ((input[id]>>40) < head)) {
+        id++;
+      }
+      lr24[head].l = id;
+    }
+    for (uint64_t head = 0; head < 0xffffff; head++) {
+      lr24[head].r = lr24[head+1].l-1;
+    }
+    lr24[0xffffff].r = right0;
+  }
+
   struct event e;
   uint64_t ts = 0;
   while(next_event(stdin, &ts, &e)) {
     const uint64_t hkey = e.hkey;
-    uint32_t li = 0;
-    uint32_t ri = right0;
-    uint32_t mid = 0;
+    const uint64_t head = hkey >> 40;
+    uint64_t li = lr24[head].l;
+    uint64_t ri = lr24[head].r;
+    uint64_t mid = 0;
     bool found = false;
-    while (li < ri) {
+    while (li <= ri) {
       mid = (li + ri) >> 1;
       if (hkey < input[mid]) {
         ri = mid-1;
@@ -52,8 +74,14 @@ main(int argc, char ** argv)
         break;
       }
     }
-    assert(found);
-    fwrite(&mid, sizeof(mid), 1, stdout);
+    if (!found) {
+      fprintf(stderr, "hkey %" PRIx64 "\n", hkey);
+      fflush(stderr);
+      assert(false);
+    }
+    const uint32_t w = (typeof(w))mid;
+    assert(((uint64_t)w) == mid);
+    fwrite(&w, sizeof(w), 1, stdout);
   }
   munmap((void *)input, size);
   close(fdkeymap);
