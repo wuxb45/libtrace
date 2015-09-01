@@ -169,10 +169,26 @@ lru_print(void * const ptr)
    */
 }
 
+  static void
+lru_clean_stat(void * const ptr)
+{
+  struct lru * const lru = (typeof(lru))ptr;
+  lru->nr_set = 0;
+  lru->nr_add = 0;
+  lru->nr_get = 0;
+  lru->nr_del = 0;
+
+  lru->nr_rmv = 0;
+  lru->nr_hit = 0;
+  lru->nr_mis = 0;
+  lru->nr_evi = 0;
+}
+
 static struct rep_api lru_api = {
   .op_new = lru_new,
   .op_set = lru_set,
   .op_get = lru_get,
   .op_del = lru_del,
-  .op_print = lru_print,
+  .print = lru_print,
+  .clean_stat = lru_clean_stat,
 };

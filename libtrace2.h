@@ -19,13 +19,23 @@ struct rep_api {
   void (*op_set)(void *, const uint32_t, const uint32_t);
   void (*op_get)(void *, const uint32_t, const uint32_t);
   void (*op_del)(void *, const uint32_t);
-  void (*op_print)(void *);
+  void (*print)(void *);
+  void (*clean_stat)(void *);
 };
+
+  static inline uint64_t
+random64(void)
+{
+  // 62 bit random value;
+  const uint64_t rand64 = (((uint64_t)random()) << 31) | ((uint64_t)random());
+  return rand64;
+}
 
   static void
 runtrace(const char * const tracefile, const char * const sizefile1, const char * const sizefile2,
     const char * const sizefile4, const uint32_t nr_keys, const uint64_t max_cap, const struct rep_api * const api)
 {
+
   const int fd1 = open(sizefile1, O_RDONLY);
   assert(fd1 >= 0);
   const int fd2 = open(sizefile2, O_RDONLY);
@@ -64,7 +74,7 @@ runtrace(const char * const tracefile, const char * const sizefile1, const char 
   close(fd4);
   fprintf(stdout, "vlens read done\n");
   fflush(stdout);
-  
+
   FILE * const ftrace = fopen(tracefile, "rb");
   assert(ftrace);
   void * const rep = api->op_new(nr_keys, max_cap);
@@ -77,11 +87,25 @@ runtrace(const char * const tracefile, const char * const sizefile1, const char 
     for (uint64_t i = 0; i < nkeys; i++) {
       char op; 
       switch ((ops >> (i<<1)) & UINT64_C(0x3)) {
+        case OP_SET: case OP_ADD: case OP_GET: case OP_DEL:
+          api->op_set(rep, keys[i], vlens[random64() % nr_vlen]);
+          break;
+        default: break;
+      }
+    }
+  }
+  api->clean_stat(rep);
+  for (;;) {
+    if (fread(&ops, sizeof(ops), 1, ftrace) != 1) break;
+    const size_t nkeys = fread(keys, sizeof(keys[0]), 32, ftrace);
+    for (uint64_t i = 0; i < nkeys; i++) {
+      char op; 
+      switch ((ops >> (i<<1)) & UINT64_C(0x3)) {
         case OP_SET: case OP_ADD:
-          api->op_set(rep, keys[i], vlens[random() % nr_vlen]);
+          api->op_set(rep, keys[i], vlens[random64() % nr_vlen]);
           break;
         case OP_GET:
-          api->op_get(rep, keys[i], vlens[random() % nr_vlen]);
+          api->op_get(rep, keys[i], vlens[random64() % nr_vlen]);
           break;
         case OP_DEL:
           api->op_del(rep, keys[i]);
@@ -90,5 +114,5 @@ runtrace(const char * const tracefile, const char * const sizefile1, const char 
       }
     }   
   }
-  api->op_print(rep);
+  api->print(rep);
 }
