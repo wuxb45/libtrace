@@ -78,21 +78,16 @@ runtrace(const char * const tracefile, const char * const sizefile1, const char 
       char op; 
       switch ((ops >> (i<<1)) & UINT64_C(0x3)) {
         case OP_SET: case OP_ADD:
-        {
           api->op_set(rep, keys[i], vlens[random() % nr_vlen]);
-        }
-        break;
+          break;
         case OP_GET:
-        {
           api->op_get(rep, keys[i]);
-        }
-        break;
+          break;
         case OP_DEL:
-        {
           api->op_del(rep, keys[i]);
-        }
-        break;
-      }   
+          break;
+        default: break;
+      }
     }   
   }
   api->op_print(rep);
