@@ -17,7 +17,7 @@
 struct rep_api {
   void * (* op_new)(const uint32_t, const uint64_t);
   void (*op_set)(void *, const uint32_t, const uint32_t);
-  void (*op_get)(void *, const uint32_t);
+  void (*op_get)(void *, const uint32_t, const uint32_t);
   void (*op_del)(void *, const uint32_t);
   void (*op_print)(void *);
 };
@@ -81,7 +81,7 @@ runtrace(const char * const tracefile, const char * const sizefile1, const char 
           api->op_set(rep, keys[i], vlens[random() % nr_vlen]);
           break;
         case OP_GET:
-          api->op_get(rep, keys[i]);
+          api->op_get(rep, keys[i], vlens[random() % nr_vlen]);
           break;
         case OP_DEL:
           api->op_del(rep, keys[i]);
