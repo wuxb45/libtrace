@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 #include <stdlib.h>
+#include "libtrace2.h"
 
 struct lru {
   uint32_t nr_keys;
@@ -25,7 +26,7 @@ struct lru {
   } arr[];
 };
 
-  static struct lru *
+  static void *
 lru_new(const uint32_t nr_keys, const uint64_t max_cap)
 {
   const size_t sz = sizeof(struct lru) + ((nr_keys + 1) * sizeof(((struct lru *)NULL)->arr[0]));
@@ -39,12 +40,13 @@ lru_new(const uint32_t nr_keys, const uint64_t max_cap)
   lru->arr[nr_keys].size = 0;
   lru->arr[nr_keys].prev = nr_keys;
   lru->arr[nr_keys].next = nr_keys;
-  return lru;
+  return (void *)lru;
 }
 
   static void
-lru_set(struct lru * const lru, const uint32_t key, const uint32_t size)
+lru_set(void * const ptr, const uint32_t key, const uint32_t size)
 {
+  struct lru * const lru = (typeof(lru))ptr;
   const uint32_t nr_keys = lru->nr_keys;
   assert(key < nr_keys);
   lru->nr_set++;
@@ -77,8 +79,9 @@ lru_set(struct lru * const lru, const uint32_t key, const uint32_t size)
 }
 
   static void
-lru_get(struct lru * const lru, const uint32_t key)
+lru_get(void * const ptr, const uint32_t key)
 {
+  struct lru * const lru = (typeof(lru))ptr;
   const uint32_t nr_keys = lru->nr_keys;
   assert(key < nr_keys);
   lru->nr_get++;
@@ -99,8 +102,9 @@ lru_get(struct lru * const lru, const uint32_t key)
 }
 
   static void
-lru_del(struct lru * const lru, const uint32_t key)
+lru_del(void * const ptr, const uint32_t key)
 {
+  struct lru * const lru = (typeof(lru))ptr;
   const uint32_t nr_keys = lru->nr_keys;
   assert(key < nr_keys);
   lru->nr_del++;
@@ -117,8 +121,9 @@ lru_del(struct lru * const lru, const uint32_t key)
 }
 
   static void
-lru_print(struct lru * const lru)
+lru_print(void * const ptr)
 {
+  struct lru * const lru = (typeof(lru))ptr;
   printf("[LRU] nr_keys %" PRIu32 " max_cap %" PRIu64 " cur_cap %" PRIu64 "\n", lru->nr_keys, lru->max_cap, lru->cur_cap);
   printf("[stat] set %" PRIu64 " get %" PRIu64 " del %" PRIu64 "\n", lru->nr_set, lru->nr_get, lru->nr_del);
   printf("[stat] rmv %" PRIu64 " hit %" PRIu64 " mis %" PRIu64 " evi %" PRIu64 "\n", lru->nr_rmv, lru->nr_hit, lru->nr_mis, lru->nr_evi);
@@ -129,3 +134,11 @@ lru_print(struct lru * const lru)
   }
   printf("[list] end\n");
 }
+
+static struct rep_api lru_api = {
+  .op_new = lru_new,
+  .op_set = lru_set,
+  .op_get = lru_get,
+  .op_del = lru_del,
+  .op_print = lru_print,
+};
