@@ -26,7 +26,7 @@ struct lru {
 };
 
   static struct lru *
-lru_new(const uint64_t nr_keys, const uint64_t max_cap)
+lru_new(const uint32_t nr_keys, const uint64_t max_cap)
 {
   const size_t sz = sizeof(struct lru) + ((nr_keys + 1) * sizeof(((struct lru *)NULL)->arr[0]));
   struct lru * const lru = (typeof(lru))malloc(sz);
@@ -76,16 +76,6 @@ lru_set(struct lru * const lru, const uint32_t key, const uint32_t size)
   }
 }
 
-/*
-  static void
-lru_add(struct lru * const lru, const uint32_t key, const uint32_t size)
-{
-  const uint32_t nr_keys = lru->nr_keys;
-  assert(key < nr_keys);
-
-}
-*/
-
   static void
 lru_get(struct lru * const lru, const uint32_t key)
 {
@@ -132,8 +122,10 @@ lru_print(struct lru * const lru)
   printf("[LRU] nr_keys %" PRIu32 " max_cap %" PRIu64 " cur_cap %" PRIu64 "\n", lru->nr_keys, lru->max_cap, lru->cur_cap);
   printf("[stat] set %" PRIu64 " get %" PRIu64 " del %" PRIu64 "\n", lru->nr_set, lru->nr_get, lru->nr_del);
   printf("[stat] rmv %" PRIu64 " hit %" PRIu64 " mis %" PRIu64 " evi %" PRIu64 "\n", lru->nr_rmv, lru->nr_hit, lru->nr_mis, lru->nr_evi);
+  printf("[list]\n");
   const uint32_t nr_keys = lru->nr_keys;
   for (uint32_t id = lru->arr[nr_keys].next; id < nr_keys; id = lru->arr[id].next) {
     printf("%8" PRIu32 " %8" PRIu32 "\n", id, lru->arr[id].size);
   }
+  printf("[list] end\n");
 }
