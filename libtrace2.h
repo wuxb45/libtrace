@@ -96,6 +96,8 @@ runtrace(const char * const tracefile, const char * const sizefile1, const char 
   }
   api->clean_stat(rep);
   rewind(ftrace);
+  fprintf(stdout, "warm-up done\n");
+  fflush(stdout);
   for (;;) {
     if (fread(&ops, sizeof(ops), 1, ftrace) != 1) break;
     const size_t nkeys = fread(keys, sizeof(keys[0]), 32, ftrace);
@@ -116,4 +118,6 @@ runtrace(const char * const tracefile, const char * const sizefile1, const char 
     }   
   }
   api->print(rep);
+  fprintf(stdout, "trace-run done\n");
+  fflush(stdout);
 }
