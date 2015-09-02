@@ -85,7 +85,7 @@ runtrace(const char * const tracefile, const char * const sizefile1, const char 
     if (fread(&ops, sizeof(ops), 1, ftrace) != 1) break;
     const size_t nkeys = fread(keys, sizeof(keys[0]), 32, ftrace);
     for (uint64_t i = 0; i < nkeys; i++) {
-      char op; 
+      char op;
       switch ((ops >> (i<<1)) & UINT64_C(0x3)) {
         case OP_SET: case OP_ADD: case OP_GET: case OP_DEL:
           api->op_set(rep, keys[i], vlens[random64() % nr_vlen]);
@@ -98,11 +98,12 @@ runtrace(const char * const tracefile, const char * const sizefile1, const char 
   rewind(ftrace);
   fprintf(stdout, "warm-up done\n");
   fflush(stdout);
+  uint64_t count = 0;
   for (;;) {
     if (fread(&ops, sizeof(ops), 1, ftrace) != 1) break;
     const size_t nkeys = fread(keys, sizeof(keys[0]), 32, ftrace);
     for (uint64_t i = 0; i < nkeys; i++) {
-      char op; 
+      char op;
       switch ((ops >> (i<<1)) & UINT64_C(0x3)) {
         case OP_SET: case OP_ADD:
           api->op_set(rep, keys[i], vlens[random64() % nr_vlen]);
@@ -115,7 +116,11 @@ runtrace(const char * const tracefile, const char * const sizefile1, const char 
           break;
         default: break;
       }
-    }   
+      count++;
+      if ((count & UINT64_C(0xfffffff)) == UINT64_C(0)) {
+        api->print(rep);
+      }
+    }
   }
   api->print(rep);
   fprintf(stdout, "trace-run done\n");
