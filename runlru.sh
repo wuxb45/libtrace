@@ -49,7 +49,8 @@ if [[ ! -f ${KEYS} ]]; then
 fi
 
 mkdir -p lru_${TRACE}
-for sz in $SZ04 $SZ08 $SZ12 $SZ16 $SZ20 $SZ24 $SZ28 $SZ32 $SZ36 $SZ40 $SZ44 $SZ48 $SZ52 $SZ56 $SZ60 $SZ64; do
+#for sz in $SZ04 $SZ08 $SZ12 $SZ16 $SZ20 $SZ24 $SZ28 $SZ32 $SZ36 $SZ40 $SZ44 $SZ48 $SZ52 $SZ56 $SZ60 $SZ64; do
+for sz in $SZ32 $SZ40 $SZ48 $SZ56 $SZ64; do
   echo $sz
   ./lru /opt/wuxb/${TRACE}.op4 /opt/wuxb/${TRACE}_vlen1 /opt/wuxb/${TRACE}_vlen2 /opt/wuxb/${TRACE}_vlen4 $(cat ${KEYS}) $sz > lru_${TRACE}/${sz}.txt
 done
