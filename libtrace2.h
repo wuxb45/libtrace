@@ -81,7 +81,7 @@ runtrace(const char * const tracefile, const char * const sizefile1, const char 
 
   uint64_t ops = 0;
   uint32_t keys[32];
-  for (uint64_t i = 0; i < UINT64_C(0x40000000); i++) {
+  for (uint64_t i = 0; i < UINT64_C(0x4000000); i++) {
     if (fread(&ops, sizeof(ops), 1, ftrace) != 1) break;
     const size_t nkeys = fread(keys, sizeof(keys[0]), 32, ftrace);
     for (uint64_t i = 0; i < nkeys; i++) {
@@ -99,7 +99,7 @@ runtrace(const char * const tracefile, const char * const sizefile1, const char 
   fprintf(stdout, "warm-up done\n");
   fflush(stdout);
   uint64_t count = 0;
-  for (uint64_t i = 0; i < UINT64_C(0x100000000); i++) {
+  for (uint64_t i = 0; i < UINT64_C(0x10000000); i++) {
     if (fread(&ops, sizeof(ops), 1, ftrace) != 1) break;
     const size_t nkeys = fread(keys, sizeof(keys[0]), 32, ftrace);
     for (uint64_t i = 0; i < nkeys; i++) {
