@@ -104,6 +104,7 @@ lru_evict1(struct lru * const lru)
   assert(lru->nr_keys > 0);
   const uint32_t nr_keys = lru->nr_keys;
   const uint32_t tail0 = lru->arr[nr_keys].prev;
+/*
   const uint32_t tail1 = lru->arr[tail0].prev;
   assert(lru->arr[tail0].next == nr_keys);
   assert(tail0 < nr_keys); // no eviction on empty
@@ -112,9 +113,29 @@ lru_evict1(struct lru * const lru)
   lru->arr[tail0].prev = nr_keys;
   lru->cur_cap -= lru->arr[tail0].size;
   lru->cur_keys--;
-  lru->nr_evi++;
-  if (lru->receiver) lru->receiver(lru->receiver_ptr, tail0, lru->arr[tail0].size);
+  //if (lru->receiver) lru->receiver(lru->receiver_ptr, tail0, lru->arr[tail0].size);
   lru->arr[tail0].size = 0;
+*/
+  lru_remove(lru, tail0);
+  lru->nr_evi++;
+}
+
+  static void
+lru_evict2(struct lru * const lru)
+{
+  assert(lru->nr_keys > 0);
+  const uint32_t nr_keys = lru->nr_keys;
+  const uint32_t half_keys = nr_keys >> 1;
+  const uint32_t steps = half_keys ? (((uint32_t)random()) % half_keys) : 0;
+  assert(steps <= half_keys);
+  uint32_t iter = lru->arr[nr_keys].prev;
+  for (uint64_t i = 0; i < steps; i++) {
+    iter = lru->arr[iter].prev;
+    assert(iter < nr_keys);
+  }
+  const uint32_t victim = iter;
+  lru_remove(lru, victim);
+  lru->nr_evi++;
 }
 
   static void
