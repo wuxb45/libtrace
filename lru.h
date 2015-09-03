@@ -174,17 +174,18 @@ lru_del(void * const ptr, const uint32_t key)
 lru_print(void * const ptr)
 {
   struct lru * const lru = (typeof(lru))ptr;
+  printf("max %" PRIu64 " cur %" PRIu64 " hit %" PRIu64 " mis %" PRIu64 "\n", lru->max_cap, lru->cur_cap, lru->nr_hit, lru->nr_mis);
+  /*
   printf("[LRU] nr_keys %" PRIu32 " cur_keys %" PRIu32 " max_cap %" PRIu64 " cur_cap %" PRIu64 "\n", lru->nr_keys, lru->cur_keys, lru->max_cap, lru->cur_cap);
   printf("[op] set %" PRIu64 " get %" PRIu64 " del %" PRIu64 "\n", lru->nr_set, lru->nr_get, lru->nr_del);
   printf("[event] rmv %" PRIu64 " hit %" PRIu64 " mis %" PRIu64 " evi %" PRIu64 "\n", lru->nr_rmv, lru->nr_hit, lru->nr_mis, lru->nr_evi);
-  /*
-     printf("[list]\n");
-     const uint32_t nr_keys = lru->nr_keys;
-     for (uint32_t id = lru->arr[nr_keys].next; id < nr_keys; id = lru->arr[id].next) {
-     printf("%8" PRIu32 " %8" PRIu32 "\n", id, lru->arr[id].size);
-     }
-     printf("[list] end\n");
-   */
+  printf("[list]\n");
+  const uint32_t nr_keys = lru->nr_keys;
+  for (uint32_t id = lru->arr[nr_keys].next; id < nr_keys; id = lru->arr[id].next) {
+    printf("%8" PRIu32 " %8" PRIu32 "\n", id, lru->arr[id].size);
+  }
+  printf("[list] end\n");
+  */
   fflush(stdout);
 }
 
