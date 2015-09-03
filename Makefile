@@ -1,7 +1,9 @@
 COMMONH := libtrace3.h libtrace2.h libtrace.h Makefile
+OPT := -ggdb
+
 all : sampley samplex lru vlen print4 sort64 keymap conv allstat getstat printer types
 
 % : %.c %.h $(COMMONH)
-	clang -std=gnu11 -O3 -o $@ $< -llz4
+	clang -std=gnu11 $(OPT) -o $@ $< -llz4
 % : %.c $(COMMONH)
-	clang -std=gnu11 -O3 -o $@ $< -llz4
+	clang -std=gnu11 $(OPT) -o $@ $< -llz4

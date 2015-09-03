@@ -57,12 +57,12 @@ runtrace(const char * const tracefile, const char * const sizefile,
   void * const rep = api->op_new(nr_keys, max_cap);
 
   struct samplex keys[256];
-  for (;;) {
+  for (uint64_t round = 0;; round++) {
     const size_t nkeys = fread(keys, sizeof(keys[0]), 256, ftrace);
     if (nkeys == 0) break;
     for (uint64_t i = 0; i < nkeys; i++) {
       if (keys[i].keyx >= nr_keys) {
-        printf("keyx %" PRIx32 " > nr_keys %" PRIu32 "\n", keys[i].keyx, nr_keys);
+        printf("keyx %" PRIx32 " > nr_keys %" PRIx32 "\n", keys[i].keyx, nr_keys);
         fflush(stdout);
         exit(0);
       }
@@ -78,6 +78,10 @@ runtrace(const char * const tracefile, const char * const sizefile,
           break;
         default: break;
       }
+    }
+    if ((round % 0xfff) == 0xfff) {
+      api->print(rep);
+      fprintf(stdout, "trace-run progress\n");
     }
   }
   api->print(rep);

@@ -54,7 +54,7 @@ lru_exist(struct lru * const lru, const uint32_t key)
   const uint32_t nr_keys = lru->nr_keys;
   const uint32_t prev = lru->arr[key].prev;
   const uint32_t next = lru->arr[key].next;
-  if (prev < nr_keys || next < nr_keys) { // in here
+  if ((prev < nr_keys) || (next < nr_keys)) { // in here
     return true;
   } else {
     return false;
@@ -67,35 +67,46 @@ lru_remove(struct lru * const lru, const uint32_t key)
   const uint32_t nr_keys = lru->nr_keys;
   const uint32_t prev = lru->arr[key].prev;
   const uint32_t next = lru->arr[key].next;
-  if (prev < nr_keys || next < nr_keys) { // in here
+  if ((prev < nr_keys) || (next < nr_keys)) { // in here
+    assert(lru->cur_cap > lru->arr[key].size);
+    assert(lru->cur_keys > 0);
     lru->cur_cap -= lru->arr[key].size;
     lru->cur_keys--;
     lru->arr[prev].next = next;
     lru->arr[next].prev = prev;
+    // clean up
+    lru->arr[key].prev = nr_keys;
+    lru->arr[key].next = nr_keys;
+    lru->arr[key].size = 0;
   }
 }
 
   static void
 lru_insert(struct lru * const lru, const uint32_t key, const uint32_t size)
 {
-  lru->arr[key].size = size;
   const uint32_t nr_keys = lru->nr_keys;
+  assert(lru->arr[key].next == nr_keys);
+  assert(lru->arr[key].prev == nr_keys);
   const uint32_t head0 = lru->arr[nr_keys].next;
+  lru->arr[key].size = size;
   lru->arr[key].next = head0;
-  lru->arr[key].prev = nr_keys;
+  //lru->arr[key].prev = nr_keys;
   lru->arr[head0].prev = key;
   lru->arr[nr_keys].next = key;
   lru->cur_cap += size;
   lru->cur_keys++;
+  assert(lru->cur_keys <= nr_keys);
 }
 
   static void
 lru_evict1(struct lru * const lru)
 {
+  assert(lru->nr_keys > 0);
   const uint32_t nr_keys = lru->nr_keys;
   const uint32_t tail0 = lru->arr[nr_keys].prev;
   const uint32_t tail1 = lru->arr[tail0].prev;
   assert(lru->arr[tail0].next == nr_keys);
+  assert(tail0 < nr_keys); // no eviction on empty
   lru->arr[tail1].next = nr_keys;
   lru->arr[nr_keys].prev = tail1;
   lru->arr[tail0].prev = nr_keys;
@@ -103,6 +114,7 @@ lru_evict1(struct lru * const lru)
   lru->cur_keys--;
   lru->nr_evi++;
   if (lru->receiver) lru->receiver(lru->receiver_ptr, tail0, lru->arr[tail0].size);
+  lru->arr[tail0].size = 0;
 }
 
   static void
