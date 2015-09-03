@@ -174,7 +174,9 @@ lru_del(void * const ptr, const uint32_t key)
 lru_print(void * const ptr)
 {
   struct lru * const lru = (typeof(lru))ptr;
-  printf("max %" PRIu64 " cur %" PRIu64 " hit %" PRIu64 " mis %" PRIu64 "\n", lru->max_cap, lru->cur_cap, lru->nr_hit, lru->nr_mis);
+  const double all = (double)(lru->nr_hit + lru->nr_mis);
+  const double hr = (double)(lru->nr_hit);
+  printf("max %" PRIu64 " cur %" PRIu64 " hit %" PRIu64 " mis %" PRIu64 " hitratio %.4lf\n", lru->max_cap, lru->cur_cap, lru->nr_hit, lru->nr_mis, hr/all);
   /*
   printf("[LRU] nr_keys %" PRIu32 " cur_keys %" PRIu32 " max_cap %" PRIu64 " cur_cap %" PRIu64 "\n", lru->nr_keys, lru->cur_keys, lru->max_cap, lru->cur_cap);
   printf("[op] set %" PRIu64 " get %" PRIu64 " del %" PRIu64 "\n", lru->nr_set, lru->nr_get, lru->nr_del);
