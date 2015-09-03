@@ -2,7 +2,7 @@
 
 #include <stdint.h>
 #include <stdlib.h>
-#include "libtrace2.h"
+#include "libtrace3.h"
 
 struct lru {
   uint32_t nr_keys;

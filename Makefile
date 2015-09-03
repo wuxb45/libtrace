@@ -1,4 +1,4 @@
-COMMONH := libtrace2.h libtrace.h Makefile
+COMMONH := libtrace3.h libtrace2.h libtrace.h Makefile
 all : sampley samplex lru vlen print4 sort64 keymap conv allstat getstat printer types
 
 % : %.c %.h $(COMMONH)
