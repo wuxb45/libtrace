@@ -29,9 +29,6 @@
 
 
 typedef struct pf_struct {
-  unsigned long ref_times;
-  unsigned long pf_times;
-
   unsigned long  page_num;
   int isResident;
   int isHIR_block;
@@ -50,8 +47,9 @@ page_struct * page_tbl;
 unsigned long total_pg_refs, warm_pg_refs;
 unsigned long no_dup_refs; /* counter excluding duplicate refs */
 unsigned long num_pg_flt;
-
 unsigned long free_mem_size, mem_size, vm_size;
+unsigned long HIR_block_portion_limit, HIR_block_activate_limit;
+unsigned long cur_lir_S_len;
 
 struct pf_struct * LRU_list_head;
 struct pf_struct * LRU_list_tail;
@@ -61,19 +59,10 @@ struct pf_struct * HIR_list_tail;
 
 struct pf_struct * LIR_LRU_block_ptr; /* LIR block  with Rmax recency */
 
-unsigned long HIR_block_portion_limit, HIR_block_activate_limit;
-
-extern page_struct *find_last_LIR_LRU();
-extern void add_HIR_list_head(page_struct * new_rsd_HIR_ptr);
-extern void add_LRU_list_head(page_struct *new_ref_ptr);
-extern FILE *openReadFile();
-extern void insert_LRU_list(page_struct *old_ref_ptr, page_struct *new_ref_ptr);
-extern page_struct *prune_LIRS_stack();
-
-unsigned long cur_lir_S_len;
 
 /* get the range of accessed blocks [1:N] and the number of references */
-int get_range(FILE *trc_fp, unsigned long *p_vm_size, unsigned long *p_trc_len)
+  int
+get_range(FILE *trc_fp, unsigned long *p_vm_size, unsigned long *p_trc_len)
 {
   long ref_blk;
   long count = 0;
@@ -164,8 +153,27 @@ FILE *openReadFile(char file_name[])
   return fp;
 }
 
+  page_struct *
+find_last_LIR_LRU()
+{
+
+  if (!LIR_LRU_block_ptr){
+    printf("Warning*\n");
+    exit(1);
+  }
+
+  while (LIR_LRU_block_ptr->isHIR_block == TRUE){
+    LIR_LRU_block_ptr->recency = S_STACK_OUT;
+    cur_lir_S_len--;
+    LIR_LRU_block_ptr = LIR_LRU_block_ptr->LIRS_prev;
+  }
+
+  return LIR_LRU_block_ptr;
+}
+
 /* remove a block from memory */
-int remove_LIRS_list(page_struct *page_ptr)
+  int
+remove_LIRS_list(page_struct *page_ptr)
 {
   if (!page_ptr)
     return FALSE;
@@ -193,7 +201,7 @@ int remove_LIRS_list(page_struct *page_ptr)
 }
 
 /* remove a block from its teh front of HIR resident list */
-int
+  int
 remove_HIR_list(page_struct *HIR_block_ptr)
 {
   if (!HIR_block_ptr)
@@ -214,24 +222,22 @@ remove_HIR_list(page_struct *HIR_block_ptr)
   return TRUE;
 }
 
-page_struct *find_last_LIR_LRU()
+/* insert a block in LIRS list */
+  void
+insert_LRU_list(page_struct *old_ref_ptr, page_struct *new_ref_ptr)
 {
+  old_ref_ptr->LIRS_next = new_ref_ptr->LIRS_next;
+  old_ref_ptr->LIRS_prev = new_ref_ptr;
 
-  if (!LIR_LRU_block_ptr){
-    printf("Warning*\n");
-    exit(1);
-  }
+  if (new_ref_ptr->LIRS_next)
+    new_ref_ptr->LIRS_next->LIRS_prev = old_ref_ptr;
+  new_ref_ptr->LIRS_next = old_ref_ptr;
 
-  while (LIR_LRU_block_ptr->isHIR_block == TRUE){
-    LIR_LRU_block_ptr->recency = S_STACK_OUT;
-    cur_lir_S_len--;
-    LIR_LRU_block_ptr = LIR_LRU_block_ptr->LIRS_prev;
-  }
-
-  return LIR_LRU_block_ptr;
+  return;
 }
 
-page_struct *prune_LIRS_stack()
+  page_struct *
+prune_LIRS_stack()
 {
   page_struct * tmp_ptr;
   int i = 0;
@@ -252,7 +258,8 @@ page_struct *prune_LIRS_stack()
 }
 
 /* put a HIR resident block on the end of HIR resident list */
-void add_HIR_list_head(page_struct * new_rsd_HIR_ptr)
+  void
+add_HIR_list_head(page_struct * new_rsd_HIR_ptr)
 {
   new_rsd_HIR_ptr->HIR_rsd_next = HIR_list_head;
   if (!HIR_list_head)
@@ -265,7 +272,8 @@ void add_HIR_list_head(page_struct * new_rsd_HIR_ptr)
 }
 
 /* put a newly referenced block on the top of LIRS stack */
-void add_LRU_list_head(page_struct *new_ref_ptr)
+  void
+add_LRU_list_head(page_struct *new_ref_ptr)
 {
   new_ref_ptr->LIRS_next = LRU_list_head;
 
@@ -281,20 +289,7 @@ void add_LRU_list_head(page_struct *new_ref_ptr)
   return;
 }
 
-/* insert a block in LIRS list */
-void insert_LRU_list(page_struct *old_ref_ptr, page_struct *new_ref_ptr)
-{
-  old_ref_ptr->LIRS_next = new_ref_ptr->LIRS_next;
-  old_ref_ptr->LIRS_prev = new_ref_ptr;
-
-  if (new_ref_ptr->LIRS_next)
-    new_ref_ptr->LIRS_next->LIRS_prev = old_ref_ptr;
-  new_ref_ptr->LIRS_next = old_ref_ptr;
-
-  return;
-}
-
-void
+  void
 LIRS_Repl(FILE *trace_fp, FILE *sln_fp)
 {
   unsigned long ref_block, i, j, step;
@@ -460,9 +455,6 @@ main(int argc, char* argv[])
 
     /* initialize the page table */
     for (i = 0; i <= vm_size; i++){
-      page_tbl[i].ref_times = 0;
-      page_tbl[i].pf_times = 0;
-
       page_tbl[i].page_num = i;
       page_tbl[i].isResident = 0;
       page_tbl[i].isHIR_block = 1;
