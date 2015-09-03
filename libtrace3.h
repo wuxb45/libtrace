@@ -49,23 +49,27 @@ runtrace(const char * const tracefile, const char * const sizefile,
   uint32_t * const mapsize = (typeof(mapsize))mmap(NULL, size, PROT_READ, MAP_PRIVATE, fdsize, 0);
   const size_t nr_vlen = (size >> 2);
   assert(nr_vlen == 65536);
-  fprintf(stdout, "vlens read done\n");
-  fflush(stdout);
 
   FILE * const ftrace = fopen(tracefile, "rb");
   assert(ftrace);
   void * const rep = api->op_new(nr_keys, max_cap);
 
   struct samplex keys[256];
-  for (uint64_t round = 0;; round++) {
+  for (;;) {
     const size_t nkeys = fread(keys, sizeof(keys[0]), 256, ftrace);
     if (nkeys == 0) break;
     for (uint64_t i = 0; i < nkeys; i++) {
-      if (keys[i].keyx >= nr_keys) {
-        printf("keyx %" PRIx32 " > nr_keys %" PRIx32 "\n", keys[i].keyx, nr_keys);
-        fflush(stdout);
-        exit(0);
-      }
+      assert(keys[i].keyx < nr_keys);
+      api->op_set(rep, keys[i].keyx, mapsize[random64() % nr_vlen]);
+    }
+  }
+  rewind(ftrace);
+  api->clean_stat(rep);
+  for (;;) {
+    const size_t nkeys = fread(keys, sizeof(keys[0]), 256, ftrace);
+    if (nkeys == 0) break;
+    for (uint64_t i = 0; i < nkeys; i++) {
+      assert(keys[i].keyx < nr_keys);
       switch (keys[i].op) {
         case OP_SET: case OP_ADD:
           api->op_set(rep, keys[i].keyx, mapsize[random64() % nr_vlen]);
@@ -79,12 +83,7 @@ runtrace(const char * const tracefile, const char * const sizefile,
         default: break;
       }
     }
-    if ((round % 0xfff) == 0xfff) {
-      api->print(rep);
-      fprintf(stdout, "trace-run progress\n");
-    }
   }
   api->print(rep);
-  fprintf(stdout, "trace-run done\n");
   fflush(stdout);
 }
