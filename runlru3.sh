@@ -30,7 +30,7 @@ if [[ ! -f ${VLENY} ]]; then
   exit 0
 fi
 
-KEYS="/opt/wuxb/${TRACE}_keys.txt"
+KEYS="/mnt/wuxb/${TRACE}_keys.txt"
 if [[ ! -f ${KEYS} ]]; then
   echo "${KEYS} not found"
   exit 0
