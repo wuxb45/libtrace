@@ -61,7 +61,11 @@ runtrace(const char * const tracefile, const char * const sizefile,
     const size_t nkeys = fread(keys, sizeof(keys[0]), 256, ftrace);
     if (nkeys == 0) break;
     for (uint64_t i = 0; i < nkeys; i++) {
-      assert(keys[i].keyx < nr_keys);
+      if (keys[i].keyx >= nr_keys) {
+        printf("keyx %" PRIx32 " > nr_keys %" PRIu32 "\n", keys[i].keyx, nr_keys);
+        fflush(stdout);
+        exit(0);
+      }
       switch (keys[i].op) {
         case OP_SET: case OP_ADD:
           api->op_set(rep, keys[i].keyx, mapsize[random64() % nr_vlen]);
