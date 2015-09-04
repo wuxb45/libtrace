@@ -104,25 +104,9 @@ lru_evict1(struct lru * const lru)
   assert(lru->nr_keys > 0);
   const uint32_t nr_keys = lru->nr_keys;
   const uint32_t tail0 = lru->arr[nr_keys].prev;
+  const uint32_t size0 = lru->arr[tail0].size;
   lru_remove(lru, tail0);
-  lru->nr_evi++;
-}
-
-  static void
-lru_evict2(struct lru * const lru)
-{
-  assert(lru->nr_keys > 0);
-  const uint32_t nr_keys = lru->nr_keys;
-  const uint32_t half_keys = lru->cur_keys >> 1;
-  const uint32_t steps = half_keys ? (((uint32_t)random()) % half_keys) : 0;
-  assert(steps < lru->cur_keys);
-  uint32_t iter = lru->arr[nr_keys].prev;
-  for (uint64_t i = 0; i < steps; i++) {
-    iter = lru->arr[iter].prev;
-    assert(iter < nr_keys);
-  }
-  const uint32_t victim = iter;
-  lru_remove(lru, victim);
+  if (lru->receiver) lru->receiver(lru->receiver_ptr, tail0, size0);
   lru->nr_evi++;
 }
 
