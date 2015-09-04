@@ -113,9 +113,9 @@ lru_evict2(struct lru * const lru)
 {
   assert(lru->nr_keys > 0);
   const uint32_t nr_keys = lru->nr_keys;
-  const uint32_t half_keys = nr_keys >> 1;
+  const uint32_t half_keys = lru->cur_keys >> 1;
   const uint32_t steps = half_keys ? (((uint32_t)random()) % half_keys) : 0;
-  assert(steps <= half_keys);
+  assert(steps < lru->cur_keys);
   uint32_t iter = lru->arr[nr_keys].prev;
   for (uint64_t i = 0; i < steps; i++) {
     iter = lru->arr[iter].prev;
