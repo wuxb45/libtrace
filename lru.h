@@ -104,18 +104,6 @@ lru_evict1(struct lru * const lru)
   assert(lru->nr_keys > 0);
   const uint32_t nr_keys = lru->nr_keys;
   const uint32_t tail0 = lru->arr[nr_keys].prev;
-/*
-  const uint32_t tail1 = lru->arr[tail0].prev;
-  assert(lru->arr[tail0].next == nr_keys);
-  assert(tail0 < nr_keys); // no eviction on empty
-  lru->arr[tail1].next = nr_keys;
-  lru->arr[nr_keys].prev = tail1;
-  lru->arr[tail0].prev = nr_keys;
-  lru->cur_cap -= lru->arr[tail0].size;
-  lru->cur_keys--;
-  //if (lru->receiver) lru->receiver(lru->receiver_ptr, tail0, lru->arr[tail0].size);
-  lru->arr[tail0].size = 0;
-*/
   lru_remove(lru, tail0);
   lru->nr_evi++;
 }
@@ -150,7 +138,7 @@ lru_set(void * const ptr, const uint32_t key, const uint32_t size)
   lru_insert(lru, key, size);
   // eviction
   while (lru->cur_cap > lru->max_cap) {
-    lru_evict1(lru);
+    lru_evict2(lru);
   }
 }
 
@@ -172,7 +160,7 @@ lru_get(void * const ptr, const uint32_t key, const uint32_t size)
     lru_remove(lru, key);
     lru_insert(lru, key, size);
     while (lru->cur_cap > lru->max_cap) {
-      lru_evict1(lru);
+      lru_evict2(lru);
     }
   }
 }
