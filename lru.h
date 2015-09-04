@@ -82,8 +82,9 @@ lru_remove(struct lru * const lru, const uint32_t key)
 }
 
   static void
-lru_insert(struct lru * const lru, const uint32_t key, const uint32_t size)
+lru_insert(void * const ptr, const uint32_t key, const uint32_t size)
 {
+  struct lru * const lru = (typeof(lru))ptr;
   const uint32_t nr_keys = lru->nr_keys;
   assert(lru->arr[key].next == nr_keys);
   assert(lru->arr[key].prev == nr_keys);
@@ -118,7 +119,9 @@ lru_set(void * const ptr, const uint32_t key, const uint32_t size)
   assert(key < nr_keys);
   lru->nr_set++;
 
-  lru_remove(lru, key);
+  if (lru_exist(lru, key)) {
+    lru_remove(lru, key);
+  }
   lru_insert(lru, key, size);
   // eviction
   while (lru->cur_cap > lru->max_cap) {
@@ -169,7 +172,8 @@ lru_print(void * const ptr)
   struct lru * const lru = (typeof(lru))ptr;
   const double all = (double)(lru->nr_hit + lru->nr_mis);
   const double hr = (double)(lru->nr_hit);
-  printf("max %" PRIu64 " cur %" PRIu64 " hit %" PRIu64 " mis %" PRIu64 " hitratio %.4lf\n", lru->max_cap, lru->cur_cap, lru->nr_hit, lru->nr_mis, hr/all);
+  //printf("max %" PRIu64 " cur %" PRIu64 " hit %" PRIu64 " mis %" PRIu64 " hitratio %.4lf\n", lru->max_cap, lru->cur_cap, lru->nr_hit, lru->nr_mis, hr/all);
+  printf("lru  max %" PRIu64 " cur %" PRIu64 " hit %" PRIu64 " mis %" PRIu64 " hitratio %.4lf\n", lru->max_cap, lru->cur_cap, lru->nr_hit, lru->nr_mis, hr/all);
   /*
   printf("[LRU] nr_keys %" PRIu32 " cur_keys %" PRIu32 " max_cap %" PRIu64 " cur_cap %" PRIu64 "\n", lru->nr_keys, lru->cur_keys, lru->max_cap, lru->cur_cap);
   printf("[op] set %" PRIu64 " get %" PRIu64 " del %" PRIu64 "\n", lru->nr_set, lru->nr_get, lru->nr_del);
@@ -206,4 +210,116 @@ static struct rep_api lru_api = {
   .op_del = lru_del,
   .print = lru_print,
   .clean_stat = lru_clean_stat,
+};
+
+struct lrux {
+  struct lru * lru1;
+  struct lru * lru2;
+  uint64_t nr_hit; // get-hit
+  uint64_t nr_mis; // get-miss
+};
+
+  static void *
+lrux_new(const uint32_t nr_keys, const uint64_t max_cap)
+{
+  struct lrux * const lrux = (typeof(lrux))malloc(sizeof(*lrux));
+  bzero(lrux, sizeof(*lrux));
+  lrux->lru1 = lru_new(nr_keys, max_cap >> 1);
+  lrux->lru2 = lru_new(nr_keys, max_cap >> 1);
+  lrux->lru1->receiver = lru_insert;
+  lrux->lru1->receiver_ptr = lrux->lru2;
+  return (void *)lrux;
+}
+
+  static void
+lru_evict2(struct lru * const lru)
+{
+  const uint32_t nr_keys = lru->nr_keys;
+  for (;;) {
+    const uint32_t victim = ((uint32_t)random()) % nr_keys;
+    const uint32_t prev = lru->arr[victim].prev;
+    const uint32_t next = lru->arr[victim].next;
+    if ((prev < nr_keys) || (next < nr_keys)) { // in here
+      const uint32_t size0 = lru->arr[victim].size;
+      lru_remove(lru, victim);
+      if (lru->receiver) lru->receiver(lru->receiver_ptr, victim, size0);
+      lru->nr_evi++;
+      return;
+    }
+  }
+}
+
+  static void
+lrux_set(void * const ptr, const uint32_t key, const uint32_t size)
+{
+  struct lrux * const lrux = (typeof(lrux))ptr;
+  if (lru_exist(lrux->lru1, key)) {
+    lru_remove(lrux->lru1, key);
+  }
+  if (lru_exist(lrux->lru2, key)) {
+    lru_remove(lrux->lru2, key);
+  }
+  lru_insert(lrux->lru1, key, size);
+  while (lrux->lru1->cur_cap > lrux->lru1->max_cap) {
+    lru_evict1(lrux->lru1);
+  }
+  while (lrux->lru2->cur_cap > lrux->lru2->max_cap) {
+    lru_evict2(lrux->lru2);
+  }
+}
+
+  static void
+lrux_get(void * const ptr, const uint32_t key, const uint32_t size)
+{
+  struct lrux * const lrux = (typeof(lrux))ptr;
+  if (lru_exist(lrux->lru1, key)) {
+    lrux->nr_hit++;
+    lrux_set(ptr, key, lrux->lru1->arr[key].size);
+  } else if (lru_exist(lrux->lru2, key)) {
+    lrux->nr_hit++;
+    lrux_set(ptr, key, lrux->lru2->arr[key].size);
+  } else {
+    lrux->nr_mis++;
+    lrux_set(ptr, key, size);
+  }
+}
+
+  static void
+lrux_del(void * const ptr, const uint32_t key)
+{
+  struct lrux * const lrux = (typeof(lrux))ptr;
+  if (lru_exist(lrux->lru1, key)) {
+    lru_remove(lrux->lru1, key);
+  }
+  if (lru_exist(lrux->lru2, key)) {
+    lru_remove(lrux->lru2, key);
+  }
+}
+
+  static void
+lrux_print(void * const ptr)
+{
+  struct lrux * const lrux = (typeof(lrux))ptr;
+  const double all = (double)(lrux->nr_hit + lrux->nr_mis);
+  const double hr = (double)(lrux->nr_hit);
+  printf("lrux max %" PRIu64 " cur %" PRIu64 " hit %" PRIu64 " mis %" PRIu64 " hitratio %.4lf\n",
+      lrux->lru1->max_cap + lrux->lru2->max_cap, lrux->lru1->cur_cap + lrux->lru2->cur_cap, lrux->nr_hit, lrux->nr_mis, hr/all);
+  fflush(stdout);
+}
+
+  static void
+lrux_clean_stat(void * const ptr)
+{
+  struct lrux * const lrux = (typeof(lrux))ptr;
+  lrux->nr_hit = 0;
+  lrux->nr_mis = 0;
+}
+
+static struct rep_api lrux_api = {
+  .op_new = lrux_new,
+  .op_set = lrux_set,
+  .op_get = lrux_get,
+  .op_del = lrux_del,
+  .print = lrux_print,
+  .clean_stat = lrux_clean_stat,
 };
