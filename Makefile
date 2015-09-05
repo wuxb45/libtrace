@@ -1,5 +1,5 @@
 COMMONH := libtrace3.h libtrace2.h libtrace.h Makefile
-OPT := -O3 -DNDEBUG
+OPT := -O3
 
 all : sampley samplex lru vlen print4 sort64 keymap conv allstat getstat printer types
 
