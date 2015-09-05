@@ -35,7 +35,7 @@ struct lirs {
     uint32_t next;
     uint32_t hprev;
     uint32_t hnext;
-  } arr[];
+  } __attribute__((packed)) arr[];
 };
 
   static void *
@@ -118,7 +118,6 @@ lirs_lru_insert(struct lirs * const lirs, const uint32_t key, const uint32_t siz
   //lirs->arr[key].prev = nr_keys;
   lirs->arr[head0].prev = key;
   lirs->arr[nr_keys].next = key;
-  lirs->cur_resi_cap += size;
   lirs->lru_keys++;
   lirs->resi_keys++;
   lirs->cur_resi_cap += size;
@@ -153,9 +152,9 @@ lirs_lru_refresh(struct lirs * const lirs, const uint32_t key, const uint32_t si
 lirs_hir_remove(struct lirs * const lirs, const uint32_t key)
 {
   const uint32_t nr_keys = lirs->nr_keys;
+  assert(lirs->arr[key].resident);
   const uint32_t hnext = lirs->arr[key].hnext;
   const uint32_t hprev = lirs->arr[key].hprev;
-  assert(lirs->arr[key].resident);
   if (hnext < nr_keys || hprev < nr_keys) {
     lirs->arr[key].hnext = nr_keys;
     lirs->arr[key].hprev = nr_keys;
@@ -167,7 +166,7 @@ lirs_hir_remove(struct lirs * const lirs, const uint32_t key)
 }
 
   static inline void
-lirs_hir_insert(struct lirs * const lirs, const uint32_t key, const uint32_t size)
+lirs_hir_insert(struct lirs * const lirs, const uint32_t key)
 {
   const uint32_t nr_keys = lirs->nr_keys;
   assert(lirs->arr[key].hnext == nr_keys);
@@ -179,14 +178,16 @@ lirs_hir_insert(struct lirs * const lirs, const uint32_t key, const uint32_t siz
   lirs->arr[head0].hprev = key;
   lirs->arr[nr_keys].hnext = key;
   lirs->hir_keys++;
-  lirs->cur_hir_cap += size;
+  lirs->cur_hir_cap += lirs->arr[key].size;
 }
 
+// always evict from hir
   static inline void
 lirs_evict1(struct lirs * const lirs)
 {
   const uint32_t nr_keys = lirs->nr_keys;
   const uint32_t victim = lirs->arr[nr_keys].hprev;
+  assert(victim < nr_keys);
   assert(lirs_in_hir(lirs, victim));
   assert(lirs_in_lru(lirs, victim));
   lirs_hir_remove(lirs, victim);
@@ -195,24 +196,26 @@ lirs_evict1(struct lirs * const lirs)
 }
 
   static void
-lirs_maintain_capacity(struct lirs * const lirs)
+lirs_eviction(struct lirs * const lirs)
 {
   const uint32_t nr_keys = lirs->nr_keys;
   // clean lir
+  // while (lir > limit)
   while ((lirs->cur_resi_cap - lirs->cur_hir_cap) > (lirs->max_resi_cap - lirs->max_hir_cap)) {
     // move lir.last -> hir.head
     uint32_t seed = lirs->arr[nr_keys].prev;
-    for (;;seed = lirs->arr[seed].prev) {
+    for (;;) {
       assert(lirs_in_lru(lirs, seed));
       if (lirs_resident(lirs, seed) && (lirs_in_hir(lirs, seed) == false)) {
         break;
       }
+      seed = lirs->arr[seed].prev;
     }
     const uint32_t victim = seed;
-    lirs_hir_insert(lirs, victim, lirs->arr[victim].size);
+    lirs_hir_insert(lirs, victim);
   }
   // evict from hir
-  while (lirs->cur_hir_cap > lirs->max_hir_cap) {
+  while (lirs->cur_resi_cap > lirs->max_resi_cap) {
     lirs_evict1(lirs);
   }
 }
@@ -221,6 +224,7 @@ lirs_maintain_capacity(struct lirs * const lirs)
 lirs_set(void * const ptr, const uint32_t key, const uint32_t size)
 {
   struct lirs * const lirs = (typeof(lirs))ptr;
+  bool insert_hir = false;
   if (lirs_resident(lirs, key)) { // hit
     assert(lirs_in_lru(lirs, key));
     if (lirs_in_hir(lirs, key)) { // was in hir list
@@ -228,35 +232,57 @@ lirs_set(void * const ptr, const uint32_t key, const uint32_t size)
     }
   } else {
     if (false == lirs_in_lru(lirs, key)) {// deadly cold
-      lirs_hir_insert(lirs, key, size);
+      insert_hir = true;
     }
   }
   lirs_lru_refresh(lirs, key, size);
+  if (insert_hir) {
+    lirs_hir_insert(lirs, key); // mark as hir
+  }
   // eviction
+  lirs_eviction(lirs);
 }
 
   static void
 lirs_get(void * const ptr, const uint32_t key, const uint32_t size)
 {
-
+  struct lirs * const lirs = (typeof(lirs))ptr;
+  if (lirs_resident(lirs, key)) {
+    lirs->nr_hit++;
+    const uint32_t size0 = lirs->arr[key].size;
+    lirs_set(ptr, key, size0);
+  } else {
+    lirs->nr_mis++;
+    lirs_set(ptr, key, size);
+  }
 }
 
   static void
 lirs_del(void * const ptr, const uint32_t key)
 {
-
+  struct lirs * const lirs = (typeof(lirs))ptr;
+  if (lirs_resident(lirs, key)) {
+    if (lirs_in_hir(lirs, key)) {
+      lirs_hir_remove(lirs, key);
+    }
+    lirs_lru_remove(lirs, key);
+    lirs_lru_cleanup(lirs);
+  }
 }
 
   static void
 lirs_print(void * const ptr)
 {
-
+  struct lirs * const lirs = (typeof(lirs))ptr;
+  printf("cur %" PRIu64 " hit %" PRIu64 " mis %" PRIu64 "\n", lirs->cur_resi_cap, lirs->nr_hit, lirs->nr_mis);
 }
 
   static void
 lirs_clean_stat(void * const ptr)
 {
-
+  struct lirs * const lirs = (typeof(lirs))ptr;
+  lirs->nr_hit = 0;
+  lirs->nr_mis = 0;
 }
 
 static struct rep_api lirs_api = {
