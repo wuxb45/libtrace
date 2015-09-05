@@ -171,6 +171,7 @@ find_last_LIR_LRU()
   return LIR_LRU_block_ptr;
 }
 
+// 
   page_struct *
 prune_LIRS_stack()
 {
@@ -357,19 +358,18 @@ LIRS_Repl(FILE *trace_fp, FILE *sln_fp)
 
     // if (A1) and was in stack
     if (page_tbl[ref_block].isHIR_block && (page_tbl[ref_block].recency == S_STACK_IN)) {
+      // move tail of LIR -> head of HIR
       page_tbl[ref_block].isHIR_block = FALSE;
       num_LIR_pgs++;
 
-      if (num_LIR_pgs > mem_size-HIR_block_portion_limit){
-        add_HIR_list_head(LIR_LRU_block_ptr);
-        HIR_list_head->isHIR_block = TRUE;
-        HIR_list_head->recency = S_STACK_OUT;
-        num_LIR_pgs--;
-        LIR_LRU_block_ptr = find_last_LIR_LRU();
-      }
-      else
-        printf("Warning2!\n");
+      assert(num_LIR_pgs > mem_size-HIR_block_portion_limit);
+      add_HIR_list_head(LIR_LRU_block_ptr);
+      HIR_list_head->isHIR_block = TRUE;
+      HIR_list_head->recency = S_STACK_OUT;
+      num_LIR_pgs--;
+      LIR_LRU_block_ptr = find_last_LIR_LRU();
     } else if (page_tbl[ref_block].isHIR_block) {
+      // brought from outside of the world, -> HIR
       add_HIR_list_head((page_struct *)&page_tbl[ref_block]);
     }
 
