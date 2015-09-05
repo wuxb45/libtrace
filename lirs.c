@@ -49,7 +49,7 @@ unsigned long no_dup_refs; /* counter excluding duplicate refs */
 unsigned long num_pg_flt;
 unsigned long free_mem_size, mem_size, vm_size;
 unsigned long HIR_block_portion_limit, HIR_block_activate_limit;
-unsigned long cur_lir_S_len;
+unsigned long cur_lir_S_len; // the virtual list length (LIR-resident and LRI-non-resident)
 
 struct pf_struct * LRU_list_head;
 struct pf_struct * LRU_list_tail;
@@ -171,6 +171,27 @@ find_last_LIR_LRU()
   return LIR_LRU_block_ptr;
 }
 
+  page_struct *
+prune_LIRS_stack()
+{
+  page_struct * tmp_ptr;
+  int i = 0;
+
+  if (cur_lir_S_len <= MAX_S_LEN)
+    return NULL;
+
+  tmp_ptr = LIR_LRU_block_ptr;
+  while (tmp_ptr->isHIR_block == 0)
+    tmp_ptr = tmp_ptr->LIRS_prev;
+
+  tmp_ptr->recency = S_STACK_OUT;
+  remove_LIRS_list(tmp_ptr);
+  insert_LRU_list(tmp_ptr, LIR_LRU_block_ptr);
+  cur_lir_S_len--;
+
+  return tmp_ptr;
+}
+
 /* remove a block from memory */
   int
 remove_LIRS_list(page_struct *page_ptr)
@@ -236,27 +257,6 @@ insert_LRU_list(page_struct *old_ref_ptr, page_struct *new_ref_ptr)
   return;
 }
 
-  page_struct *
-prune_LIRS_stack()
-{
-  page_struct * tmp_ptr;
-  int i = 0;
-
-  if (cur_lir_S_len <=  MAX_S_LEN)
-    return NULL;
-
-  tmp_ptr = LIR_LRU_block_ptr;
-  while (tmp_ptr->isHIR_block == 0)
-    tmp_ptr = tmp_ptr->LIRS_prev;
-
-  tmp_ptr->recency = S_STACK_OUT;
-  remove_LIRS_list(tmp_ptr);
-  insert_LRU_list(tmp_ptr, LIR_LRU_block_ptr);
-  cur_lir_S_len--;
-
-  return tmp_ptr;
-}
-
 /* put a HIR resident block on the end of HIR resident list */
   void
 add_HIR_list_head(page_struct * new_rsd_HIR_ptr)
@@ -267,7 +267,6 @@ add_HIR_list_head(page_struct * new_rsd_HIR_ptr)
   else
     HIR_list_head->HIR_rsd_prev = new_rsd_HIR_ptr;
   HIR_list_head = new_rsd_HIR_ptr;
-
   return;
 }
 
@@ -285,9 +284,10 @@ add_LRU_list_head(page_struct *new_ref_ptr)
     LRU_list_head->LIRS_prev = new_ref_ptr;
     LRU_list_head = new_ref_ptr;
   }
-
   return;
 }
+
+
 
   void
 LIRS_Repl(FILE *trace_fp, FILE *sln_fp)
@@ -328,38 +328,35 @@ LIRS_Repl(FILE *trace_fp, FILE *sln_fp)
     no_dup_refs++; /* ref counter excluding duplicate refs */
 
     if (!page_tbl[ref_block].isResident) {  /* block miss */
-      if (collect_stat == 1)
+      if (collect_stat == 1) {
         num_pg_flt++;
+      }
 
-      if (free_mem_size == 0){
-        /* remove the "front" of the HIR resident page from cache (queue Q),
-           but not from LIRS stack S
-         */
-        /* actually Q is an LRU stack, "front" is the bottom of the stack,
-           "end" is its top
-         */
+      if (free_mem_size == 0) { // (A1) full: eviction from HIR list. (ref_block is in HIR!)
         HIR_list_tail->isResident = FALSE;
         remove_HIR_list(HIR_list_tail);
         free_mem_size++;
-      }
-      else if (free_mem_size > HIR_block_portion_limit){
-        page_tbl[ref_block].isHIR_block = FALSE;
+      } else if (free_mem_size > HIR_block_portion_limit){ // (A2) not full: add directly into LIR
+        page_tbl[ref_block].isHIR_block = FALSE; // LIR
         num_LIR_pgs++;
       }
       free_mem_size--;
+    } else if (page_tbl[ref_block].isHIR_block) { // (A3) hit in the cache and in HIR
+      remove_HIR_list((page_struct *)&page_tbl[ref_block]); // promote from HIR to LIR
     }
-    /* hit in the cache */
-    else if (page_tbl[ref_block].isHIR_block)
-      remove_HIR_list((page_struct *)&page_tbl[ref_block]);
 
+    // bring to the top of LIR anyway, and make it resident
     remove_LIRS_list((page_struct *)&page_tbl[ref_block]);
-    /* place newly referenced page at head */
     add_LRU_list_head((page_struct *)&page_tbl[ref_block]);
     page_tbl[ref_block].isResident = TRUE;
-    if (page_tbl[ref_block].recency == S_STACK_OUT)
-      cur_lir_S_len++;
 
-    if (page_tbl[ref_block].isHIR_block && (page_tbl[ref_block].recency == S_STACK_IN)){
+    // if moving from out-side of LIR, increase resident-LIR length by 1
+    if (page_tbl[ref_block].recency == S_STACK_OUT) {
+      cur_lir_S_len++;
+    }
+
+    // if (A1) and was in stack
+    if (page_tbl[ref_block].isHIR_block && (page_tbl[ref_block].recency == S_STACK_IN)) {
       page_tbl[ref_block].isHIR_block = FALSE;
       num_LIR_pgs++;
 
@@ -372,10 +369,11 @@ LIRS_Repl(FILE *trace_fp, FILE *sln_fp)
       }
       else
         printf("Warning2!\n");
-    }
-    else if (page_tbl[ref_block].isHIR_block)
+    } else if (page_tbl[ref_block].isHIR_block) {
       add_HIR_list_head((page_struct *)&page_tbl[ref_block]);
+    }
 
+    // in stack
     page_tbl[ref_block].recency = S_STACK_IN;
 
     prune_LIRS_stack();
