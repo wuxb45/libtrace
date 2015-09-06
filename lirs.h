@@ -274,7 +274,11 @@ lirs_del(void * const ptr, const uint32_t key)
 lirs_print(void * const ptr)
 {
   struct lirs * const lirs = (typeof(lirs))ptr;
-  printf("cur %" PRIu64 " hit %" PRIu64 " mis %" PRIu64 "\n", lirs->cur_resi_cap, lirs->nr_hit, lirs->nr_mis);
+  const double all = (double)(lirs->nr_hit + lirs->nr_mis);
+  const double hr = (double)(lirs->nr_hit);
+  printf("lirs max %16" PRIu64 " cur %16" PRIu64 " hit %16" PRIu64 " mis %16" PRIu64 " hitratio %.6lf\n",
+      lirs->max_resi_cap, lirs->cur_resi_cap, lirs->nr_hit, lirs->nr_mis, hr/all);
+  fflush(stdout);
 }
 
   static void

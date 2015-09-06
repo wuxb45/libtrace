@@ -9,7 +9,7 @@ rungroup()
   x=${3}
   for i in $(seq 1 24); do
     sz=$(($mb * $x))
-    ./${tool} ${trace}/sp ${trace}/vlen $(cat ${trace}/keys) ${sz} > trace/${tool}-${trace}-${x}.txt &
+    echo ./${tool} ${trace}/sp ${trace}/vlen $(cat ${trace}/keys) ${sz} > trace/${tool}-${trace}-${x}.txt &
     x=$(($x + ($x / 4)))
   done
   wait
