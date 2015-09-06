@@ -131,7 +131,7 @@ lirs_lru_cleanup(struct lirs * const lirs)
   const uint32_t nr_keys = lirs->nr_keys;
   for (;;) {
     const uint32_t last = lirs->arr[nr_keys].prev;
-    if (false = lirs_resident(lirs, last)) {
+    if (false == lirs_resident(lirs, last)) {
       lirs_lru_remove(lirs, last);
     } else {
       break;
@@ -211,12 +211,12 @@ lirs_eviction(struct lirs * const lirs)
   const uint32_t nr_keys = lirs->nr_keys;
   // clean lir
   // while (lir > limit)
+  uint32_t seed = lirs->arr[nr_keys].prev;
   while ((lirs->cur_resi_cap - lirs->cur_hir_cap) > (lirs->max_resi_cap - lirs->max_hir_cap)) {
     // move lir.last -> hir.head
-    uint32_t seed = lirs->arr[nr_keys].prev;
     for (;;) {
       assert(lirs_in_lru(lirs, seed));
-      if (lirs_resident(lirs, seed) && (lirs_in_hir(lirs, seed) == false)) {
+      if (lirs_resident(lirs, seed) && (false == lirs_in_hir(lirs, seed))) {
         break;
       }
       seed = lirs->arr[seed].prev;
