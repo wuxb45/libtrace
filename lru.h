@@ -207,13 +207,17 @@ struct lrux {
   uint64_t nr_mis; // get-miss
 };
 
+static uint64_t lrux_lru_cap;
   static void *
 lrux_new(const uint32_t nr_keys, const uint64_t max_cap)
 {
   struct lrux * const lrux = (typeof(lrux))malloc(sizeof(*lrux));
   bzero(lrux, sizeof(*lrux));
-  lrux->lru1 = lru_new(nr_keys, max_cap >> 1);
-  lrux->lru2 = lru_new(nr_keys, max_cap >> 1);
+  const uint64_t size1 = (lrux_lru_cap < max_cap) ? lrux_lru_cap : max_cap;
+  const uint64_t size2 = (lrux_lru_cap < max_cap) ? (max_cap - lrux_lru_cap) : 0;
+  assert((size1 + size2) == max_cap);
+  lrux->lru1 = lru_new(nr_keys, size1);
+  lrux->lru2 = lru_new(nr_keys, size2);
   lrux->lru1->receiver = lru_insert;
   lrux->lru1->receiver_ptr = lrux->lru2;
   return (void *)lrux;
