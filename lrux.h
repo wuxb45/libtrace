@@ -32,10 +32,11 @@ lrux_new(const uint32_t nr_keys, const uint64_t max_cap)
 lrux_evict2(struct lru * const lru)
 {
   const uint32_t nr_keys = lru->nr_keys;
-  if (lru->cur_keys > 5000 || lru->cur_keys > (nr_keys >> 12)) {
+  if ((lru->cur_keys > 4096) && (lru->cur_keys > (nr_keys >> 10))) {
     const uint32_t seed = ((uint32_t)random()) % nr_keys;
     for (uint32_t i = 0; i < nr_keys; i++) {
       const uint32_t victim = (seed + i) % nr_keys;
+      if ((lru->bitmap[victim>>6] & (UINT64_C(1) << (victim & 0x3fu))) == 0) continue;
       const uint32_t prev = lru->arr[victim].prev;
       const uint32_t next = lru->arr[victim].next;
       if ((prev < nr_keys) || (next < nr_keys)) { // in here
@@ -48,11 +49,22 @@ lrux_evict2(struct lru * const lru)
     }
   } else {
     const uint32_t skip = ((uint32_t)random()) % lru->cur_keys;
-    uint32_t iter = lru->arr[nr_keys].next;
-    assert(iter < nr_keys);
-    for (uint32_t i = 0; i < skip; i++) {
-      iter = lru->arr[iter].next;
+    uint32_t iter;
+    if (skip < (lru->cur_keys >> 1)) {
+      iter = lru->arr[nr_keys].next;
       assert(iter < nr_keys);
+      for (uint32_t i = 0; i < skip; i++) {
+        iter = lru->arr[iter].next;
+        assert(iter < nr_keys);
+      }
+    } else {
+      const uint32_t rskip = lru->cur_keys - skip;
+      iter = lru->arr[nr_keys].prev;
+      assert(iter < nr_keys);
+      for (uint32_t i = 0; i < rskip; i++) {
+        iter = lru->arr[iter].prev;
+        assert(iter < nr_keys);
+      }
     }
     const uint32_t victim = iter;
     const uint32_t size0 = lru->arr[victim].size;
