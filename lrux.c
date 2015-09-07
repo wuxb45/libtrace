@@ -12,6 +12,7 @@ main(int argc, char ** argv)
   const uint32_t nr_keys = strtoull(argv[3], NULL, 10);
   const uint64_t max_cap = strtoull(argv[4], NULL, 10);
   const uint64_t lru_cap = strtoull(argv[5], NULL, 10);
+  if (lru_cap >= max_cap) exit(0);
   lrux_lru_cap = lru_cap;
   runtrace(argv[1], argv[2], nr_keys, max_cap, &lrux_api);
   exit(0);
