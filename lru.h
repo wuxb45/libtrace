@@ -224,7 +224,7 @@ lrux_new(const uint32_t nr_keys, const uint64_t max_cap)
 }
 
   static void
-lru_evict2(struct lru * const lru)
+lrux_evict2(struct lru * const lru)
 {
   const uint32_t nr_keys = lru->nr_keys;
   if (lru->cur_keys > 5000 || lru->cur_keys > (nr_keys >> 12)) {
@@ -251,7 +251,7 @@ lru_evict2(struct lru * const lru)
     const uint32_t victim = iter;
     const uint32_t prev = lru->arr[victim].prev;
     const uint32_t next = lru->arr[victim].next;
-    assert((prev < nr_keys) || (next < nr_keys));
+    //assert((prev < nr_keys) || (next < nr_keys));
     const uint32_t size0 = lru->arr[victim].size;
     lru_remove(lru, victim);
     if (lru->receiver) lru->receiver(lru->receiver_ptr, victim, size0);
@@ -274,7 +274,7 @@ lrux_set(void * const ptr, const uint32_t key, const uint32_t size)
     lru_evict1(lrux->lru1);
   }
   while (lrux->lru2->cur_cap > lrux->lru2->max_cap) {
-    lru_evict2(lrux->lru2);
+    lrux_evict2(lrux->lru2);
   }
 }
 
