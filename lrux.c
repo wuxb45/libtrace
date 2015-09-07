@@ -1,8 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "lru.h"
+#include "lrux.h"
 
-int
+  int
 main(int argc, char ** argv)
 {
   if (argc != 6) {
