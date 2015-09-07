@@ -33,8 +33,9 @@ lrux_evict2(struct lru * const lru)
 {
   const uint32_t nr_keys = lru->nr_keys;
   if (lru->cur_keys > 5000 || lru->cur_keys > (nr_keys >> 12)) {
-    for (;;) {
-      const uint32_t victim = ((uint32_t)random()) % nr_keys;
+    const uint32_t seed = ((uint32_t)random()) % nr_keys;
+    for (uint32_t i = 0; i < nr_keys; i++) {
+      const uint32_t victim = (seed + i) % nr_keys;
       const uint32_t prev = lru->arr[victim].prev;
       const uint32_t next = lru->arr[victim].next;
       if ((prev < nr_keys) || (next < nr_keys)) { // in here
@@ -54,9 +55,6 @@ lrux_evict2(struct lru * const lru)
       assert(iter < nr_keys);
     }
     const uint32_t victim = iter;
-    const uint32_t prev = lru->arr[victim].prev;
-    const uint32_t next = lru->arr[victim].next;
-    //assert((prev < nr_keys) || (next < nr_keys));
     const uint32_t size0 = lru->arr[victim].size;
     lru_remove(lru, victim);
     if (lru->receiver) lru->receiver(lru->receiver_ptr, victim, size0);
