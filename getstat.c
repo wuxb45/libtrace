@@ -61,7 +61,7 @@ main(int argc, char ** argv)
     slots[i] = slot;
   }
   struct event e;
-  uint64_t ts =0;
+  uint64_t ts = 0;
   uint64_t get = 0;
   while(next_event(stdin, &ts, &e)) {
     if (e.op == 'G') {
