@@ -8,9 +8,9 @@ BINS = stat4 lirs lrux lru spstat sampley samplex vlen print4 sort64 keymap conv
 all : $(BINS)
 
 % : %.c %.h $(COMMONH)
-	clang -std=gnu11 $(OPT) -o $@ $< -llz4
+	clang -std=gnu11 $(OPT) -o $@ $< -llz4 -lm
 % : %.c $(COMMONH)
-	clang -std=gnu11 $(OPT) -o $@ $< -llz4
+	clang -std=gnu11 $(OPT) -o $@ $< -llz4 -lm
 
 clean :
 	rm -f *.o *~ $(BINS)
