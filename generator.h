@@ -254,7 +254,7 @@ zeta_range(const uint64_t start, const uint64_t count, const double theta)
 {
   double sum = 0.0;
   if (count > 0x10000000) {
-    fprintf(stderr, "zeta_range would take a long time... kill me our wait (count=%" PRIu64 ")\n", count);
+    fprintf(stderr, "zeta_range would take a long time... kill me our wait (count=0x%" PRIx64 ")\n", count);
   }
   for (uint64_t i = 0lu; i < count; i++) {
     sum += (1.0 / pow((double)(start + i + 1lu), theta));
@@ -287,7 +287,7 @@ zeta(const uint64_t n, const double theta)
   const double sum0 = zetalist_double[zlid];
   const uint64_t start = zlid * zetalist_step;
   const uint64_t count = n - start;
-  assert(n > start);
+  assert(n >= start);
   const double sum1 = zeta_range(start, count, theta);
   return sum0 + sum1;
 }
