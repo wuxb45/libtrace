@@ -36,11 +36,12 @@ random64(void)
   return rand64;
 }
 
+static bool __set_on_miss = true;
+
   static void
 runtrace(const char * const tracefile, const char * const sizefile,
     const uint32_t nr_keys, const uint64_t max_cap, const struct rep_api * const api)
 {
-
   const int fdsize = open(sizefile, O_RDONLY);
   assert(fdsize >= 0);
   struct stat st;

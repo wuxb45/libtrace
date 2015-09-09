@@ -152,10 +152,8 @@ lru_get(void * const ptr, const uint32_t key, const uint32_t size)
     lru_insert(lru, key, size0);
   } else {
     lru->nr_mis++;
-    lru_remove(lru, key);
-    lru_insert(lru, key, size);
-    while (lru->cur_cap > lru->max_cap) {
-      lru_evict1(lru);
+    if (__set_on_miss) {
+      lru_set(ptr, key, size);
     }
   }
 }

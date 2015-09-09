@@ -263,7 +263,9 @@ lirs_get(void * const ptr, const uint32_t key, const uint32_t size)
     lirs_set(ptr, key, size0);
   } else {
     lirs->nr_mis++;
-    lirs_set(ptr, key, size);
+    if (__set_on_miss) {
+      lirs_set(ptr, key, size);
+    }
   }
 }
 

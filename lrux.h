@@ -105,7 +105,9 @@ lrux_get(void * const ptr, const uint32_t key, const uint32_t size)
     lrux_set(ptr, key, lrux->lru2->arr[key].size);
   } else {
     lrux->nr_mis++;
-    lrux_set(ptr, key, size);
+    if (__set_on_miss) {
+      lrux_set(ptr, key, size);
+    }
   }
 }
 
