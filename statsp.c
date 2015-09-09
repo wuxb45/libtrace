@@ -35,6 +35,7 @@ main(int argc, char ** argv)
   assert(cnt);
   for (;;) {
     const size_t nkeys = fread(keys, sizeof(keys[0]), 1024, stdin);
+    if (nkeys == 0) break;
     for (uint64_t i = 0; i < nkeys; i++) {
       switch (keys[i].op) {
         case OP_GET: {nr_get++; cnt[keys[i].keyx]++; } break;
