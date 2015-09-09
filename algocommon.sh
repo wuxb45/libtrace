@@ -6,6 +6,7 @@ bg_run_one()
   local trace=${2}
   local nmb=${3}
   local outdir=${4}
+  # optional
   local paramx=${5}
 
   local sz=$((${mb} * ${nmb}))
