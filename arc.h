@@ -195,23 +195,37 @@ arc_set(void * const ptr, const uint32_t key, const uint32_t size)
   static inline void
 arc_get(void * const ptr, const uint32_t key, const uint32_t size)
 {
-
+  struct arc * const arc = (typeof(arc))ptr;
+  if (arc_resident(arc, key)) {
+    arc->nr_hit++;
+    const uint64_t size0 = arc->arr[key].size;
+    arc_set(ptr, key, size0);
+  } else {
+    arc->nr_mis++;
+    if (__set_on_miss) {
+      arc_set(ptr, key, size);
+    }
+  }
 }
 
   static inline void
 arc_del(void * const ptr, const uint32_t key)
 {
-
+  struct arc * const arc = (typeof(arc))ptr;
+  arc_remove(ARC_T1, arc, key);
+  arc_remove(ARC_T2, arc, key);
+  
 }
   static void
 arc_print(void * const ptr)
 {
-//  struct lirs * const lirs = (typeof(lirs))ptr;
-//  const double all = (double)(lirs->nr_hit + lirs->nr_mis);
-//  const double hr = (double)(lirs->nr_hit);
-//  printf("lirs max %16" PRIu64 " cur %16" PRIu64 " hit %16" PRIu64 " mis %16" PRIu64 " hitratio %.6lf\n",
-//      lirs->max_resi_cap, lirs->cur_resi_cap, lirs->nr_hit, lirs->nr_mis, hr/all);
-//  fflush(stdout);
+  struct arc * const arc = (typeof(arc))ptr;
+  const double all = (double)(arc->nr_hit + arc->nr_mis);
+  const double hr = (double)(arc->nr_hit);
+  const uint64_t cur_cap = arc->caps[ARC_T1] + arc->caps[ARC_T2];
+  printf("arc  max %16" PRIu64 " cur %16" PRIu64 " hit %16" PRIu64 " mis %16" PRIu64 " hitratio %.6lf\n",
+      arc->max_cap, cur_cap, arc->nr_hit, arc->nr_mis, hr/all);
+  fflush(stdout);
 }
 
   static void
