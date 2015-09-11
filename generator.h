@@ -254,7 +254,7 @@ zeta_range(const uint64_t start, const uint64_t count, const double theta)
 {
   double sum = 0.0;
   if (count > 0x10000000) {
-    fprintf(stderr, "zeta_range would take a long time... kill me our wait (count=0x%" PRIx64 ")\n", count);
+    fprintf(stderr, "zeta_range would take a long time... kill me or wait (count=0x%" PRIx64 ")\n", count);
   }
   for (uint64_t i = 0lu; i < count; i++) {
     sum += (1.0 / pow((double)(start + i + 1lu), theta));

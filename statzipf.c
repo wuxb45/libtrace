@@ -1,4 +1,3 @@
-
 #define _GNU_SOURCE
 #define _LARGEFILE64_SOURCE
 
@@ -10,8 +9,8 @@
 
 #include "generator.h"
 
-#define NRACC (UINT64_C(0x100000000))
-#define MARK (UINT64_C(0x100000))
+#define MAXLOW (UINT64_C(0x180000000))
+#define LOWMARK (UINT64_C(0x100000))
   static int 
 __comp(const void * const p1, const void * const p2) 
 {
@@ -29,32 +28,37 @@ __comp(const void * const p1, const void * const p2)
   int
 main(int argc ,char ** argv)
 {
-  uint64_t * const low = (typeof(low))mmap(NULL, UINT64_C(1) << (32+3), PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_HUGETLB | MAP_ANONYMOUS, -1, 0);
+  uint64_t * const highs =   (typeof(highs))mmap(NULL, LOWMARK * sizeof(highs[0]), PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_HUGETLB | MAP_ANONYMOUS, -1, 0);
+  uint64_t * const lows =     (typeof(lows))mmap(NULL, MAXLOW * sizeof(lows[0]), PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_HUGETLB | MAP_ANONYMOUS, -1, 0);
+  uint64_t * const counts = (typeof(counts))mmap(NULL, MAXLOW * sizeof(counts[0]), PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_HUGETLB | MAP_ANONYMOUS, -1, 0);
+  assert(highs != MAP_FAILED);
+  assert(lows != MAP_FAILED);
+  assert(counts != MAP_FAILED);
+  uint64_t nacc = 0;
   uint64_t lowid = 0;
-  uint64_t * const cnt = (typeof(low))mmap(NULL, MARK <<3, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_HUGETLB | MAP_ANONYMOUS, -1, 0);
   struct GenInfo * const gikey = generator_new_zipfian(UINT64_C(1), UINT64_C(0x100000000000));
-  for (uint64_t i = 0; i < NRACC; i++) {
+  while (lowid < MAXLOW) {
     const uint64_t x = gikey->next(gikey);
-    if (x < MARK) { cnt[x]++; }
-    else { low[lowid] = x; lowid++; }
-  }
+    if (x < LOWMARK) { highs[x]++; }
+    else { lows[lowid] = x; lowid++; }
+    nacc++;
+  } // fill up lows[]
   //
-  uint64_t * const counts = (typeof(counts))mmap(NULL, UINT64_C(1) << (32+3), PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_HUGETLB | MAP_ANONYMOUS, -1, 0);
   uint64_t keycount = 0;
-  for (uint64_t i = 0; i < MARK; i++) {
-    if (cnt[i]) {
-      counts[keycount] = cnt[i];
+  for (uint64_t i = 0; i < LOWMARK; i++) {
+    if (highs[i]) {
+      counts[keycount] = highs[i];
       keycount++;
     }
   }
-  qsort(low, lowid, sizeof(low[0]), __comp);
-  uint64_t last = low[0];
+  qsort(lows, MAXLOW, sizeof(lows[0]), __comp);
+  uint64_t last = lows[0];
   uint64_t xcount = 1;
-  for (uint64_t i = 1; i < lowid; i++) {
-    if (low[i] != last) {
+  for (uint64_t i = 1; i < MAXLOW; i++) {
+    if (lows[i] != last) {
       counts[keycount] = xcount;
       keycount++;
-      last = low[i];
+      last = lows[i];
       xcount = 0;
     }
     xcount++;
@@ -64,8 +68,9 @@ main(int argc ,char ** argv)
   qsort(counts, keycount, sizeof(counts[0]), __comp);
   // get keycount
   //
+  printf("== keycount %" PRIu64 " nacc %" PRIu64 "\n", keycount, nacc);
   const double allkeyd = (double)keycount;
-  const double allaccd = (double)NRACC;
+  const double allaccd = (double)nacc;
   double next = 0.00001;
   uint64_t nget = 0;
   for (uint64_t i = 0; i < keycount; i++) {
