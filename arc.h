@@ -81,7 +81,7 @@ arc_remove(const uint32_t where, struct arc * const arc, const uint32_t key)
     arc->arr[key].node[where].next = nr_keys;
     arc->arr[key].node[where].prev = nr_keys;
     // clean
-    //arc->arc_keys[where] -= arc->arc[key].size;
+    arc->caps[where] -= arc->arc[key].size;
     arc->arr[key].size = 0;
   }
 }
