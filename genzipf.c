@@ -26,6 +26,11 @@ __comp(const void * const p1, const void * const p2)
   int
 main(int argc ,char ** argv)
 {
+  if (argc != 2) {
+    printf("usage : %s <range>\n", argv[0]);
+    exit(0);
+  }
+  const uint64_t range = strtoull(argv[1], NULL, 10);
   // 1G * 8 = 8G
   const size_t trace_nr = 1024*1024*1024;
   uint64_t * const t64 = (typeof(t64))malloc(sizeof(t64[0]) * (trace_nr + 1));
@@ -33,7 +38,8 @@ main(int argc ,char ** argv)
   uint64_t * const keymap = (typeof(keymap))malloc(sizeof(keymap[0]) * (trace_nr + 1));
   struct samplex * const xs = (typeof(xs))malloc(sizeof(xs[0]) * (trace_nr + 1));
   assert(t64);
-  struct GenInfo * const gikey = generator_new_zipfian(UINT64_C(1), UINT64_C(0x100000000000));
+  //struct GenInfo * const gikey = generator_new_zipfian(UINT64_C(1), UINT64_C(0x100000000000));
+  struct GenInfo * const gikey = generator_new_zipfian(UINT64_C(1), range);
   for (uint64_t i = 0; i < trace_nr; i++) {
     const uint64_t x = gikey->next(gikey);
     t64[i] = x;
