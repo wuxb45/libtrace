@@ -1,43 +1,79 @@
-
 #define _GNU_SOURCE
 #define _LARGEFILE64_SOURCE
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <inttypes.h>
 
-#include "generator.h"
 #include "libtrace3.h"
+#include "generator.h"
+
+  static int 
+__comp(const void * const p1, const void * const p2) 
+{
+  const uint64_t v1 = *((const uint64_t *)p1);
+  const uint64_t v2 = *((const uint64_t *)p2);
+  if (v1 < v2) {
+    return -1; 
+  } else if (v1 > v2) {
+    return 1;
+  } else {
+    return 0;
+  }
+}
 
   int
 main(int argc ,char ** argv)
 {
-  if (argc != 3) {
-    printf("usage: %s <get-portion(0-100)> <set-portion(0-100)>\n", argv[0]);
-    exit(0);
+  // 1G * 8 = 8G
+  const size_t trace_nr = 1024*1024*1024;
+  uint64_t * const t64 = (typeof(t64))malloc(sizeof(t64[0]) * (trace_nr + 1));
+  uint64_t * const shadow = (typeof(shadow))malloc(sizeof(shadow[0]) * (trace_nr + 1));
+  uint64_t * const keymap = (typeof(keymap))malloc(sizeof(keymap[0]) * (trace_nr + 1));
+  struct samplex * const xs = (typeof(xs))malloc(sizeof(xs[0]) * (trace_nr + 1));
+  assert(t64);
+  struct GenInfo * const gikey = generator_new_zipfian(UINT64_C(1), UINT64_C(0x100000000000));
+  for (uint64_t i = 0; i < trace_nr; i++) {
+    const uint64_t x = gikey->next(gikey);
+    t64[i] = x;
   }
-  const uint64_t getp = strtoull(argv[1], NULL, 10);
-  const uint64_t setp = strtoull(argv[2], NULL, 10);
-  const uint64_t getsetp = getp + setp;
-  assert(getsetp <= 100);
-
-  struct GenInfo * const gikey = generator_new_zipfian(UINT64_C(0), UINT64_C(0x3fffffff));
-  struct GenInfo * const giop = generator_new_uniform(UINT64_C(0), UINT64_C(99));
-  struct samplex buf[0x1000];
-  for (uint64_t i = 0; i < 0x20000; i++) {
-    for (uint64_t j = 0; i < 0x1000; i++) {
-      buf[j].keyx = (uint32_t)gikey->next(gikey);
-      const uint64_t opp = giop->next(giop);
-      if (opp < getp) {
-        buf[j].op = OP_GET;
-      } else if (opp < getsetp) {
-        buf[j].op = OP_SET;
+  memcpy(shadow, t64, sizeof(t64[0]) * trace_nr);
+  qsort(shadow, trace_nr, sizeof(shadow[0]), __comp);
+  shadow[trace_nr] = shadow[trace_nr-1]+1;
+  uint64_t id1 = 0;
+  uint64_t id2 = 0;
+  uint64_t idw = 0;
+  while (id1 < trace_nr) {
+    while (shadow[id1] == shadow[id2]) id2++;
+    assert(shadow[id1] < shadow[id2]);
+    keymap[idw]=shadow[id1];
+    idw++;
+    id1 = id2;
+  }
+  const uint64_t nr_keys = idw;
+  for (uint64_t i = 0; i < trace_nr; i++) {
+    const uint64_t key0 = t64[i];
+    uint64_t start = 0;
+    uint64_t end = nr_keys -1;
+    bool found = false;
+    while (start <= end) {
+      const uint64_t mid = (start + end) >> 1;
+      if (keymap[mid] < key0) {
+        start = mid+1;
+      } else if (keymap[mid] > key0) {
+        end = mid-1;
       } else {
-        buf[j].op = OP_DEL;
+        xs[i].keyx = mid;
+        if (random_double() < 0.05) xs[i].op = OP_SET;
+        found = true;
+        break;
       }
     }
-    fwrite(buf, sizeof(buf[0]), 0x1000, stdout);
+    assert(found);
   }
+  const size_t nw = fwrite(xs, sizeof(xs[0]), trace_nr, stdout);
+  assert(nw == trace_nr);
   fflush(stdout);
   exit(0);
 }

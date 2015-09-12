@@ -69,6 +69,7 @@ fixedlru ()
   bg_run_one lru usr 52 points
   bg_run_one lru usr 65 points
   bg_run_one lru usr 78 points
+  wait
 }
 
 fixedlrux ()
@@ -87,6 +88,7 @@ fixedlrux ()
   bg_run_one lrux usr 52 points 27162703
   bg_run_one lrux usr 65 points 27162703
   bg_run_one lrux usr 78 points 27162703
+  wait
 }
 
 fixedlirs ()
@@ -108,6 +110,7 @@ fixedlirs ()
   bg_run_one lirs usr 52 points
   bg_run_one lirs usr 65 points
   bg_run_one lirs usr 78 points
+  wait
 }
 
 fixedarc ()

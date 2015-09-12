@@ -32,7 +32,7 @@ main(int argc, char ** argv)
   uint64_t nr_del = 0;
   uint32_t max_key = 0;
 
-  uint64_t * const cnt = (typeof(cnt))mmap(NULL, UINT64_C(1) << (32+3), PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_HUGETLB | MAP_ANONYMOUS, -1, 0);
+  uint64_t * const cnt = (typeof(cnt))mmap(NULL, UINT64_C(1) << (32+3), PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);
   assert(cnt);
   while (fread(&ops, sizeof(ops), 1, stdin) == 1) {
     const size_t nkeys = fread(keys, sizeof(keys[0]), 32, stdin);
