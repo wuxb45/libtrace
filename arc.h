@@ -223,7 +223,7 @@ arc_print(void * const ptr)
   const double all = (double)(arc->nr_hit + arc->nr_mis);
   const double hr = (double)(arc->nr_hit);
   const uint64_t cur_cap = arc->caps[ARC_T1] + arc->caps[ARC_T2];
-  printf("arc  max %16" PRIu64 " cur %16" PRIu64 " hit %16" PRIu64 " mis %16" PRIu64 " hitratio %.6lf\n",
+  printf("arc  max %016" PRIu64 " cur %016" PRIu64 " hit %016" PRIu64 " mis %016" PRIu64 " hitratio %.6lf\n",
       arc->max_cap, cur_cap, arc->nr_hit, arc->nr_mis, hr/all);
   fflush(stdout);
 }

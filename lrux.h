@@ -129,7 +129,7 @@ lrux_print(void * const ptr)
   struct lrux * const lrux = (typeof(lrux))ptr;
   const double all = (double)(lrux->nr_hit + lrux->nr_mis);
   const double hr = (double)(lrux->nr_hit);
-  printf("lrux max %16" PRIu64 " cur %16" PRIu64 " hit %16" PRIu64 " mis %16" PRIu64 " hitratio %.6lf\n",
+  printf("lrux max %016" PRIu64 " cur %016" PRIu64 " hit %016" PRIu64 " mis %016" PRIu64 " hitratio %.6lf\n",
       lrux->lru1->max_cap + lrux->lru2->max_cap, lrux->lru1->cur_cap + lrux->lru2->cur_cap, lrux->nr_hit, lrux->nr_mis, hr/all);
   fflush(stdout);
 }
