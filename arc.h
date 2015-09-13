@@ -115,7 +115,7 @@ arc_lru(const uint32_t where, struct arc * const arc)
 arc_remove_lru(const uint32_t where, struct arc * const arc)
 {
   const uint32_t nr_keys = arc->nr_keys;
-  const uint32_t victim = arc->arr[nr_keys].node[where].prev;
+  const uint32_t victim = arc_lru(where, arc);
   arc_remove(where, arc, victim);
 }
 
@@ -136,15 +136,13 @@ arc_move(const uint32_t fromwhere, const uint32_t towhere, struct arc * const ar
 }
 
   static inline void
-arc_replace(struct arc * const arc, const uint32_t key)
+arc_replace(struct arc * const arc)
 {
-  (void)key;
-  if (arc->caps[ARC_T1] && (arc->caps[ARC_T1] >= arc->p)) {
-    while (arc->caps[ARC_T1] >= arc->p) {
-      const uint32_t victim = arc_lru(ARC_T1, arc);
-      arc_move(ARC_T1, ARC_B1, arc, victim);
-    }
-  } else if (arc->caps[ARC_T2]) {
+  while (arc->caps[ARC_T1] > arc->p) {
+    const uint32_t victim = arc_lru(ARC_T1, arc);
+    arc_move(ARC_T1, ARC_B1, arc, victim);
+  }
+  while (arc->caps[ARC_T2] > (arc->max_cap - arc->p)) {
     const uint32_t victim = arc_lru(ARC_T2, arc);
     arc_move(ARC_T2, ARC_B2, arc, victim);
   }
@@ -166,35 +164,36 @@ arc_set(void * const ptr, const uint32_t key, const uint32_t size)
     const uint64_t d1 = (arc->caps[ARC_B1] > arc->caps[ARC_B2])?1:(arc->caps[ARC_B2]/arc->caps[ARC_B1]);
     const uint64_t pp = arc->p + d1;
     arc->p = (pp < arc->max_cap) ? pp : arc->max_cap;
-    arc_replace(arc, key);
     arc_remove(ARC_B1, arc, key);
     arc_insert(ARC_T2, arc, key, size);
+    arc_replace(arc);
 
   } else if (arc_in(ARC_B2, arc, key)) { // Case III
     const uint64_t d2 = (arc->caps[ARC_B2] > arc->caps[ARC_B1])?1:(arc->caps[ARC_B1]/arc->caps[ARC_B2]);
     const uint64_t pp = arc->p - d2;
     arc->p = (arc->p < d2) ? 0 : pp;
-    arc_replace(arc, key);
     arc_remove(ARC_B2, arc, key);
     arc_insert(ARC_T2, arc, key, size);
-    
+    arc_replace(arc);
+
   } else { // Case IV
-    while ((arc->caps[ARC_T1] + arc->caps[ARC_B1]) >= arc->max_cap) { // balance L1
-      if (arc->caps[ARC_B1] != 0) {
+    arc_insert(ARC_T1, arc, key, size);
+    arc_replace(arc);
+    while ((arc->caps[ARC_T1] + arc->caps[ARC_B1]) > arc->max_cap) { // balance L1
+      if (arc->caps[ARC_B1] > 0) {
         arc_remove_lru(ARC_B1, arc);
-        arc_replace(arc, key);
       } else {
         arc_remove_lru(ARC_T1, arc);
       }
     }
 
-    while (arc->caps[ARC_T1] + arc->caps[ARC_B1] + arc->caps[ARC_T2] + arc->caps[ARC_B2] >= arc->max_cap) { // Case IV.B
-      if (arc->caps[ARC_T1] + arc->caps[ARC_B1] + arc->caps[ARC_T2] + arc->caps[ARC_B2] >= (arc->max_cap << 1)) {
+    while ((arc->caps[ARC_T1] + arc->caps[ARC_B1] + arc->caps[ARC_T2] + arc->caps[ARC_B2]) > (arc->max_cap << 1)) {
+      if (arc->caps[ARC_B2] > 0) {
         arc_remove_lru(ARC_B2, arc);
+      } else {
+        arc_remove_lru(ARC_T2, arc);
       }
-      arc_replace(arc, key);
     }
-    arc_insert(ARC_T1, arc, key, size);
   }
 }
 
