@@ -106,7 +106,9 @@ arc_insert(const uint32_t where, struct arc * const arc, const uint32_t key, con
 arc_lru(const uint32_t where, struct arc * const arc)
 {
   const uint32_t nr_keys = arc->nr_keys;
-  return arc->arr[nr_keys].node[where].prev;
+  const uint32_t lru = arc->arr[nr_keys].node[where].prev;
+  assert(lru < nr_keys);
+  return lru;
 }
 
   static inline void
@@ -136,10 +138,13 @@ arc_move(const uint32_t fromwhere, const uint32_t towhere, struct arc * const ar
   static inline void
 arc_replace(struct arc * const arc, const uint32_t key)
 {
-  if (arc->caps[ARC_T1] && (arc->caps[ARC_T1] >= arc->p || (arc_in(ARC_B2, arc, key)))) {
-    const uint32_t victim = arc_lru(ARC_T1, arc);
-    arc_move(ARC_T1, ARC_B1, arc, victim);
-  } else {
+  (void)key;
+  if (arc->caps[ARC_T1] && (arc->caps[ARC_T1] >= arc->p)) {
+    while (arc->caps[ARC_T1] >= arc->p) {
+      const uint32_t victim = arc_lru(ARC_T1, arc);
+      arc_move(ARC_T1, ARC_B1, arc, victim);
+    }
+  } else if (arc->caps[ARC_T2]) {
     const uint32_t victim = arc_lru(ARC_T2, arc);
     arc_move(ARC_T2, ARC_B2, arc, victim);
   }
@@ -174,15 +179,16 @@ arc_set(void * const ptr, const uint32_t key, const uint32_t size)
     arc_insert(ARC_T2, arc, key, size);
     
   } else { // Case IV
-    if ((arc->caps[ARC_T1] + arc->caps[ARC_B1]) >= arc->max_cap){ // (full miss) Case IV.A
+    while ((arc->caps[ARC_T1] + arc->caps[ARC_B1]) >= arc->max_cap) { // balance L1
       if (arc->caps[ARC_B1] != 0) {
         arc_remove_lru(ARC_B1, arc);
         arc_replace(arc, key);
       } else {
         arc_remove_lru(ARC_T1, arc);
       }
+    }
 
-    } else if (arc->caps[ARC_T1] + arc->caps[ARC_B1] + arc->caps[ARC_T2] + arc->caps[ARC_B2] >= arc->max_cap) { // Case IV.B
+    while (arc->caps[ARC_T1] + arc->caps[ARC_B1] + arc->caps[ARC_T2] + arc->caps[ARC_B2] >= arc->max_cap) { // Case IV.B
       if (arc->caps[ARC_T1] + arc->caps[ARC_B1] + arc->caps[ARC_T2] + arc->caps[ARC_B2] >= (arc->max_cap << 1)) {
         arc_remove_lru(ARC_B2, arc);
       }
@@ -214,7 +220,7 @@ arc_del(void * const ptr, const uint32_t key)
   struct arc * const arc = (typeof(arc))ptr;
   arc_remove(ARC_T1, arc, key);
   arc_remove(ARC_T2, arc, key);
-  
+
 }
   static void
 arc_print(void * const ptr)
