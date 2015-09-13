@@ -2,7 +2,7 @@
 COMMONH := libtrace3.h libtrace2.h libtrace.h Makefile
 OPT := -O3
 #OPT := -O3 -NDEBUG
-#OPT := -ggdb
+#OPT := -ggdb -O0
 
 BINS =  statzipf genzipf stat4 arc lirs lrux lru spstat sampley samplex vlen print4 sort64 keymap conv allstat getstat printer types
 all : $(BINS)
