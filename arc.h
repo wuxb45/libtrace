@@ -151,11 +151,11 @@ arc_set(void * const ptr, const uint32_t key, const uint32_t size)
   struct arc * const arc = (typeof(arc))ptr;
   if (arc_in(ARC_T1, arc, key)) { // case I.1
     arc_remove(ARC_T1, arc, key);
-    arc_insert(ARC_T1, arc, key, size);
+    arc_insert(ARC_T2, arc, key, size);
 
   } else if (arc_in(ARC_T2, arc, key)) { // Case I.1
     arc_remove(ARC_T2, arc, key);
-    arc_insert(ARC_T1, arc, key, size);
+    arc_insert(ARC_T2, arc, key, size);
 
   } else if (arc_in(ARC_B1, arc, key)) { // Case II
     const uint64_t d1 = (arc->caps[ARC_B1] > arc->caps[ARC_B2])?1:(arc->caps[ARC_B2]/arc->caps[ARC_B1]);
