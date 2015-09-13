@@ -1,0 +1,436 @@
+./lru etc/sp etc/vlen 44180614 31457280  1>group/etc-30-lru.txt 2>group/etc-30-lru.err &
+./lru etc/sp etc/vlen 44180614 38797312  1>group/etc-37-lru.txt 2>group/etc-37-lru.err &
+./lru etc/sp etc/vlen 44180614 48234496  1>group/etc-46-lru.txt 2>group/etc-46-lru.err &
+./lru etc/sp etc/vlen 44180614 59768832  1>group/etc-57-lru.txt 2>group/etc-57-lru.err &
+./lru etc/sp etc/vlen 44180614 74448896  1>group/etc-71-lru.txt 2>group/etc-71-lru.err &
+./lru etc/sp etc/vlen 44180614 92274688  1>group/etc-88-lru.txt 2>group/etc-88-lru.err &
+./lru etc/sp etc/vlen 44180614 115343360  1>group/etc-110-lru.txt 2>group/etc-110-lru.err &
+./lru etc/sp etc/vlen 44180614 143654912  1>group/etc-137-lru.txt 2>group/etc-137-lru.err &
+./lru etc/sp etc/vlen 44180614 179306496  1>group/etc-171-lru.txt 2>group/etc-171-lru.err &
+./lru etc/sp etc/vlen 44180614 223346688  1>group/etc-213-lru.txt 2>group/etc-213-lru.err &
+./lru etc/sp etc/vlen 44180614 278921216  1>group/etc-266-lru.txt 2>group/etc-266-lru.err &
+./lru etc/sp etc/vlen 44180614 348127232  1>group/etc-332-lru.txt 2>group/etc-332-lru.err &
+./lru etc/sp etc/vlen 44180614 435159040  1>group/etc-415-lru.txt 2>group/etc-415-lru.err &
+./lru etc/sp etc/vlen 44180614 543162368  1>group/etc-518-lru.txt 2>group/etc-518-lru.err &
+./lru etc/sp etc/vlen 44180614 678428672  1>group/etc-647-lru.txt 2>group/etc-647-lru.err &
+./lru etc/sp etc/vlen 44180614 847249408  1>group/etc-808-lru.txt 2>group/etc-808-lru.err &
+./lru etc/sp etc/vlen 44180614 1059061760  1>group/etc-1010-lru.txt 2>group/etc-1010-lru.err &
+./lru etc/sp etc/vlen 44180614 1323302912  1>group/etc-1262-lru.txt 2>group/etc-1262-lru.err &
+./lru etc/sp etc/vlen 44180614 1653604352  1>group/etc-1577-lru.txt 2>group/etc-1577-lru.err &
+./lru etc/sp etc/vlen 44180614 2066743296  1>group/etc-1971-lru.txt 2>group/etc-1971-lru.err &
+./lru etc/sp etc/vlen 44180614 2582642688  1>group/etc-2463-lru.txt 2>group/etc-2463-lru.err &
+./lru etc/sp etc/vlen 44180614 3227516928  1>group/etc-3078-lru.txt 2>group/etc-3078-lru.err &
+./lru usr/sp usr/vlen 8998858 8388608  1>group/usr-8-lru.txt 2>group/usr-8-lru.err &
+./lru usr/sp usr/vlen 8998858 10485760  1>group/usr-10-lru.txt 2>group/usr-10-lru.err &
+./lru usr/sp usr/vlen 8998858 12582912  1>group/usr-12-lru.txt 2>group/usr-12-lru.err &
+./lru usr/sp usr/vlen 8998858 15728640  1>group/usr-15-lru.txt 2>group/usr-15-lru.err &
+./lru usr/sp usr/vlen 8998858 18874368  1>group/usr-18-lru.txt 2>group/usr-18-lru.err &
+./lru usr/sp usr/vlen 8998858 23068672  1>group/usr-22-lru.txt 2>group/usr-22-lru.err &
+./lru usr/sp usr/vlen 8998858 28311552  1>group/usr-27-lru.txt 2>group/usr-27-lru.err &
+./lru usr/sp usr/vlen 8998858 34603008  1>group/usr-33-lru.txt 2>group/usr-33-lru.err &
+./lru usr/sp usr/vlen 8998858 42991616  1>group/usr-41-lru.txt 2>group/usr-41-lru.err &
+./lru usr/sp usr/vlen 8998858 53477376  1>group/usr-51-lru.txt 2>group/usr-51-lru.err &
+./lru usr/sp usr/vlen 8998858 66060288  1>group/usr-63-lru.txt 2>group/usr-63-lru.err &
+./lru usr/sp usr/vlen 8998858 81788928  1>group/usr-78-lru.txt 2>group/usr-78-lru.err &
+./lru usr/sp usr/vlen 8998858 101711872  1>group/usr-97-lru.txt 2>group/usr-97-lru.err &
+./lru usr/sp usr/vlen 8998858 126877696  1>group/usr-121-lru.txt 2>group/usr-121-lru.err &
+./lru usr/sp usr/vlen 8998858 158334976  1>group/usr-151-lru.txt 2>group/usr-151-lru.err &
+./lru usr/sp usr/vlen 8998858 197132288  1>group/usr-188-lru.txt 2>group/usr-188-lru.err &
+./lru usr/sp usr/vlen 8998858 246415360  1>group/usr-235-lru.txt 2>group/usr-235-lru.err &
+./lru usr/sp usr/vlen 8998858 307232768  1>group/usr-293-lru.txt 2>group/usr-293-lru.err &
+./lru usr/sp usr/vlen 8998858 383778816  1>group/usr-366-lru.txt 2>group/usr-366-lru.err &
+./lru usr/sp usr/vlen 8998858 479199232  1>group/usr-457-lru.txt 2>group/usr-457-lru.err &
+./lru app/sp app/vlen 29746058 10485760  1>group/app-10-lru.txt 2>group/app-10-lru.err &
+./lru app/sp app/vlen 29746058 12582912  1>group/app-12-lru.txt 2>group/app-12-lru.err &
+./lru app/sp app/vlen 29746058 15728640  1>group/app-15-lru.txt 2>group/app-15-lru.err &
+./lru app/sp app/vlen 29746058 18874368  1>group/app-18-lru.txt 2>group/app-18-lru.err &
+./lru app/sp app/vlen 29746058 23068672  1>group/app-22-lru.txt 2>group/app-22-lru.err &
+./lru app/sp app/vlen 29746058 28311552  1>group/app-27-lru.txt 2>group/app-27-lru.err &
+./lru app/sp app/vlen 29746058 34603008  1>group/app-33-lru.txt 2>group/app-33-lru.err &
+./lru app/sp app/vlen 29746058 42991616  1>group/app-41-lru.txt 2>group/app-41-lru.err &
+./lru app/sp app/vlen 29746058 53477376  1>group/app-51-lru.txt 2>group/app-51-lru.err &
+./lru app/sp app/vlen 29746058 66060288  1>group/app-63-lru.txt 2>group/app-63-lru.err &
+./lru app/sp app/vlen 29746058 81788928  1>group/app-78-lru.txt 2>group/app-78-lru.err &
+./lru app/sp app/vlen 29746058 101711872  1>group/app-97-lru.txt 2>group/app-97-lru.err &
+./lru app/sp app/vlen 29746058 126877696  1>group/app-121-lru.txt 2>group/app-121-lru.err &
+./lru app/sp app/vlen 29746058 158334976  1>group/app-151-lru.txt 2>group/app-151-lru.err &
+./lru app/sp app/vlen 29746058 197132288  1>group/app-188-lru.txt 2>group/app-188-lru.err &
+./lru app/sp app/vlen 29746058 246415360  1>group/app-235-lru.txt 2>group/app-235-lru.err &
+./lru app/sp app/vlen 29746058 307232768  1>group/app-293-lru.txt 2>group/app-293-lru.err &
+./lru app/sp app/vlen 29746058 383778816  1>group/app-366-lru.txt 2>group/app-366-lru.err &
+./lru app/sp app/vlen 29746058 479199232  1>group/app-457-lru.txt 2>group/app-457-lru.err &
+./lru app/sp app/vlen 29746058 598736896  1>group/app-571-lru.txt 2>group/app-571-lru.err &
+./lru app/sp app/vlen 29746058 747634688  1>group/app-713-lru.txt 2>group/app-713-lru.err &
+./lru app/sp app/vlen 29746058 934281216  1>group/app-891-lru.txt 2>group/app-891-lru.err &
+./lru app/sp app/vlen 29746058 1167065088  1>group/app-1113-lru.txt 2>group/app-1113-lru.err &
+./lru app/sp app/vlen 29746058 1458569216  1>group/app-1391-lru.txt 2>group/app-1391-lru.err &
+./lru zip/sp zip/vlen 72815433 62914560  1>group/zip-60-lru.txt 2>group/zip-60-lru.err &
+./lru zip/sp zip/vlen 72815433 78643200  1>group/zip-75-lru.txt 2>group/zip-75-lru.err &
+./lru zip/sp zip/vlen 72815433 97517568  1>group/zip-93-lru.txt 2>group/zip-93-lru.err &
+./lru zip/sp zip/vlen 72815433 121634816  1>group/zip-116-lru.txt 2>group/zip-116-lru.err &
+./lru zip/sp zip/vlen 72815433 152043520  1>group/zip-145-lru.txt 2>group/zip-145-lru.err &
+./lru zip/sp zip/vlen 72815433 189792256  1>group/zip-181-lru.txt 2>group/zip-181-lru.err &
+./lru zip/sp zip/vlen 72815433 236978176  1>group/zip-226-lru.txt 2>group/zip-226-lru.err &
+./lru zip/sp zip/vlen 72815433 295698432  1>group/zip-282-lru.txt 2>group/zip-282-lru.err &
+./lru zip/sp zip/vlen 72815433 369098752  1>group/zip-352-lru.txt 2>group/zip-352-lru.err &
+./lru zip/sp zip/vlen 72815433 461373440  1>group/zip-440-lru.txt 2>group/zip-440-lru.err &
+./lru zip/sp zip/vlen 72815433 576716800  1>group/zip-550-lru.txt 2>group/zip-550-lru.err &
+./lru zip/sp zip/vlen 72815433 720371712  1>group/zip-687-lru.txt 2>group/zip-687-lru.err &
+./lru zip/sp zip/vlen 72815433 899678208  1>group/zip-858-lru.txt 2>group/zip-858-lru.err &
+./lru zip/sp zip/vlen 72815433 1124073472  1>group/zip-1072-lru.txt 2>group/zip-1072-lru.err &
+./lru zip/sp zip/vlen 72815433 1405091840  1>group/zip-1340-lru.txt 2>group/zip-1340-lru.err &
+./lru zip/sp zip/vlen 72815433 1756364800  1>group/zip-1675-lru.txt 2>group/zip-1675-lru.err &
+./lru zip/sp zip/vlen 72815433 2194669568  1>group/zip-2093-lru.txt 2>group/zip-2093-lru.err &
+./lru zip/sp zip/vlen 72815433 2743074816  1>group/zip-2616-lru.txt 2>group/zip-2616-lru.err &
+./lru zip/sp zip/vlen 72815433 3428843520  1>group/zip-3270-lru.txt 2>group/zip-3270-lru.err &
+./lru zip/sp zip/vlen 72815433 4285530112  1>group/zip-4087-lru.txt 2>group/zip-4087-lru.err &
+./lru zip/sp zip/vlen 72815433 5356126208  1>group/zip-5108-lru.txt 2>group/zip-5108-lru.err &
+./lru zip/sp zip/vlen 72815433 6695157760  1>group/zip-6385-lru.txt 2>group/zip-6385-lru.err &
+./lru zip/sp zip/vlen 72815433 8368685056  1>group/zip-7981-lru.txt 2>group/zip-7981-lru.err &
+./lru zip/sp zip/vlen 72815433 10460594176  1>group/zip-9976-lru.txt 2>group/zip-9976-lru.err &
+./lrux etc/sp etc/vlen 44180614 31457280 608372793 1>group/etc-30-lrux.txt 2>group/etc-30-lrux.err &
+./lrux etc/sp etc/vlen 44180614 38797312 608372793 1>group/etc-37-lrux.txt 2>group/etc-37-lrux.err &
+./lrux etc/sp etc/vlen 44180614 48234496 608372793 1>group/etc-46-lrux.txt 2>group/etc-46-lrux.err &
+./lrux etc/sp etc/vlen 44180614 59768832 608372793 1>group/etc-57-lrux.txt 2>group/etc-57-lrux.err &
+./lrux etc/sp etc/vlen 44180614 74448896 608372793 1>group/etc-71-lrux.txt 2>group/etc-71-lrux.err &
+./lrux etc/sp etc/vlen 44180614 92274688 608372793 1>group/etc-88-lrux.txt 2>group/etc-88-lrux.err &
+./lrux etc/sp etc/vlen 44180614 115343360 608372793 1>group/etc-110-lrux.txt 2>group/etc-110-lrux.err &
+./lrux etc/sp etc/vlen 44180614 143654912 608372793 1>group/etc-137-lrux.txt 2>group/etc-137-lrux.err &
+./lrux etc/sp etc/vlen 44180614 179306496 608372793 1>group/etc-171-lrux.txt 2>group/etc-171-lrux.err &
+./lrux etc/sp etc/vlen 44180614 223346688 608372793 1>group/etc-213-lrux.txt 2>group/etc-213-lrux.err &
+./lrux etc/sp etc/vlen 44180614 278921216 608372793 1>group/etc-266-lrux.txt 2>group/etc-266-lrux.err &
+./lrux etc/sp etc/vlen 44180614 348127232 608372793 1>group/etc-332-lrux.txt 2>group/etc-332-lrux.err &
+./lrux etc/sp etc/vlen 44180614 435159040 608372793 1>group/etc-415-lrux.txt 2>group/etc-415-lrux.err &
+./lrux etc/sp etc/vlen 44180614 543162368 608372793 1>group/etc-518-lrux.txt 2>group/etc-518-lrux.err &
+./lrux etc/sp etc/vlen 44180614 678428672 608372793 1>group/etc-647-lrux.txt 2>group/etc-647-lrux.err &
+./lrux etc/sp etc/vlen 44180614 847249408 608372793 1>group/etc-808-lrux.txt 2>group/etc-808-lrux.err &
+./lrux etc/sp etc/vlen 44180614 1059061760 608372793 1>group/etc-1010-lrux.txt 2>group/etc-1010-lrux.err &
+./lrux etc/sp etc/vlen 44180614 1323302912 608372793 1>group/etc-1262-lrux.txt 2>group/etc-1262-lrux.err &
+./lrux etc/sp etc/vlen 44180614 1653604352 608372793 1>group/etc-1577-lrux.txt 2>group/etc-1577-lrux.err &
+./lrux etc/sp etc/vlen 44180614 2066743296 608372793 1>group/etc-1971-lrux.txt 2>group/etc-1971-lrux.err &
+./lrux etc/sp etc/vlen 44180614 2582642688 608372793 1>group/etc-2463-lrux.txt 2>group/etc-2463-lrux.err &
+./lrux etc/sp etc/vlen 44180614 3227516928 608372793 1>group/etc-3078-lrux.txt 2>group/etc-3078-lrux.err &
+./lrux usr/sp usr/vlen 8998858 8388608 27162703 1>group/usr-8-lrux.txt 2>group/usr-8-lrux.err &
+./lrux usr/sp usr/vlen 8998858 10485760 27162703 1>group/usr-10-lrux.txt 2>group/usr-10-lrux.err &
+./lrux usr/sp usr/vlen 8998858 12582912 27162703 1>group/usr-12-lrux.txt 2>group/usr-12-lrux.err &
+./lrux usr/sp usr/vlen 8998858 15728640 27162703 1>group/usr-15-lrux.txt 2>group/usr-15-lrux.err &
+./lrux usr/sp usr/vlen 8998858 18874368 27162703 1>group/usr-18-lrux.txt 2>group/usr-18-lrux.err &
+./lrux usr/sp usr/vlen 8998858 23068672 27162703 1>group/usr-22-lrux.txt 2>group/usr-22-lrux.err &
+./lrux usr/sp usr/vlen 8998858 28311552 27162703 1>group/usr-27-lrux.txt 2>group/usr-27-lrux.err &
+./lrux usr/sp usr/vlen 8998858 34603008 27162703 1>group/usr-33-lrux.txt 2>group/usr-33-lrux.err &
+./lrux usr/sp usr/vlen 8998858 42991616 27162703 1>group/usr-41-lrux.txt 2>group/usr-41-lrux.err &
+./lrux usr/sp usr/vlen 8998858 53477376 27162703 1>group/usr-51-lrux.txt 2>group/usr-51-lrux.err &
+./lrux usr/sp usr/vlen 8998858 66060288 27162703 1>group/usr-63-lrux.txt 2>group/usr-63-lrux.err &
+./lrux usr/sp usr/vlen 8998858 81788928 27162703 1>group/usr-78-lrux.txt 2>group/usr-78-lrux.err &
+./lrux usr/sp usr/vlen 8998858 101711872 27162703 1>group/usr-97-lrux.txt 2>group/usr-97-lrux.err &
+./lrux usr/sp usr/vlen 8998858 126877696 27162703 1>group/usr-121-lrux.txt 2>group/usr-121-lrux.err &
+./lrux usr/sp usr/vlen 8998858 158334976 27162703 1>group/usr-151-lrux.txt 2>group/usr-151-lrux.err &
+./lrux usr/sp usr/vlen 8998858 197132288 27162703 1>group/usr-188-lrux.txt 2>group/usr-188-lrux.err &
+./lrux usr/sp usr/vlen 8998858 246415360 27162703 1>group/usr-235-lrux.txt 2>group/usr-235-lrux.err &
+./lrux usr/sp usr/vlen 8998858 307232768 27162703 1>group/usr-293-lrux.txt 2>group/usr-293-lrux.err &
+./lrux usr/sp usr/vlen 8998858 383778816 27162703 1>group/usr-366-lrux.txt 2>group/usr-366-lrux.err &
+./lrux usr/sp usr/vlen 8998858 479199232 27162703 1>group/usr-457-lrux.txt 2>group/usr-457-lrux.err &
+./lrux app/sp app/vlen 29746058 10485760 504676200 1>group/app-10-lrux.txt 2>group/app-10-lrux.err &
+./lrux app/sp app/vlen 29746058 12582912 504676200 1>group/app-12-lrux.txt 2>group/app-12-lrux.err &
+./lrux app/sp app/vlen 29746058 15728640 504676200 1>group/app-15-lrux.txt 2>group/app-15-lrux.err &
+./lrux app/sp app/vlen 29746058 18874368 504676200 1>group/app-18-lrux.txt 2>group/app-18-lrux.err &
+./lrux app/sp app/vlen 29746058 23068672 504676200 1>group/app-22-lrux.txt 2>group/app-22-lrux.err &
+./lrux app/sp app/vlen 29746058 28311552 504676200 1>group/app-27-lrux.txt 2>group/app-27-lrux.err &
+./lrux app/sp app/vlen 29746058 34603008 504676200 1>group/app-33-lrux.txt 2>group/app-33-lrux.err &
+./lrux app/sp app/vlen 29746058 42991616 504676200 1>group/app-41-lrux.txt 2>group/app-41-lrux.err &
+./lrux app/sp app/vlen 29746058 53477376 504676200 1>group/app-51-lrux.txt 2>group/app-51-lrux.err &
+./lrux app/sp app/vlen 29746058 66060288 504676200 1>group/app-63-lrux.txt 2>group/app-63-lrux.err &
+./lrux app/sp app/vlen 29746058 81788928 504676200 1>group/app-78-lrux.txt 2>group/app-78-lrux.err &
+./lrux app/sp app/vlen 29746058 101711872 504676200 1>group/app-97-lrux.txt 2>group/app-97-lrux.err &
+./lrux app/sp app/vlen 29746058 126877696 504676200 1>group/app-121-lrux.txt 2>group/app-121-lrux.err &
+./lrux app/sp app/vlen 29746058 158334976 504676200 1>group/app-151-lrux.txt 2>group/app-151-lrux.err &
+./lrux app/sp app/vlen 29746058 197132288 504676200 1>group/app-188-lrux.txt 2>group/app-188-lrux.err &
+./lrux app/sp app/vlen 29746058 246415360 504676200 1>group/app-235-lrux.txt 2>group/app-235-lrux.err &
+./lrux app/sp app/vlen 29746058 307232768 504676200 1>group/app-293-lrux.txt 2>group/app-293-lrux.err &
+./lrux app/sp app/vlen 29746058 383778816 504676200 1>group/app-366-lrux.txt 2>group/app-366-lrux.err &
+./lrux app/sp app/vlen 29746058 479199232 504676200 1>group/app-457-lrux.txt 2>group/app-457-lrux.err &
+./lrux app/sp app/vlen 29746058 598736896 504676200 1>group/app-571-lrux.txt 2>group/app-571-lrux.err &
+./lrux app/sp app/vlen 29746058 747634688 504676200 1>group/app-713-lrux.txt 2>group/app-713-lrux.err &
+./lrux app/sp app/vlen 29746058 934281216 504676200 1>group/app-891-lrux.txt 2>group/app-891-lrux.err &
+./lrux app/sp app/vlen 29746058 1167065088 504676200 1>group/app-1113-lrux.txt 2>group/app-1113-lrux.err &
+./lrux app/sp app/vlen 29746058 1458569216 504676200 1>group/app-1391-lrux.txt 2>group/app-1391-lrux.err &
+./lrux zip/sp zip/vlen 72815433 62914560 275014743 1>group/zip-60-lrux.txt 2>group/zip-60-lrux.err &
+./lrux zip/sp zip/vlen 72815433 78643200 275014743 1>group/zip-75-lrux.txt 2>group/zip-75-lrux.err &
+./lrux zip/sp zip/vlen 72815433 97517568 275014743 1>group/zip-93-lrux.txt 2>group/zip-93-lrux.err &
+./lrux zip/sp zip/vlen 72815433 121634816 275014743 1>group/zip-116-lrux.txt 2>group/zip-116-lrux.err &
+./lrux zip/sp zip/vlen 72815433 152043520 275014743 1>group/zip-145-lrux.txt 2>group/zip-145-lrux.err &
+./lrux zip/sp zip/vlen 72815433 189792256 275014743 1>group/zip-181-lrux.txt 2>group/zip-181-lrux.err &
+./lrux zip/sp zip/vlen 72815433 236978176 275014743 1>group/zip-226-lrux.txt 2>group/zip-226-lrux.err &
+./lrux zip/sp zip/vlen 72815433 295698432 275014743 1>group/zip-282-lrux.txt 2>group/zip-282-lrux.err &
+./lrux zip/sp zip/vlen 72815433 369098752 275014743 1>group/zip-352-lrux.txt 2>group/zip-352-lrux.err &
+./lrux zip/sp zip/vlen 72815433 461373440 275014743 1>group/zip-440-lrux.txt 2>group/zip-440-lrux.err &
+./lrux zip/sp zip/vlen 72815433 576716800 275014743 1>group/zip-550-lrux.txt 2>group/zip-550-lrux.err &
+./lrux zip/sp zip/vlen 72815433 720371712 275014743 1>group/zip-687-lrux.txt 2>group/zip-687-lrux.err &
+./lrux zip/sp zip/vlen 72815433 899678208 275014743 1>group/zip-858-lrux.txt 2>group/zip-858-lrux.err &
+./lrux zip/sp zip/vlen 72815433 1124073472 275014743 1>group/zip-1072-lrux.txt 2>group/zip-1072-lrux.err &
+./lrux zip/sp zip/vlen 72815433 1405091840 275014743 1>group/zip-1340-lrux.txt 2>group/zip-1340-lrux.err &
+./lrux zip/sp zip/vlen 72815433 1756364800 275014743 1>group/zip-1675-lrux.txt 2>group/zip-1675-lrux.err &
+./lrux zip/sp zip/vlen 72815433 2194669568 275014743 1>group/zip-2093-lrux.txt 2>group/zip-2093-lrux.err &
+./lrux zip/sp zip/vlen 72815433 2743074816 275014743 1>group/zip-2616-lrux.txt 2>group/zip-2616-lrux.err &
+./lrux zip/sp zip/vlen 72815433 3428843520 275014743 1>group/zip-3270-lrux.txt 2>group/zip-3270-lrux.err &
+./lrux zip/sp zip/vlen 72815433 4285530112 275014743 1>group/zip-4087-lrux.txt 2>group/zip-4087-lrux.err &
+./lrux zip/sp zip/vlen 72815433 5356126208 275014743 1>group/zip-5108-lrux.txt 2>group/zip-5108-lrux.err &
+./lrux zip/sp zip/vlen 72815433 6695157760 275014743 1>group/zip-6385-lrux.txt 2>group/zip-6385-lrux.err &
+./lrux zip/sp zip/vlen 72815433 8368685056 275014743 1>group/zip-7981-lrux.txt 2>group/zip-7981-lrux.err &
+./lrux zip/sp zip/vlen 72815433 10460594176 275014743 1>group/zip-9976-lrux.txt 2>group/zip-9976-lrux.err &
+./lirs etc/sp etc/vlen 44180614 31457280  1>group/etc-30-lirs.txt 2>group/etc-30-lirs.err &
+./lirs etc/sp etc/vlen 44180614 38797312  1>group/etc-37-lirs.txt 2>group/etc-37-lirs.err &
+./lirs etc/sp etc/vlen 44180614 48234496  1>group/etc-46-lirs.txt 2>group/etc-46-lirs.err &
+./lirs etc/sp etc/vlen 44180614 59768832  1>group/etc-57-lirs.txt 2>group/etc-57-lirs.err &
+./lirs etc/sp etc/vlen 44180614 74448896  1>group/etc-71-lirs.txt 2>group/etc-71-lirs.err &
+./lirs etc/sp etc/vlen 44180614 92274688  1>group/etc-88-lirs.txt 2>group/etc-88-lirs.err &
+./lirs etc/sp etc/vlen 44180614 115343360  1>group/etc-110-lirs.txt 2>group/etc-110-lirs.err &
+./lirs etc/sp etc/vlen 44180614 143654912  1>group/etc-137-lirs.txt 2>group/etc-137-lirs.err &
+./lirs etc/sp etc/vlen 44180614 179306496  1>group/etc-171-lirs.txt 2>group/etc-171-lirs.err &
+./lirs etc/sp etc/vlen 44180614 223346688  1>group/etc-213-lirs.txt 2>group/etc-213-lirs.err &
+./lirs etc/sp etc/vlen 44180614 278921216  1>group/etc-266-lirs.txt 2>group/etc-266-lirs.err &
+./lirs etc/sp etc/vlen 44180614 348127232  1>group/etc-332-lirs.txt 2>group/etc-332-lirs.err &
+./lirs etc/sp etc/vlen 44180614 435159040  1>group/etc-415-lirs.txt 2>group/etc-415-lirs.err &
+./lirs etc/sp etc/vlen 44180614 543162368  1>group/etc-518-lirs.txt 2>group/etc-518-lirs.err &
+./lirs etc/sp etc/vlen 44180614 678428672  1>group/etc-647-lirs.txt 2>group/etc-647-lirs.err &
+./lirs etc/sp etc/vlen 44180614 847249408  1>group/etc-808-lirs.txt 2>group/etc-808-lirs.err &
+./lirs etc/sp etc/vlen 44180614 1059061760  1>group/etc-1010-lirs.txt 2>group/etc-1010-lirs.err &
+./lirs etc/sp etc/vlen 44180614 1323302912  1>group/etc-1262-lirs.txt 2>group/etc-1262-lirs.err &
+./lirs etc/sp etc/vlen 44180614 1653604352  1>group/etc-1577-lirs.txt 2>group/etc-1577-lirs.err &
+./lirs etc/sp etc/vlen 44180614 2066743296  1>group/etc-1971-lirs.txt 2>group/etc-1971-lirs.err &
+./lirs etc/sp etc/vlen 44180614 2582642688  1>group/etc-2463-lirs.txt 2>group/etc-2463-lirs.err &
+./lirs etc/sp etc/vlen 44180614 3227516928  1>group/etc-3078-lirs.txt 2>group/etc-3078-lirs.err &
+./lirs usr/sp usr/vlen 8998858 8388608  1>group/usr-8-lirs.txt 2>group/usr-8-lirs.err &
+./lirs usr/sp usr/vlen 8998858 10485760  1>group/usr-10-lirs.txt 2>group/usr-10-lirs.err &
+./lirs usr/sp usr/vlen 8998858 12582912  1>group/usr-12-lirs.txt 2>group/usr-12-lirs.err &
+./lirs usr/sp usr/vlen 8998858 15728640  1>group/usr-15-lirs.txt 2>group/usr-15-lirs.err &
+./lirs usr/sp usr/vlen 8998858 18874368  1>group/usr-18-lirs.txt 2>group/usr-18-lirs.err &
+./lirs usr/sp usr/vlen 8998858 23068672  1>group/usr-22-lirs.txt 2>group/usr-22-lirs.err &
+./lirs usr/sp usr/vlen 8998858 28311552  1>group/usr-27-lirs.txt 2>group/usr-27-lirs.err &
+./lirs usr/sp usr/vlen 8998858 34603008  1>group/usr-33-lirs.txt 2>group/usr-33-lirs.err &
+./lirs usr/sp usr/vlen 8998858 42991616  1>group/usr-41-lirs.txt 2>group/usr-41-lirs.err &
+./lirs usr/sp usr/vlen 8998858 53477376  1>group/usr-51-lirs.txt 2>group/usr-51-lirs.err &
+./lirs usr/sp usr/vlen 8998858 66060288  1>group/usr-63-lirs.txt 2>group/usr-63-lirs.err &
+./lirs usr/sp usr/vlen 8998858 81788928  1>group/usr-78-lirs.txt 2>group/usr-78-lirs.err &
+./lirs usr/sp usr/vlen 8998858 101711872  1>group/usr-97-lirs.txt 2>group/usr-97-lirs.err &
+./lirs usr/sp usr/vlen 8998858 126877696  1>group/usr-121-lirs.txt 2>group/usr-121-lirs.err &
+./lirs usr/sp usr/vlen 8998858 158334976  1>group/usr-151-lirs.txt 2>group/usr-151-lirs.err &
+./lirs usr/sp usr/vlen 8998858 197132288  1>group/usr-188-lirs.txt 2>group/usr-188-lirs.err &
+./lirs usr/sp usr/vlen 8998858 246415360  1>group/usr-235-lirs.txt 2>group/usr-235-lirs.err &
+./lirs usr/sp usr/vlen 8998858 307232768  1>group/usr-293-lirs.txt 2>group/usr-293-lirs.err &
+./lirs usr/sp usr/vlen 8998858 383778816  1>group/usr-366-lirs.txt 2>group/usr-366-lirs.err &
+./lirs usr/sp usr/vlen 8998858 479199232  1>group/usr-457-lirs.txt 2>group/usr-457-lirs.err &
+./lirs app/sp app/vlen 29746058 10485760  1>group/app-10-lirs.txt 2>group/app-10-lirs.err &
+./lirs app/sp app/vlen 29746058 12582912  1>group/app-12-lirs.txt 2>group/app-12-lirs.err &
+./lirs app/sp app/vlen 29746058 15728640  1>group/app-15-lirs.txt 2>group/app-15-lirs.err &
+./lirs app/sp app/vlen 29746058 18874368  1>group/app-18-lirs.txt 2>group/app-18-lirs.err &
+./lirs app/sp app/vlen 29746058 23068672  1>group/app-22-lirs.txt 2>group/app-22-lirs.err &
+./lirs app/sp app/vlen 29746058 28311552  1>group/app-27-lirs.txt 2>group/app-27-lirs.err &
+./lirs app/sp app/vlen 29746058 34603008  1>group/app-33-lirs.txt 2>group/app-33-lirs.err &
+./lirs app/sp app/vlen 29746058 42991616  1>group/app-41-lirs.txt 2>group/app-41-lirs.err &
+./lirs app/sp app/vlen 29746058 53477376  1>group/app-51-lirs.txt 2>group/app-51-lirs.err &
+./lirs app/sp app/vlen 29746058 66060288  1>group/app-63-lirs.txt 2>group/app-63-lirs.err &
+./lirs app/sp app/vlen 29746058 81788928  1>group/app-78-lirs.txt 2>group/app-78-lirs.err &
+./lirs app/sp app/vlen 29746058 101711872  1>group/app-97-lirs.txt 2>group/app-97-lirs.err &
+./lirs app/sp app/vlen 29746058 126877696  1>group/app-121-lirs.txt 2>group/app-121-lirs.err &
+./lirs app/sp app/vlen 29746058 158334976  1>group/app-151-lirs.txt 2>group/app-151-lirs.err &
+./lirs app/sp app/vlen 29746058 197132288  1>group/app-188-lirs.txt 2>group/app-188-lirs.err &
+./lirs app/sp app/vlen 29746058 246415360  1>group/app-235-lirs.txt 2>group/app-235-lirs.err &
+./lirs app/sp app/vlen 29746058 307232768  1>group/app-293-lirs.txt 2>group/app-293-lirs.err &
+./lirs app/sp app/vlen 29746058 383778816  1>group/app-366-lirs.txt 2>group/app-366-lirs.err &
+./lirs app/sp app/vlen 29746058 479199232  1>group/app-457-lirs.txt 2>group/app-457-lirs.err &
+./lirs app/sp app/vlen 29746058 598736896  1>group/app-571-lirs.txt 2>group/app-571-lirs.err &
+./lirs app/sp app/vlen 29746058 747634688  1>group/app-713-lirs.txt 2>group/app-713-lirs.err &
+./lirs app/sp app/vlen 29746058 934281216  1>group/app-891-lirs.txt 2>group/app-891-lirs.err &
+./lirs app/sp app/vlen 29746058 1167065088  1>group/app-1113-lirs.txt 2>group/app-1113-lirs.err &
+./lirs app/sp app/vlen 29746058 1458569216  1>group/app-1391-lirs.txt 2>group/app-1391-lirs.err &
+./lirs zip/sp zip/vlen 72815433 62914560  1>group/zip-60-lirs.txt 2>group/zip-60-lirs.err &
+./lirs zip/sp zip/vlen 72815433 78643200  1>group/zip-75-lirs.txt 2>group/zip-75-lirs.err &
+./lirs zip/sp zip/vlen 72815433 97517568  1>group/zip-93-lirs.txt 2>group/zip-93-lirs.err &
+./lirs zip/sp zip/vlen 72815433 121634816  1>group/zip-116-lirs.txt 2>group/zip-116-lirs.err &
+./lirs zip/sp zip/vlen 72815433 152043520  1>group/zip-145-lirs.txt 2>group/zip-145-lirs.err &
+./lirs zip/sp zip/vlen 72815433 189792256  1>group/zip-181-lirs.txt 2>group/zip-181-lirs.err &
+./lirs zip/sp zip/vlen 72815433 236978176  1>group/zip-226-lirs.txt 2>group/zip-226-lirs.err &
+./lirs zip/sp zip/vlen 72815433 295698432  1>group/zip-282-lirs.txt 2>group/zip-282-lirs.err &
+./lirs zip/sp zip/vlen 72815433 369098752  1>group/zip-352-lirs.txt 2>group/zip-352-lirs.err &
+./lirs zip/sp zip/vlen 72815433 461373440  1>group/zip-440-lirs.txt 2>group/zip-440-lirs.err &
+./lirs zip/sp zip/vlen 72815433 576716800  1>group/zip-550-lirs.txt 2>group/zip-550-lirs.err &
+./lirs zip/sp zip/vlen 72815433 720371712  1>group/zip-687-lirs.txt 2>group/zip-687-lirs.err &
+./lirs zip/sp zip/vlen 72815433 899678208  1>group/zip-858-lirs.txt 2>group/zip-858-lirs.err &
+./lirs zip/sp zip/vlen 72815433 1124073472  1>group/zip-1072-lirs.txt 2>group/zip-1072-lirs.err &
+./lirs zip/sp zip/vlen 72815433 1405091840  1>group/zip-1340-lirs.txt 2>group/zip-1340-lirs.err &
+./lirs zip/sp zip/vlen 72815433 1756364800  1>group/zip-1675-lirs.txt 2>group/zip-1675-lirs.err &
+./lirs zip/sp zip/vlen 72815433 2194669568  1>group/zip-2093-lirs.txt 2>group/zip-2093-lirs.err &
+./lirs zip/sp zip/vlen 72815433 2743074816  1>group/zip-2616-lirs.txt 2>group/zip-2616-lirs.err &
+./lirs zip/sp zip/vlen 72815433 3428843520  1>group/zip-3270-lirs.txt 2>group/zip-3270-lirs.err &
+./lirs zip/sp zip/vlen 72815433 4285530112  1>group/zip-4087-lirs.txt 2>group/zip-4087-lirs.err &
+./lirs zip/sp zip/vlen 72815433 5356126208  1>group/zip-5108-lirs.txt 2>group/zip-5108-lirs.err &
+./lirs zip/sp zip/vlen 72815433 6695157760  1>group/zip-6385-lirs.txt 2>group/zip-6385-lirs.err &
+./lirs zip/sp zip/vlen 72815433 8368685056  1>group/zip-7981-lirs.txt 2>group/zip-7981-lirs.err &
+./lirs zip/sp zip/vlen 72815433 10460594176  1>group/zip-9976-lirs.txt 2>group/zip-9976-lirs.err &
+./arc etc/sp etc/vlen 44180614 31457280  1>group/etc-30-arc.txt 2>group/etc-30-arc.err &
+./arc etc/sp etc/vlen 44180614 38797312  1>group/etc-37-arc.txt 2>group/etc-37-arc.err &
+./arc etc/sp etc/vlen 44180614 48234496  1>group/etc-46-arc.txt 2>group/etc-46-arc.err &
+./arc etc/sp etc/vlen 44180614 59768832  1>group/etc-57-arc.txt 2>group/etc-57-arc.err &
+./arc etc/sp etc/vlen 44180614 74448896  1>group/etc-71-arc.txt 2>group/etc-71-arc.err &
+./arc etc/sp etc/vlen 44180614 92274688  1>group/etc-88-arc.txt 2>group/etc-88-arc.err &
+./arc etc/sp etc/vlen 44180614 115343360  1>group/etc-110-arc.txt 2>group/etc-110-arc.err &
+./arc etc/sp etc/vlen 44180614 143654912  1>group/etc-137-arc.txt 2>group/etc-137-arc.err &
+./arc etc/sp etc/vlen 44180614 179306496  1>group/etc-171-arc.txt 2>group/etc-171-arc.err &
+./arc etc/sp etc/vlen 44180614 223346688  1>group/etc-213-arc.txt 2>group/etc-213-arc.err &
+./arc etc/sp etc/vlen 44180614 278921216  1>group/etc-266-arc.txt 2>group/etc-266-arc.err &
+./arc etc/sp etc/vlen 44180614 348127232  1>group/etc-332-arc.txt 2>group/etc-332-arc.err &
+./arc etc/sp etc/vlen 44180614 435159040  1>group/etc-415-arc.txt 2>group/etc-415-arc.err &
+./arc etc/sp etc/vlen 44180614 543162368  1>group/etc-518-arc.txt 2>group/etc-518-arc.err &
+./arc etc/sp etc/vlen 44180614 678428672  1>group/etc-647-arc.txt 2>group/etc-647-arc.err &
+./arc etc/sp etc/vlen 44180614 847249408  1>group/etc-808-arc.txt 2>group/etc-808-arc.err &
+./arc etc/sp etc/vlen 44180614 1059061760  1>group/etc-1010-arc.txt 2>group/etc-1010-arc.err &
+./arc etc/sp etc/vlen 44180614 1323302912  1>group/etc-1262-arc.txt 2>group/etc-1262-arc.err &
+./arc etc/sp etc/vlen 44180614 1653604352  1>group/etc-1577-arc.txt 2>group/etc-1577-arc.err &
+./arc etc/sp etc/vlen 44180614 2066743296  1>group/etc-1971-arc.txt 2>group/etc-1971-arc.err &
+./arc etc/sp etc/vlen 44180614 2582642688  1>group/etc-2463-arc.txt 2>group/etc-2463-arc.err &
+./arc etc/sp etc/vlen 44180614 3227516928  1>group/etc-3078-arc.txt 2>group/etc-3078-arc.err &
+./arc usr/sp usr/vlen 8998858 8388608  1>group/usr-8-arc.txt 2>group/usr-8-arc.err &
+./arc usr/sp usr/vlen 8998858 10485760  1>group/usr-10-arc.txt 2>group/usr-10-arc.err &
+./arc usr/sp usr/vlen 8998858 12582912  1>group/usr-12-arc.txt 2>group/usr-12-arc.err &
+./arc usr/sp usr/vlen 8998858 15728640  1>group/usr-15-arc.txt 2>group/usr-15-arc.err &
+./arc usr/sp usr/vlen 8998858 18874368  1>group/usr-18-arc.txt 2>group/usr-18-arc.err &
+./arc usr/sp usr/vlen 8998858 23068672  1>group/usr-22-arc.txt 2>group/usr-22-arc.err &
+./arc usr/sp usr/vlen 8998858 28311552  1>group/usr-27-arc.txt 2>group/usr-27-arc.err &
+./arc usr/sp usr/vlen 8998858 34603008  1>group/usr-33-arc.txt 2>group/usr-33-arc.err &
+./arc usr/sp usr/vlen 8998858 42991616  1>group/usr-41-arc.txt 2>group/usr-41-arc.err &
+./arc usr/sp usr/vlen 8998858 53477376  1>group/usr-51-arc.txt 2>group/usr-51-arc.err &
+./arc usr/sp usr/vlen 8998858 66060288  1>group/usr-63-arc.txt 2>group/usr-63-arc.err &
+./arc usr/sp usr/vlen 8998858 81788928  1>group/usr-78-arc.txt 2>group/usr-78-arc.err &
+./arc usr/sp usr/vlen 8998858 101711872  1>group/usr-97-arc.txt 2>group/usr-97-arc.err &
+./arc usr/sp usr/vlen 8998858 126877696  1>group/usr-121-arc.txt 2>group/usr-121-arc.err &
+./arc usr/sp usr/vlen 8998858 158334976  1>group/usr-151-arc.txt 2>group/usr-151-arc.err &
+./arc usr/sp usr/vlen 8998858 197132288  1>group/usr-188-arc.txt 2>group/usr-188-arc.err &
+./arc usr/sp usr/vlen 8998858 246415360  1>group/usr-235-arc.txt 2>group/usr-235-arc.err &
+./arc usr/sp usr/vlen 8998858 307232768  1>group/usr-293-arc.txt 2>group/usr-293-arc.err &
+./arc usr/sp usr/vlen 8998858 383778816  1>group/usr-366-arc.txt 2>group/usr-366-arc.err &
+./arc usr/sp usr/vlen 8998858 479199232  1>group/usr-457-arc.txt 2>group/usr-457-arc.err &
+./arc app/sp app/vlen 29746058 10485760  1>group/app-10-arc.txt 2>group/app-10-arc.err &
+./arc app/sp app/vlen 29746058 12582912  1>group/app-12-arc.txt 2>group/app-12-arc.err &
+./arc app/sp app/vlen 29746058 15728640  1>group/app-15-arc.txt 2>group/app-15-arc.err &
+./arc app/sp app/vlen 29746058 18874368  1>group/app-18-arc.txt 2>group/app-18-arc.err &
+./arc app/sp app/vlen 29746058 23068672  1>group/app-22-arc.txt 2>group/app-22-arc.err &
+./arc app/sp app/vlen 29746058 28311552  1>group/app-27-arc.txt 2>group/app-27-arc.err &
+./arc app/sp app/vlen 29746058 34603008  1>group/app-33-arc.txt 2>group/app-33-arc.err &
+./arc app/sp app/vlen 29746058 42991616  1>group/app-41-arc.txt 2>group/app-41-arc.err &
+./arc app/sp app/vlen 29746058 53477376  1>group/app-51-arc.txt 2>group/app-51-arc.err &
+./arc app/sp app/vlen 29746058 66060288  1>group/app-63-arc.txt 2>group/app-63-arc.err &
+./arc app/sp app/vlen 29746058 81788928  1>group/app-78-arc.txt 2>group/app-78-arc.err &
+./arc app/sp app/vlen 29746058 101711872  1>group/app-97-arc.txt 2>group/app-97-arc.err &
+./arc app/sp app/vlen 29746058 126877696  1>group/app-121-arc.txt 2>group/app-121-arc.err &
+./arc app/sp app/vlen 29746058 158334976  1>group/app-151-arc.txt 2>group/app-151-arc.err &
+./arc app/sp app/vlen 29746058 197132288  1>group/app-188-arc.txt 2>group/app-188-arc.err &
+./arc app/sp app/vlen 29746058 246415360  1>group/app-235-arc.txt 2>group/app-235-arc.err &
+./arc app/sp app/vlen 29746058 307232768  1>group/app-293-arc.txt 2>group/app-293-arc.err &
+./arc app/sp app/vlen 29746058 383778816  1>group/app-366-arc.txt 2>group/app-366-arc.err &
+./arc app/sp app/vlen 29746058 479199232  1>group/app-457-arc.txt 2>group/app-457-arc.err &
+./arc app/sp app/vlen 29746058 598736896  1>group/app-571-arc.txt 2>group/app-571-arc.err &
+./arc app/sp app/vlen 29746058 747634688  1>group/app-713-arc.txt 2>group/app-713-arc.err &
+./arc app/sp app/vlen 29746058 934281216  1>group/app-891-arc.txt 2>group/app-891-arc.err &
+./arc app/sp app/vlen 29746058 1167065088  1>group/app-1113-arc.txt 2>group/app-1113-arc.err &
+./arc app/sp app/vlen 29746058 1458569216  1>group/app-1391-arc.txt 2>group/app-1391-arc.err &
+./arc zip/sp zip/vlen 72815433 62914560  1>group/zip-60-arc.txt 2>group/zip-60-arc.err &
+./arc zip/sp zip/vlen 72815433 78643200  1>group/zip-75-arc.txt 2>group/zip-75-arc.err &
+./arc zip/sp zip/vlen 72815433 97517568  1>group/zip-93-arc.txt 2>group/zip-93-arc.err &
+./arc zip/sp zip/vlen 72815433 121634816  1>group/zip-116-arc.txt 2>group/zip-116-arc.err &
+./arc zip/sp zip/vlen 72815433 152043520  1>group/zip-145-arc.txt 2>group/zip-145-arc.err &
+./arc zip/sp zip/vlen 72815433 189792256  1>group/zip-181-arc.txt 2>group/zip-181-arc.err &
+./arc zip/sp zip/vlen 72815433 236978176  1>group/zip-226-arc.txt 2>group/zip-226-arc.err &
+./arc zip/sp zip/vlen 72815433 295698432  1>group/zip-282-arc.txt 2>group/zip-282-arc.err &
+./arc zip/sp zip/vlen 72815433 369098752  1>group/zip-352-arc.txt 2>group/zip-352-arc.err &
+./arc zip/sp zip/vlen 72815433 461373440  1>group/zip-440-arc.txt 2>group/zip-440-arc.err &
+./arc zip/sp zip/vlen 72815433 576716800  1>group/zip-550-arc.txt 2>group/zip-550-arc.err &
+./arc zip/sp zip/vlen 72815433 720371712  1>group/zip-687-arc.txt 2>group/zip-687-arc.err &
+./arc zip/sp zip/vlen 72815433 899678208  1>group/zip-858-arc.txt 2>group/zip-858-arc.err &
+./arc zip/sp zip/vlen 72815433 1124073472  1>group/zip-1072-arc.txt 2>group/zip-1072-arc.err &
+./arc zip/sp zip/vlen 72815433 1405091840  1>group/zip-1340-arc.txt 2>group/zip-1340-arc.err &
+./arc zip/sp zip/vlen 72815433 1756364800  1>group/zip-1675-arc.txt 2>group/zip-1675-arc.err &
+./arc zip/sp zip/vlen 72815433 2194669568  1>group/zip-2093-arc.txt 2>group/zip-2093-arc.err &
+./arc zip/sp zip/vlen 72815433 2743074816  1>group/zip-2616-arc.txt 2>group/zip-2616-arc.err &
+./arc zip/sp zip/vlen 72815433 3428843520  1>group/zip-3270-arc.txt 2>group/zip-3270-arc.err &
+./arc zip/sp zip/vlen 72815433 4285530112  1>group/zip-4087-arc.txt 2>group/zip-4087-arc.err &
+./arc zip/sp zip/vlen 72815433 5356126208  1>group/zip-5108-arc.txt 2>group/zip-5108-arc.err &
+./arc zip/sp zip/vlen 72815433 6695157760  1>group/zip-6385-arc.txt 2>group/zip-6385-arc.err &
+./arc zip/sp zip/vlen 72815433 8368685056  1>group/zip-7981-arc.txt 2>group/zip-7981-arc.err &
+./arc zip/sp zip/vlen 72815433 10460594176  1>group/zip-9976-arc.txt 2>group/zip-9976-arc.err &
+./lru etc/sp etc/vlen 44180614 608174080  1>points/etc-580-lru.txt 2>points/etc-580-lru.err &
+./lru etc/sp etc/vlen 44180614 912261120  1>points/etc-870-lru.txt 2>points/etc-870-lru.err &
+./lru etc/sp etc/vlen 44180614 1216348160  1>points/etc-1160-lru.txt 2>points/etc-1160-lru.err &
+./lru etc/sp etc/vlen 44180614 1520435200  1>points/etc-1450-lru.txt 2>points/etc-1450-lru.err &
+./lru etc/sp etc/vlen 44180614 1824522240  1>points/etc-1740-lru.txt 2>points/etc-1740-lru.err &
+./lru app/sp app/vlen 29746058 504365056  1>points/app-481-lru.txt 2>points/app-481-lru.err &
+./lru app/sp app/vlen 29746058 757071872  1>points/app-722-lru.txt 2>points/app-722-lru.err &
+./lru app/sp app/vlen 29746058 1009778688  1>points/app-963-lru.txt 2>points/app-963-lru.err &
+./lru app/sp app/vlen 29746058 1261436928  1>points/app-1203-lru.txt 2>points/app-1203-lru.err &
+./lru app/sp app/vlen 29746058 1514143744  1>points/app-1444-lru.txt 2>points/app-1444-lru.err &
+./lru usr/sp usr/vlen 8998858 27262976  1>points/usr-26-lru.txt 2>points/usr-26-lru.err &
+./lru usr/sp usr/vlen 8998858 40894464  1>points/usr-39-lru.txt 2>points/usr-39-lru.err &
+./lru usr/sp usr/vlen 8998858 54525952  1>points/usr-52-lru.txt 2>points/usr-52-lru.err &
+./lru usr/sp usr/vlen 8998858 68157440  1>points/usr-65-lru.txt 2>points/usr-65-lru.err &
+./lru usr/sp usr/vlen 8998858 81788928  1>points/usr-78-lru.txt 2>points/usr-78-lru.err &
+./lru zip/sp zip/vlen 72815433 274726912  1>points/zip-262-lru.txt 2>points/zip-262-lru.err &
+./lru zip/sp zip/vlen 72815433 412090368  1>points/zip-393-lru.txt 2>points/zip-393-lru.err &
+./lru zip/sp zip/vlen 72815433 550502400  1>points/zip-525-lru.txt 2>points/zip-525-lru.err &
+./lru zip/sp zip/vlen 72815433 687865856  1>points/zip-656-lru.txt 2>points/zip-656-lru.err &
+./lru zip/sp zip/vlen 72815433 825229312  1>points/zip-787-lru.txt 2>points/zip-787-lru.err &
+./lrux etc/sp etc/vlen 44180614 912261120 608372793 1>points/etc-870-lrux.txt 2>points/etc-870-lrux.err &
+./lrux etc/sp etc/vlen 44180614 1216348160 608372793 1>points/etc-1160-lrux.txt 2>points/etc-1160-lrux.err &
+./lrux etc/sp etc/vlen 44180614 1520435200 608372793 1>points/etc-1450-lrux.txt 2>points/etc-1450-lrux.err &
+./lrux etc/sp etc/vlen 44180614 1824522240 608372793 1>points/etc-1740-lrux.txt 2>points/etc-1740-lrux.err &
+./lrux app/sp app/vlen 29746058 757071872 504676200 1>points/app-722-lrux.txt 2>points/app-722-lrux.err &
+./lrux app/sp app/vlen 29746058 1009778688 504676200 1>points/app-963-lrux.txt 2>points/app-963-lrux.err &
+./lrux app/sp app/vlen 29746058 1261436928 504676200 1>points/app-1203-lrux.txt 2>points/app-1203-lrux.err &
+./lrux app/sp app/vlen 29746058 1514143744 504676200 1>points/app-1444-lrux.txt 2>points/app-1444-lrux.err &
+./lrux usr/sp usr/vlen 8998858 40894464 27162703 1>points/usr-39-lrux.txt 2>points/usr-39-lrux.err &
+./lrux usr/sp usr/vlen 8998858 54525952 27162703 1>points/usr-52-lrux.txt 2>points/usr-52-lrux.err &
+./lrux usr/sp usr/vlen 8998858 68157440 27162703 1>points/usr-65-lrux.txt 2>points/usr-65-lrux.err &
+./lrux usr/sp usr/vlen 8998858 81788928 27162703 1>points/usr-78-lrux.txt 2>points/usr-78-lrux.err &
+./lrux zip/sp zip/vlen 72815433 412090368 275014743 1>points/zip-393-lrux.txt 2>points/zip-393-lrux.err &
+./lrux zip/sp zip/vlen 72815433 550502400 275014743 1>points/zip-525-lrux.txt 2>points/zip-525-lrux.err &
+./lrux zip/sp zip/vlen 72815433 687865856 275014743 1>points/zip-656-lrux.txt 2>points/zip-656-lrux.err &
+./lrux zip/sp zip/vlen 72815433 825229312 275014743 1>points/zip-787-lrux.txt 2>points/zip-787-lrux.err &
+./lirs etc/sp etc/vlen 44180614 608174080  1>points/etc-580-lirs.txt 2>points/etc-580-lirs.err &
+./lirs etc/sp etc/vlen 44180614 912261120  1>points/etc-870-lirs.txt 2>points/etc-870-lirs.err &
+./lirs etc/sp etc/vlen 44180614 1216348160  1>points/etc-1160-lirs.txt 2>points/etc-1160-lirs.err &
+./lirs etc/sp etc/vlen 44180614 1520435200  1>points/etc-1450-lirs.txt 2>points/etc-1450-lirs.err &
+./lirs etc/sp etc/vlen 44180614 1824522240  1>points/etc-1740-lirs.txt 2>points/etc-1740-lirs.err &
+./lirs app/sp app/vlen 29746058 504365056  1>points/app-481-lirs.txt 2>points/app-481-lirs.err &
+./lirs app/sp app/vlen 29746058 757071872  1>points/app-722-lirs.txt 2>points/app-722-lirs.err &
+./lirs app/sp app/vlen 29746058 1009778688  1>points/app-963-lirs.txt 2>points/app-963-lirs.err &
+./lirs app/sp app/vlen 29746058 1261436928  1>points/app-1203-lirs.txt 2>points/app-1203-lirs.err &
+./lirs app/sp app/vlen 29746058 1514143744  1>points/app-1444-lirs.txt 2>points/app-1444-lirs.err &
+./lirs usr/sp usr/vlen 8998858 27262976  1>points/usr-26-lirs.txt 2>points/usr-26-lirs.err &
+./lirs usr/sp usr/vlen 8998858 40894464  1>points/usr-39-lirs.txt 2>points/usr-39-lirs.err &
+./lirs usr/sp usr/vlen 8998858 54525952  1>points/usr-52-lirs.txt 2>points/usr-52-lirs.err &
+./lirs usr/sp usr/vlen 8998858 68157440  1>points/usr-65-lirs.txt 2>points/usr-65-lirs.err &
+./lirs usr/sp usr/vlen 8998858 81788928  1>points/usr-78-lirs.txt 2>points/usr-78-lirs.err &
+./lirs zip/sp zip/vlen 72815433 274726912  1>points/zip-262-lirs.txt 2>points/zip-262-lirs.err &
+./lirs zip/sp zip/vlen 72815433 412090368  1>points/zip-393-lirs.txt 2>points/zip-393-lirs.err &
+./lirs zip/sp zip/vlen 72815433 550502400  1>points/zip-525-lirs.txt 2>points/zip-525-lirs.err &
+./lirs zip/sp zip/vlen 72815433 687865856  1>points/zip-656-lirs.txt 2>points/zip-656-lirs.err &
+./lirs zip/sp zip/vlen 72815433 825229312  1>points/zip-787-lirs.txt 2>points/zip-787-lirs.err &
+./arc etc/sp etc/vlen 44180614 608174080  1>points/etc-580-arc.txt 2>points/etc-580-arc.err &
+./arc etc/sp etc/vlen 44180614 912261120  1>points/etc-870-arc.txt 2>points/etc-870-arc.err &
+./arc etc/sp etc/vlen 44180614 1216348160  1>points/etc-1160-arc.txt 2>points/etc-1160-arc.err &
+./arc etc/sp etc/vlen 44180614 1520435200  1>points/etc-1450-arc.txt 2>points/etc-1450-arc.err &
+./arc etc/sp etc/vlen 44180614 1824522240  1>points/etc-1740-arc.txt 2>points/etc-1740-arc.err &
+./arc app/sp app/vlen 29746058 504365056  1>points/app-481-arc.txt 2>points/app-481-arc.err &
+./arc app/sp app/vlen 29746058 757071872  1>points/app-722-arc.txt 2>points/app-722-arc.err &
+./arc app/sp app/vlen 29746058 1009778688  1>points/app-963-arc.txt 2>points/app-963-arc.err &
+./arc app/sp app/vlen 29746058 1261436928  1>points/app-1203-arc.txt 2>points/app-1203-arc.err &
+./arc app/sp app/vlen 29746058 1514143744  1>points/app-1444-arc.txt 2>points/app-1444-arc.err &
+./arc usr/sp usr/vlen 8998858 27262976  1>points/usr-26-arc.txt 2>points/usr-26-arc.err &
+./arc usr/sp usr/vlen 8998858 40894464  1>points/usr-39-arc.txt 2>points/usr-39-arc.err &
+./arc usr/sp usr/vlen 8998858 54525952  1>points/usr-52-arc.txt 2>points/usr-52-arc.err &
+./arc usr/sp usr/vlen 8998858 68157440  1>points/usr-65-arc.txt 2>points/usr-65-arc.err &
+./arc usr/sp usr/vlen 8998858 81788928  1>points/usr-78-arc.txt 2>points/usr-78-arc.err &
+./arc zip/sp zip/vlen 72815433 274726912  1>points/zip-262-arc.txt 2>points/zip-262-arc.err &
+./arc zip/sp zip/vlen 72815433 412090368  1>points/zip-393-arc.txt 2>points/zip-393-arc.err &
+./arc zip/sp zip/vlen 72815433 550502400  1>points/zip-525-arc.txt 2>points/zip-525-arc.err &
+./arc zip/sp zip/vlen 72815433 687865856  1>points/zip-656-arc.txt 2>points/zip-656-arc.err &
+./arc zip/sp zip/vlen 72815433 825229312  1>points/zip-787-arc.txt 2>points/zip-787-arc.err &
