@@ -42,7 +42,7 @@ lrux_evict2(struct lru * const lru)
         bool evicted = false;
         for (uint32_t j = 0; j < 64; j++) {
           const uint32_t victim = (bm_id << 6) + ((seed2 + j) & 0x3f);
-          if (lru_exist(lru, victim)) {
+          if (lru_in(lru, victim)) {
             const uint32_t size0 = lru->arr[victim].size;
             lru_remove(lru, victim);
             evicted = true;
@@ -88,10 +88,10 @@ lrux_evict2(struct lru * const lru)
 lrux_set(void * const ptr, const uint32_t key, const uint32_t size)
 {
   struct lrux * const lrux = (typeof(lrux))ptr;
-  if (lru_exist(lrux->lru1, key)) {
+  if (lru_in(lrux->lru1, key)) {
     lru_remove(lrux->lru1, key);
   }
-  if (lru_exist(lrux->lru2, key)) {
+  if (lru_in(lrux->lru2, key)) {
     lru_remove(lrux->lru2, key);
   }
   lru_insert(lrux->lru1, key, size);
@@ -107,10 +107,10 @@ lrux_set(void * const ptr, const uint32_t key, const uint32_t size)
 lrux_get(void * const ptr, const uint32_t key, const uint32_t size)
 {
   struct lrux * const lrux = (typeof(lrux))ptr;
-  if (lru_exist(lrux->lru1, key)) {
+  if (lru_in(lrux->lru1, key)) {
     lrux->nr_hit++;
     lrux_set(ptr, key, lrux->lru1->arr[key].size);
-  } else if (lru_exist(lrux->lru2, key)) {
+  } else if (lru_in(lrux->lru2, key)) {
     lrux->nr_hit++;
     lrux_set(ptr, key, lrux->lru2->arr[key].size);
   } else {
@@ -125,10 +125,10 @@ lrux_get(void * const ptr, const uint32_t key, const uint32_t size)
 lrux_del(void * const ptr, const uint32_t key)
 {
   struct lrux * const lrux = (typeof(lrux))ptr;
-  if (lru_exist(lrux->lru1, key)) {
+  if (lru_in(lrux->lru1, key)) {
     lru_remove(lrux->lru1, key);
   }
-  if (lru_exist(lrux->lru2, key)) {
+  if (lru_in(lrux->lru2, key)) {
     lru_remove(lrux->lru2, key);
   }
 }

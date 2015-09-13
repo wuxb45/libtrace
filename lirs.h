@@ -52,12 +52,12 @@ lirs_new(const uint32_t nr_keys, const uint64_t max_cap)
   assert(lirs->max_hir_cap > 0);
   // root node
   for (uint64_t i = 0; i <= nr_keys; i++) {
-    lirs->arr[i].prev = nr_keys;
-    lirs->arr[i].next = nr_keys;
-    lirs->arr[i].rprev = nr_keys;
-    lirs->arr[i].rnext = nr_keys;
-    lirs->arr[i].hprev = nr_keys;
-    lirs->arr[i].hnext = nr_keys;
+    lirs->arr[i].prev = (i < nr_keys)?OUTSIDE:nr_keys;
+    lirs->arr[i].next = (i < nr_keys)?OUTSIDE:nr_keys;
+    lirs->arr[i].rprev = (i < nr_keys)?OUTSIDE:nr_keys;
+    lirs->arr[i].rnext = (i < nr_keys)?OUTSIDE:nr_keys;
+    lirs->arr[i].hprev = (i < nr_keys)?OUTSIDE:nr_keys;
+    lirs->arr[i].hnext = (i < nr_keys)?OUTSIDE:nr_keys;
   }
   return (void *)lirs;
 }
@@ -66,44 +66,53 @@ lirs_new(const uint32_t nr_keys, const uint64_t max_cap)
   static inline bool
 lirs_resident(struct lirs * const lirs, const uint32_t key)
 {
-  const uint32_t nr_keys = lirs->nr_keys;
-  const uint32_t rprev = lirs->arr[key].rprev;
-  const uint32_t rnext = lirs->arr[key].rnext;
-  return (rprev < nr_keys || rnext < nr_keys) ? true : false;
+  assert(key < lirs->nr_keys);
+  if (lirs->arr[key].rprev == OUTSIDE) {
+    assert(lirs->arr[key].rnext == OUTSIDE);
+    return false;
+  } else {
+    return true;
+  }
 }
 
   static inline bool
 lirs_in_lru(struct lirs * const lirs, const uint32_t key)
 {
-  const uint32_t nr_keys = lirs->nr_keys;
-  const uint32_t prev = lirs->arr[key].prev;
-  const uint32_t next = lirs->arr[key].next;
-  return (prev < nr_keys || next < nr_keys) ? true : false;
+  assert(key < lirs->nr_keys);
+  if (lirs->arr[key].prev == OUTSIDE) {
+    assert(lirs->arr[key].next == OUTSIDE);
+    return false;
+  } else {
+    return true;
+  }
 }
 
   static inline bool
 lirs_in_hir(struct lirs * const lirs, const uint32_t key)
 {
-  const uint32_t nr_keys = lirs->nr_keys;
-  const uint32_t hprev = lirs->arr[key].hprev;
-  const uint32_t hnext = lirs->arr[key].hnext;
-  return (hprev < nr_keys || hnext < nr_keys) ? true : false;
+  assert(key < lirs->nr_keys);
+  if (lirs->arr[key].hprev == OUTSIDE) {
+    assert(lirs->arr[key].hnext == OUTSIDE);
+    return false;
+  } else {
+    return true;
+  }
 }
 
   static inline void
 lirs_resi_remove(struct lirs * const lirs, const uint32_t key)
 {
-  const uint32_t nr_keys = lirs->nr_keys;
-  const uint32_t rprev = lirs->arr[key].rprev;
-  const uint32_t rnext = lirs->arr[key].rnext;
-  if ((rprev < nr_keys) || (rnext < nr_keys)) { // in here
+  assert(key < lirs->nr_keys);
+  if (lirs_resident(lirs, key)) { // in here
     assert(lirs->resi_keys > 0);
+    const uint32_t rprev = lirs->arr[key].rprev;
+    const uint32_t rnext = lirs->arr[key].rnext;
     lirs->cur_resi_cap -= lirs->arr[key].size;
     lirs->arr[rprev].rnext = rnext;
     lirs->arr[rnext].rprev = rprev;
     // clean up
-    lirs->arr[key].rprev = nr_keys;
-    lirs->arr[key].rnext = nr_keys;
+    lirs->arr[key].rprev = OUTSIDE;
+    lirs->arr[key].rnext = OUTSIDE;
     lirs->arr[key].size = 0;
     lirs->resi_keys--;
   }
@@ -112,20 +121,36 @@ lirs_resi_remove(struct lirs * const lirs, const uint32_t key)
   static inline void
 lirs_lru_remove(struct lirs * const lirs, const uint32_t key)
 {
-  const uint32_t nr_keys = lirs->nr_keys;
-  const uint32_t prev = lirs->arr[key].prev;
-  const uint32_t next = lirs->arr[key].next;
+  assert(key < lirs->nr_keys);
   assert(false == lirs_in_hir(lirs, key));
-  if ((prev < nr_keys) || (next < nr_keys)) { // in here
+  if (lirs_in_lru(lirs, key)) { // in here
     assert(lirs->lru_keys > 0);
+    const uint32_t prev = lirs->arr[key].prev;
+    const uint32_t next = lirs->arr[key].next;
     lirs_resi_remove(lirs, key);
     lirs->arr[prev].next = next;
     lirs->arr[next].prev = prev;
     // clean up
-    lirs->arr[key].prev = nr_keys;
-    lirs->arr[key].next = nr_keys;
+    lirs->arr[key].prev = OUTSIDE;
+    lirs->arr[key].next = OUTSIDE;
     lirs->lru_keys--;
   }
+}
+
+  static inline void
+lirs_hir_remove(struct lirs * const lirs, const uint32_t key)
+{
+  assert(lirs_resident(lirs, key));
+  assert(lirs_in_hir(lirs, key));
+  const uint32_t nr_keys = lirs->nr_keys;
+  const uint32_t hnext = lirs->arr[key].hnext;
+  const uint32_t hprev = lirs->arr[key].hprev;
+  lirs->arr[hnext].hprev = hprev;
+  lirs->arr[hprev].hnext = hnext;
+  lirs->arr[key].hnext = OUTSIDE;
+  lirs->arr[key].hprev = OUTSIDE;
+  lirs->hir_keys--;
+  lirs->cur_hir_cap -= lirs->arr[key].size;
 }
 
   static inline void
@@ -134,10 +159,9 @@ lirs_resi_insert(struct lirs * const lirs, const uint32_t key)
   assert(false == lirs_resident(lirs, key));
   const uint32_t nr_keys = lirs->nr_keys;
   const uint32_t head0 = lirs->arr[nr_keys].rnext;
-
   lirs->cur_resi_cap += lirs->arr[key].size;
   lirs->arr[key].rnext = head0;
-  //lirs->arr[key].rprev = nr_keys;
+  lirs->arr[key].rprev = nr_keys;
   lirs->arr[head0].rprev = key;
   lirs->arr[nr_keys].rnext = key;
   lirs->resi_keys++;
@@ -151,12 +175,12 @@ lirs_lru_insert(struct lirs * const lirs, const uint32_t key, const uint32_t siz
   const uint32_t head0 = lirs->arr[nr_keys].next;
   lirs->arr[key].size = size;
   lirs->arr[key].next = head0;
-  //lirs->arr[key].prev = nr_keys;
+  lirs->arr[key].prev = nr_keys;
   lirs->arr[head0].prev = key;
   lirs->arr[nr_keys].next = key;
   lirs->lru_keys++;
-  lirs_resi_insert(lirs, key);
   assert(lirs->lru_keys <= nr_keys);
+  lirs_resi_insert(lirs, key);
 }
 
   static inline void
@@ -173,40 +197,12 @@ lirs_lru_cleanup(struct lirs * const lirs)
   }
 }
 
-// move key to top of lru list
-  static inline void
-lirs_lru_refresh(struct lirs * const lirs, const uint32_t key, const uint32_t size)
-{
-  lirs_lru_remove(lirs, key);
-  lirs_lru_insert(lirs, key, size);
-  lirs_lru_cleanup(lirs);
-}
-
   static inline void
 lirs_lru_evict(struct lirs * const lirs, const uint32_t key)
 {
   assert(lirs_in_lru(lirs, key));
   assert(lirs_resident(lirs, key));
   lirs_resi_remove(lirs, key);
-  //lirs->arr[key].resident = 0;
-  //lirs->cur_resi_cap -= lirs->arr[key].size;
-  //lirs->resi_keys--;
-}
-
-  static inline void
-lirs_hir_remove(struct lirs * const lirs, const uint32_t key)
-{
-  assert(lirs_resident(lirs, key));
-  assert(lirs_in_hir(lirs, key));
-  const uint32_t nr_keys = lirs->nr_keys;
-  const uint32_t hnext = lirs->arr[key].hnext;
-  const uint32_t hprev = lirs->arr[key].hprev;
-  lirs->arr[key].hnext = nr_keys;
-  lirs->arr[key].hprev = nr_keys;
-  lirs->arr[hnext].hprev = hprev;
-  lirs->arr[hprev].hnext = hnext;
-  lirs->hir_keys--;
-  lirs->cur_hir_cap -= lirs->arr[key].size;
 }
 
   static inline void
@@ -217,7 +213,7 @@ lirs_hir_insert(struct lirs * const lirs, const uint32_t key)
   const uint32_t nr_keys = lirs->nr_keys;
   const uint32_t head0 = lirs->arr[nr_keys].hnext;
   lirs->arr[key].hnext = head0;
-  //lirs->arr[key].hprev = nr_keys;
+  lirs->arr[key].hprev = nr_keys;
   lirs->arr[head0].hprev = key;
   lirs->arr[nr_keys].hnext = key;
   lirs->hir_keys++;
@@ -272,7 +268,9 @@ lirs_set(void * const ptr, const uint32_t key, const uint32_t size)
       insert_hir = true;
     }
   }
-  lirs_lru_refresh(lirs, key, size);
+  lirs_lru_remove(lirs, key);
+  lirs_lru_insert(lirs, key, size);
+  lirs_lru_cleanup(lirs);
   if (insert_hir) {
     lirs_hir_insert(lirs, key); // mark as hir
   }
