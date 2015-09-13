@@ -14,8 +14,6 @@ struct arc {
   uint64_t max_cap;
 
   uint64_t p;
-
-  //uint32_t nkeys[4];
   uint64_t caps[4];
   
   // stat
@@ -51,7 +49,7 @@ arc_new(const uint32_t nr_keys, const uint64_t max_cap)
   arc->nr_keys = nr_keys;
   arc->max_cap = max_cap;
   for (uint64_t i = 0; i <= nr_keys; i++) {
-    for (uint64_t j = 0; j <= 4; j++) {
+    for (uint64_t j = 0; j < 4; j++) {
       arc->arr[i].node[j].prev = nr_keys;
       arc->arr[i].node[j].next = nr_keys;
     }
@@ -219,8 +217,8 @@ arc_del(void * const ptr, const uint32_t key)
   struct arc * const arc = (typeof(arc))ptr;
   arc_remove(ARC_T1, arc, key);
   arc_remove(ARC_T2, arc, key);
-
 }
+
   static void
 arc_print(void * const ptr)
 {
