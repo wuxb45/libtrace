@@ -13,6 +13,7 @@
 #include <stdlib.h>
 
 #include "libtrace.h"
+#define OUTSIDE ((UINT32_C(0xffffffff)))
 
 struct samplex {
   uint32_t keyx:30;

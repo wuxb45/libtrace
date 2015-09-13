@@ -48,10 +48,14 @@ arc_new(const uint32_t nr_keys, const uint64_t max_cap)
   bzero(arc, sz);
   arc->nr_keys = nr_keys;
   arc->max_cap = max_cap;
+  arc->caps[0] = 0;
+  arc->caps[1] = 0;
+  arc->caps[2] = 0;
+  arc->caps[3] = 0;
   for (uint64_t i = 0; i <= nr_keys; i++) {
     for (uint64_t j = 0; j < 4; j++) {
-      arc->arr[i].node[j].prev = nr_keys;
-      arc->arr[i].node[j].next = nr_keys;
+      arc->arr[i].node[j].prev = (i<nr_keys)?OUTSIDE:nr_keys;
+      arc->arr[i].node[j].next = (i<nr_keys)?OUTSIDE:nr_keys;
     }
   }
   return (void *)arc;
@@ -60,24 +64,28 @@ arc_new(const uint32_t nr_keys, const uint64_t max_cap)
   static inline bool
 arc_in(const uint32_t where, struct arc * const arc, const uint32_t key)
 {
-  const uint32_t nr_keys = arc->nr_keys;
   assert(where < 4);
-  assert(key < nr_keys);
-  return ((arc->arr[key].node[where].prev < nr_keys) || (arc->arr[key].node[where].next < nr_keys)) ? true : false;
+  assert(key < arc->nr_keys);
+  if (arc->arr[key].node[where].prev == OUTSIDE) {
+    assert(arc->arr[key].node[where].next == OUTSIDE);
+    return false;
+  } else {
+    return true;
+  }
 }
 
   static inline void
 arc_remove(const uint32_t where, struct arc * const arc, const uint32_t key)
 {
-  const uint32_t nr_keys = arc->nr_keys;
   assert(where < 4);
+  assert(key < arc->nr_keys);
   if (arc_in(where, arc, key)) {
     const uint32_t next = arc->arr[key].node[where].next;
     const uint32_t prev = arc->arr[key].node[where].prev;
     arc->arr[next].node[where].prev = prev;
     arc->arr[prev].node[where].next = next;
-    arc->arr[key].node[where].next = nr_keys;
-    arc->arr[key].node[where].prev = nr_keys;
+    arc->arr[key].node[where].next = OUTSIDE;
+    arc->arr[key].node[where].prev = OUTSIDE;
     // clean
     arc->caps[where] -= arc->arr[key].size;
     arc->arr[key].size = 0;
@@ -112,7 +120,6 @@ arc_lru(const uint32_t where, struct arc * const arc)
   static inline void
 arc_remove_lru(const uint32_t where, struct arc * const arc)
 {
-  const uint32_t nr_keys = arc->nr_keys;
   const uint32_t victim = arc_lru(where, arc);
   arc_remove(where, arc, victim);
 }
@@ -150,6 +157,7 @@ arc_replace(struct arc * const arc)
 arc_set(void * const ptr, const uint32_t key, const uint32_t size)
 {
   struct arc * const arc = (typeof(arc))ptr;
+  assert(key < arc->nr_keys);
   if (arc_in(ARC_T1, arc, key)) { // case I.1
     arc_remove(ARC_T1, arc, key);
     arc_insert(ARC_T2, arc, key, size);
