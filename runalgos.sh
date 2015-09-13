@@ -1,54 +1,51 @@
 #!/bin/bash
+# g{lru,lrux,lirs,arc}
+# f{lru,lrux,lirs,arc}
 . algocommon.sh
-
-###70%
-#bg_run_group lru  etc 20 24 dir
-#bg_run_group lrux etc 20 24 dir 262171838
-#bg_run_group lirs etc 20 24 dir
-#
-#bg_run_group lru  app 10 24 dir
-#bg_run_group lrux app 10 24 dir 258158358
-#bg_run_group lirs app 10 24 dir
-#
-#bg_run_group lru  usr  8 16 dir
-#bg_run_group lrux usr  8 16 dir 17199206
-#bg_run_group lirs usr  8 16 dir
 
 #### 80%
 #80% group
-grouplru ()
+glru ()
 {
   bg_run_group lru  etc 30 22 noset
-  bg_run_group lru  app 10 24 noset
   bg_run_group lru  usr  8 20 noset
   wait
+  bg_run_group lru  app 10 24 noset
+  bg_run_group lru  zip 60 24 noset
+  wait
 }
 
-grouplrux ()
+glrux ()
 {
   bg_run_group lrux etc 30 22 noset 608372793
-  bg_run_group lrux app 10 24 noset 504676200
   bg_run_group lrux usr  8 20 noset 27162703
   wait
+  bg_run_group lrux app 10 24 noset 504676200
+  bg_run_group lrux zip 60 24 noset 275014743
+  wait
 }
 
-grouplirs ()
+glirs ()
 {
   bg_run_group lirs etc 30 22 noset
-  bg_run_group lirs app 10 24 noset
   bg_run_group lirs usr  8 20 noset
   wait
-}
-
-grouparc ()
-{
-  bg_run_group arc  etc 30 22 noset
-  bg_run_group arc  app 10 24 noset
-  bg_run_group arc  usr  8 20 noset
+  bg_run_group lirs app 10 24 noset
+  bg_run_group lirs zip 60 24 noset
   wait
 }
 
-fixedlru ()
+garc ()
+{
+  bg_run_group arc  etc 30 22 noset
+  bg_run_group arc  usr  8 20 noset
+  wait
+  bg_run_group arc  app 10 24 noset
+  bg_run_group arc  zip 60 24 noset
+  wait
+}
+
+flru ()
 {
   #80% fixed points x1 x1.5 x2 x2.5 x3
   #etc
@@ -69,10 +66,16 @@ fixedlru ()
   bg_run_one lru usr 52 points
   bg_run_one lru usr 65 points
   bg_run_one lru usr 78 points
+  #zip
+  bg_run_one lru zip 262 points
+  bg_run_one lru zip 393 points
+  bg_run_one lru zip 525 points
+  bg_run_one lru zip 656 points
+  bg_run_one lru zip 787 points
   wait
 }
 
-fixedlrux ()
+flrux ()
 {
   bg_run_one lrux etc 870 points 608372793
   bg_run_one lrux etc 1160 points 608372793
@@ -88,10 +91,15 @@ fixedlrux ()
   bg_run_one lrux usr 52 points 27162703
   bg_run_one lrux usr 65 points 27162703
   bg_run_one lrux usr 78 points 27162703
+
+  bg_run_one lrux zip 393 points 275014743
+  bg_run_one lrux zip 525 points 275014743
+  bg_run_one lrux zip 656 points 275014743
+  bg_run_one lrux zip 787 points 275014743
   wait
 }
 
-fixedlirs ()
+flirs ()
 {
   bg_run_one lirs etc 580 points
   bg_run_one lirs etc 870 points
@@ -110,10 +118,16 @@ fixedlirs ()
   bg_run_one lirs usr 52 points
   bg_run_one lirs usr 65 points
   bg_run_one lirs usr 78 points
+
+  bg_run_one lirs zip 262 points
+  bg_run_one lirs zip 393 points
+  bg_run_one lirs zip 525 points
+  bg_run_one lirs zip 656 points
+  bg_run_one lirs zip 787 points
   wait
 }
 
-fixedarc ()
+farc ()
 {
   bg_run_one arc etc 580 points
   bg_run_one arc etc 870 points
@@ -132,7 +146,12 @@ fixedarc ()
   bg_run_one arc usr 52 points
   bg_run_one arc usr 65 points
   bg_run_one arc usr 78 points
+
+  bg_run_one arc zip 262 points
+  bg_run_one arc zip 393 points
+  bg_run_one arc zip 525 points
+  bg_run_one arc zip 656 points
+  bg_run_one arc zip 787 points
   wait
 }
-
 ${1}
