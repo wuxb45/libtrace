@@ -32,21 +32,30 @@ lrux_new(const uint32_t nr_keys, const uint64_t max_cap)
 lrux_evict2(struct lru * const lru)
 {
   const uint32_t nr_keys = lru->nr_keys;
-  if ((lru->cur_keys > 4096) && (lru->cur_keys > (nr_keys >> 10))) {
-    const uint32_t seed = ((uint32_t)random()) % nr_keys;
-    for (uint32_t i = 0; i < nr_keys; i++) {
-      const uint32_t victim = (seed + i) % nr_keys;
-      if ((lru->bitmap[victim>>6] & (UINT64_C(1) << (victim & 0x3fu))) == 0) continue;
-      const uint32_t prev = lru->arr[victim].prev;
-      const uint32_t next = lru->arr[victim].next;
-      if ((prev < nr_keys) || (next < nr_keys)) { // in here
-        const uint32_t size0 = lru->arr[victim].size;
-        lru_remove(lru, victim);
-        if (lru->receiver) lru->receiver(lru->receiver_ptr, victim, size0);
-        lru->nr_evi++;
+  const uint64_t nr_bm = lru->nr_bm;
+  if ((lru->cur_keys > 1024) || (lru->cur_keys > (nr_keys >> 10))) {
+    const uint32_t seed = ((uint32_t)random()) % nr_bm;
+    for (uint32_t i = 0; i < nr_bm; i++) {
+      const uint32_t bm_id = (seed + i) % nr_bm;
+      if (lru->bitmap[bm_id]) { // found victim
+        const uint32_t seed2 = ((uint32_t)random()) % 64u;
+        bool evicted = false;
+        for (uint32_t j = 0; j < 64; j++) {
+          const uint32_t victim = (bm_id << 6) + ((seed2 + j) & 0x3f);
+          if (lru_exist(lru, victim)) {
+            const uint32_t size0 = lru->arr[victim].size;
+            lru_remove(lru, victim);
+            evicted = true;
+            if (lru->receiver) lru->receiver(lru->receiver_ptr, victim, size0);
+            lru->nr_evi++;
+            break;
+          }
+        }
+        assert(evicted == true);
         return;
       }
     }
+    assert(false); // error if no eviction
   } else {
     const uint32_t skip = ((uint32_t)random()) % lru->cur_keys;
     uint32_t iter;
@@ -71,6 +80,7 @@ lrux_evict2(struct lru * const lru)
     lru_remove(lru, victim);
     if (lru->receiver) lru->receiver(lru->receiver_ptr, victim, size0);
     lru->nr_evi++;
+    return;
   }
 }
 

@@ -46,6 +46,7 @@ lru_new(const uint32_t nr_keys, const uint64_t max_cap)
   const uint64_t size_bm = nr_bm << 3;
   lru->bitmap = (typeof(lru->bitmap))malloc(nr_bm * sizeof(lru->bitmap[0]));
   bzero(lru->bitmap, size_bm);
+  lru->nr_bm = nr_bm;
   for (uint64_t i = 0; i <= nr_keys; i++) {
     lru->arr[i].size = 0;
     lru->arr[i].prev = nr_keys;
