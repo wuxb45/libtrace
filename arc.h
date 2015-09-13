@@ -138,11 +138,11 @@ arc_move(const uint32_t fromwhere, const uint32_t towhere, struct arc * const ar
   static inline void
 arc_replace(struct arc * const arc)
 {
-  while (arc->caps[ARC_T1] > arc->p) {
+  while (((arc->caps[ARC_T1] + arc->caps[ARC_T2]) > arc->max_cap) && arc->caps[ARC_T1] > arc->p) {
     const uint32_t victim = arc_lru(ARC_T1, arc);
     arc_move(ARC_T1, ARC_B1, arc, victim);
   }
-  while (arc->caps[ARC_T2] > (arc->max_cap - arc->p)) {
+  while (((arc->caps[ARC_T1] + arc->caps[ARC_T2]) > arc->max_cap) && arc->caps[ARC_T2] > (arc->max_cap - arc->p)) {
     const uint32_t victim = arc_lru(ARC_T2, arc);
     arc_move(ARC_T2, ARC_B2, arc, victim);
   }
