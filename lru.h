@@ -47,34 +47,36 @@ lru_new(const uint32_t nr_keys, const uint64_t max_cap)
   lru->bitmap = (typeof(lru->bitmap))malloc(nr_bm * sizeof(lru->bitmap[0]));
   bzero(lru->bitmap, size_bm);
   lru->nr_bm = nr_bm;
-  for (uint64_t i = 0; i <= nr_keys; i++) {
+  for (uint64_t i = 0; i < nr_keys; i++) {
     lru->arr[i].size = 0;
-    lru->arr[i].prev = nr_keys;
-    lru->arr[i].next = nr_keys;
+    lru->arr[i].prev = OUTSIDE;
+    lru->arr[i].next = OUTSIDE;
   }
+  lru->arr[nr_keys].prev = nr_keys;
+  lru->arr[nr_keys].next = nr_keys;
   return (void *)lru;
 }
 
   static inline bool
-lru_exist(struct lru * const lru, const uint32_t key)
+lru_in(struct lru * const lru, const uint32_t key)
 {
-  const uint32_t nr_keys = lru->nr_keys;
-  const uint32_t prev = lru->arr[key].prev;
-  const uint32_t next = lru->arr[key].next;
-  if ((prev < nr_keys) || (next < nr_keys)) { // in here
-    return true;
-  } else {
+  assert(key < lru->nr_keys);
+  if (lru->arr[key].prev == OUTSIDE) {
+    assert(lru->arr[key].next == OUTSIDE);
     return false;
+  } else {
+    return true;
   }
 }
 
   static inline void
 lru_remove(struct lru * const lru, const uint32_t key)
 {
-  const uint32_t nr_keys = lru->nr_keys;
-  const uint32_t prev = lru->arr[key].prev;
-  const uint32_t next = lru->arr[key].next;
-  if ((prev < nr_keys) || (next < nr_keys)) { // in here
+  assert(key < lru->nr_keys);
+  if (lru_in(lru, key)) { // in here
+    const uint32_t next = lru->arr[key].next;
+    const uint32_t prev = lru->arr[key].prev;
+
     assert(lru->cur_cap > lru->arr[key].size);
     assert(lru->cur_keys > 0);
     lru->cur_cap -= lru->arr[key].size;
@@ -82,8 +84,8 @@ lru_remove(struct lru * const lru, const uint32_t key)
     lru->arr[prev].next = next;
     lru->arr[next].prev = prev;
     // clean up
-    lru->arr[key].prev = nr_keys;
-    lru->arr[key].next = nr_keys;
+    lru->arr[key].prev = OUTSIDE;
+    lru->arr[key].next = OUTSIDE;
     lru->arr[key].size = 0;
     lru->bitmap[key>>6] &= (~(UINT64_C(1) << (key & 0x3fu)));
   }
@@ -94,12 +96,11 @@ lru_insert(void * const ptr, const uint32_t key, const uint32_t size)
 {
   struct lru * const lru = (typeof(lru))ptr;
   const uint32_t nr_keys = lru->nr_keys;
-  assert(lru->arr[key].next == nr_keys);
-  assert(lru->arr[key].prev == nr_keys);
+  assert(false == lru_in(lru, key));
   const uint32_t head0 = lru->arr[nr_keys].next;
   lru->arr[key].size = size;
   lru->arr[key].next = head0;
-  //lru->arr[key].prev = nr_keys;
+  lru->arr[key].prev = nr_keys;
   lru->arr[head0].prev = key;
   lru->arr[nr_keys].next = key;
   lru->cur_cap += size;
@@ -124,11 +125,10 @@ lru_evict1(struct lru * const lru)
 lru_set(void * const ptr, const uint32_t key, const uint32_t size)
 {
   struct lru * const lru = (typeof(lru))ptr;
-  const uint32_t nr_keys = lru->nr_keys;
-  assert(key < nr_keys);
+  assert(key < lru->nr_keys);
   lru->nr_set++;
 
-  if (lru_exist(lru, key)) {
+  if (lru_in(lru, key)) {
     lru_remove(lru, key);
   }
   lru_insert(lru, key, size);
@@ -142,11 +142,10 @@ lru_set(void * const ptr, const uint32_t key, const uint32_t size)
 lru_get(void * const ptr, const uint32_t key, const uint32_t size)
 {
   struct lru * const lru = (typeof(lru))ptr;
-  const uint32_t nr_keys = lru->nr_keys;
-  assert(key < nr_keys);
+  assert(key < lru->nr_keys);
   lru->nr_get++;
 
-  if (lru_exist(lru, key)) {
+  if (lru_in(lru, key)) {
     lru->nr_hit++;
     const uint32_t size0 = lru->arr[key].size;
     lru_remove(lru, key);
@@ -163,11 +162,10 @@ lru_get(void * const ptr, const uint32_t key, const uint32_t size)
 lru_del(void * const ptr, const uint32_t key)
 {
   struct lru * const lru = (typeof(lru))ptr;
-  const uint32_t nr_keys = lru->nr_keys;
-  assert(key < nr_keys);
+  assert(key < lru->nr_keys);
   lru->nr_del++;
 
-  if (lru_exist(lru, key)) {
+  if (lru_in(lru, key)) {
     lru->nr_rmv++;
     lru_remove(lru, key);
   }
