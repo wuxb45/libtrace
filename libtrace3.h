@@ -55,19 +55,24 @@ runtrace(const char * const tracefile, const char * const sizefile,
   assert(ftrace);
   void * const rep = api->op_new(nr_keys, max_cap);
 
-  struct samplex keys[256];
+  struct samplex keys[65536];
+  uint64_t nt = 0;
   for (;;) {
-    const size_t nkeys = fread(keys, sizeof(keys[0]), 256, ftrace);
+    const size_t nkeys = fread(keys, sizeof(keys[0]), 65536, ftrace);
     if (nkeys == 0) break;
     for (uint64_t i = 0; i < nkeys; i++) {
       assert(keys[i].keyx < nr_keys);
       api->op_set(rep, keys[i].keyx, mapsize[random64() % nr_vlen]);
+      nt++;
     }
   }
+  const uint64_t ntrace = nt;
+  const uint64_t nreport = nt>>8;
+  nt = 0;
   rewind(ftrace);
   api->clean_stat(rep);
   for (;;) {
-    const size_t nkeys = fread(keys, sizeof(keys[0]), 256, ftrace);
+    const size_t nkeys = fread(keys, sizeof(keys[0]), 65536, ftrace);
     if (nkeys == 0) break;
     for (uint64_t i = 0; i < nkeys; i++) {
       assert(keys[i].keyx < nr_keys);
@@ -82,6 +87,11 @@ runtrace(const char * const tracefile, const char * const sizefile,
           api->op_del(rep, keys[i].keyx);
           break;
         default: break;
+      }
+      nt++;
+      if ((nt % nreport) == 0) {
+        fprintf(stderr, "PID %6d [%" PRIu64 "/%" PRIu64 "]\n", getpid(), nt, ntrace);
+        fflush(stderr);
       }
     }
   }
