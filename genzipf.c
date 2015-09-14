@@ -26,13 +26,13 @@ __comp(const void * const p1, const void * const p2)
   int
 main(int argc ,char ** argv)
 {
-  if (argc != 2) {
-    printf("usage : %s <range>\n", argv[0]);
+  if (argc != 3) {
+    printf("usage : %s <range> <nr-op>\n", argv[0]);
     exit(0);
   }
   const uint64_t range = strtoull(argv[1], NULL, 10);
   // 1G * 8 = 8G
-  const size_t trace_nr = 1024*1024*1024;
+  const uint64_t trace_nr = strtoull(argv[2], NULL, 10);
   uint64_t * const t64 = (typeof(t64))malloc(sizeof(t64[0]) * (trace_nr + 1));
   uint64_t * const shadow = (typeof(shadow))malloc(sizeof(shadow[0]) * (trace_nr + 1));
   uint64_t * const keymap = (typeof(keymap))malloc(sizeof(keymap[0]) * (trace_nr + 1));
