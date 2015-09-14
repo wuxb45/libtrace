@@ -71,7 +71,7 @@ main(int argc ,char ** argv)
         end = mid-1;
       } else {
         xs[i].keyx = mid;
-        if (random_double() < 0.05) xs[i].op = OP_SET;
+        if (random_double() < 0.05) {xs[i].op = OP_SET; } else {xs[i].op = OP_GET; }
         found = true;
         break;
       }
