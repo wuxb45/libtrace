@@ -33,7 +33,7 @@ lrux_evict2(struct lru * const lru)
 {
   const uint32_t nr_keys = lru->nr_keys;
   const uint64_t nr_bm = lru->nr_bm;
-  if ((lru->cur_keys > 1024) || (lru->cur_keys > (nr_keys >> 10))) {
+  if ((lru->cur_keys > 4096) || (lru->cur_keys > (nr_keys >> 12))) {
     const uint32_t seed = ((uint32_t)random()) % nr_bm;
     for (uint32_t i = 0; i < nr_bm; i++) {
       const uint32_t bm_id = (seed + i) % nr_bm;
