@@ -241,10 +241,15 @@ lirs_eviction(struct lirs * const lirs)
   const uint32_t nr_keys = lirs->nr_keys;
   // clean lir
   // while (lir > limit)
+  uint32_t victim = lirs->arr[nr_keys].rprev;
   while ((lirs->cur_resi_cap - lirs->cur_hir_cap) > (lirs->max_resi_cap - lirs->max_hir_cap)) {
     // move lir.last -> hir.head
-    const uint32_t victim = lirs->arr[nr_keys].rprev;
+    while (victim < nr_keys && lirs_in_hir(lirs, victim)) {
+      victim = lirs->arr[victim].rprev;
+    }
     assert(victim < nr_keys);
+    assert(lirs_in_lru(lirs, victim));
+    assert(false == lirs_in_hir(lirs, victim));
     lirs_hir_insert(lirs, victim);
   }
   // evict from hir
