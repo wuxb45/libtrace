@@ -1,8 +1,8 @@
 .PHONY : all clean
 COMMONH := libtrace3.h libtrace2.h libtrace.h Makefile
-OPT := -O3
-#OPT := -O3 -NDEBUG
-#OPT := -ggdb -O0
+OPT := -ggdb -O0
+#OPT := -O3
+#OPT := -O3 -DNDEBUG
 
 BINS =  statzipf genzipf stat4 arc lirs lrux lru spstat sampley samplex vlen print4 sort64 keymap conv allstat getstat printer types
 all : $(BINS)
