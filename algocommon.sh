@@ -12,7 +12,7 @@ bg_run_one()
   local sz=$((${mb} * ${nmb}))
   mkdir -p ${outdir}
 
-  ./${tool} ${trace}/sp ${trace}/vlen $(cat ${trace}/keys) ${sz} ${paramx} > ${outdir}/${trace}-${nmb}-${tool}.txt &
+  ./${tool} ${trace}/sp ${trace}/vlen $(cat ${trace}/keys) ${sz} ${paramx} 1> ${outdir}/${trace}-${nmb}-${tool}.txt 2>${outdir}/${trace}-${nmb}-${tool}.err &
 }
 
 bg_run_group()
