@@ -65,10 +65,10 @@ runtrace(const char * const tracefile, const char * const sizefile,
       assert(keys[i].keyx < nr_keys);
       api->op_set(rep, keys[i].keyx, mapsize[random64() % nr_vlen]);
       nt++;
-    }
-    if ((nt % UINT64_C(1000000)) == 0) {
-      fprintf(stderr, "PID %6d W[%" PRIu64 "]\n", getpid(), nt);
-      fflush(stderr);
+      if ((nt % UINT64_C(1000000)) == 0) {
+        fprintf(stderr, "PID %6d W[%" PRIu64 "]\n", getpid(), nt);
+        fflush(stderr);
+      }
     }
   }
   const uint64_t ntrace = nt;
