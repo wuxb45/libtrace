@@ -42,7 +42,7 @@ lrux_evict2(struct lru * const lru)
         bool evicted = false;
         for (uint32_t j = 0; j < 64; j++) {
           const uint32_t victim = (bm_id << 6) + ((seed2 + j) & 0x3f);
-          if (lru_in(lru, victim)) {
+          if (victim < nr_keys && lru_in(lru, victim)) {
             const uint32_t size0 = lru->arr[victim].size;
             lru_remove(lru, victim);
             evicted = true;
