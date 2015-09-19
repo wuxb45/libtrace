@@ -69,18 +69,18 @@ g_app ()
   bg_run_group lru  app 10 24 group
   bg_run_group arc  app 10 24 group
   wait
-  bg_run_group lrux  app 10 24 group
+  bg_run_group lrux  app 10 24 group 504676200
   bg_run_group lirs  app 10 24 group
   wait
 }
 
 g_zip ()
 {
-  bg_run_group lru  zip 10 24 group
-  bg_run_group arc  zip 10 24 group
-  wait
-  bg_run_group lrux  zip 10 24 group
-  bg_run_group lirs  zip 10 24 group
+  bg_run_group lru  zip 15 24 group
+  bg_run_group arc  zip 15 24 group
+  #wait
+  bg_run_group lrux  zip 15 24 group 127012516
+  bg_run_group lirs  zip 15 24 group
   wait
 }
 
