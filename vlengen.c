@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2015  Wu, Xingbo <wuxb45@gmail.com>
+ *
+ * All rights reserved. No warranty, explicit or implicit, provided.
+ */
+// Generate a random vlen file
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>

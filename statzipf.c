@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2015  Wu, Xingbo <wuxb45@gmail.com>
+ *
+ * All rights reserved. No warranty, explicit or implicit, provided.
+ */
+// Statistics on the zipfian distribution.
+// This program does not require any input data. The keys will be generated on-the-fly.
 #define _GNU_SOURCE
 #define _LARGEFILE64_SOURCE
 

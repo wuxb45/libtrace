@@ -1,3 +1,12 @@
+/*
+ * Copyright (c) 2015  Wu, Xingbo <wuxb45@gmail.com>
+ *
+ * All rights reserved. No warranty, explicit or implicit, provided.
+ */
+// Statistics on the original trace file.
+// Input: the trace stream in the original format (Yuehai's).
+// Output: Text description of the statistics of the trace.
+
 #include <stdint.h>
 #include <stdlib.h>
 #include "libtrace.h"

@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2015  Wu, Xingbo <wuxb45@gmail.com>
+ *
+ * All rights reserved. No warranty, explicit or implicit, provided.
+ */
+// Extracting the vlen information from trace in the original format (Yuehai's).
+// It generates three files each containing a unique unit size.
+
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>

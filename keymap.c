@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2015  Wu, Xingbo <wuxb45@gmail.com>
+ *
+ * All rights reserved. No warranty, explicit or implicit, provided.
+ */
+// Generate a sorted keymap from the trace in original format (Yuehai's).
+// Input: The original trace stream.
+// Output: An array of uint64_t[], sorted.
 #include <unistd.h>
 #include <stdint.h>
 #include <stdlib.h>

@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2015  Wu, Xingbo <wuxb45@gmail.com>
+ *
+ * All rights reserved. No warranty, explicit or implicit, provided.
+ */
+// Statistics on the trace in the original format.
+// It only counts the (%) of each type of operation.
 #include <stdint.h>
 #include <stdlib.h>
 #include "libtrace.h"

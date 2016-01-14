@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2015  Wu, Xingbo <wuxb45@gmail.com>
+ *
+ * All rights reserved. No warranty, explicit or implicit, provided.
+ */
+// Run lirs replacement algorithm with 2-30 trace format.
 #include <stdio.h>
 #include <stdlib.h>
 

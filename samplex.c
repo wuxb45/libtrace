@@ -1,3 +1,12 @@
+/*
+ * Copyright (c) 2015  Wu, Xingbo <wuxb45@gmail.com>
+ *
+ * All rights reserved. No warranty, explicit or implicit, provided.
+ */
+// Convert trace in op4 format into samplex format by sampling only 1/(1<<shift) of the keys.
+// args: <shift>
+// Input: op4 trace
+// Output: sp trace
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>

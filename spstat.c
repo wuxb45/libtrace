@@ -1,3 +1,12 @@
+/*
+ * Copyright (c) 2015  Wu, Xingbo <wuxb45@gmail.com>
+ *
+ * All rights reserved. No warranty, explicit or implicit, provided.
+ */
+// Statistics on trace in sp (samplex) format.
+// <trace>: the trace file in sp format (samplex).
+// <nr_keys>: maximum key id in the trace.
+// <vlen>: the vlen file in form of uint32_t[].
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>

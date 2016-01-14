@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2015  Wu, Xingbo <wuxb45@gmail.com>
+ *
+ * All rights reserved. No warranty, explicit or implicit, provided.
+ */
+// convert three length files into a single one by sampling into a fixed-size array.
 #include <unistd.h>
 #include <sys/mman.h>
 #include <sys/stat.h>

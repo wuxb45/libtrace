@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2015  Wu, Xingbo <wuxb45@gmail.com>
+ *
+ * All rights reserved. No warranty, explicit or implicit, provided.
+ */
+// Statistics on the trace in sp4 format (64-bit ops + 32 32-bit keys)
 #include <sys/mman.h>
 #include <assert.h>
 #include <stdint.h>

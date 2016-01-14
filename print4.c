@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2015  Wu, Xingbo <wuxb45@gmail.com>
+ *
+ * All rights reserved. No warranty, explicit or implicit, provided.
+ */
+// Print the trace stream in grouped ops and 32-bit keys (sp4) format.
+// Input: A stream of op4 events.
+// Output: Text.
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>

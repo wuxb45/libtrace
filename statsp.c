@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2015  Wu, Xingbo <wuxb45@gmail.com>
+ *
+ * All rights reserved. No warranty, explicit or implicit, provided.
+ */
+// Statistics on the trace in the samplex format (sp).
 #include <sys/mman.h>
 #include <assert.h>
 #include <stdint.h>

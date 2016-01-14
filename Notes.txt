@@ -1,0 +1,11 @@
+op4:
+struct {
+  uint64_t ops;      // two bits for each key
+  uint32_t keys[32]; // 32 32-bit keys
+};
+
+sp:
+struct {
+  key:30;  // 30-bit key
+  op: 2;   // 2-bit op
+};

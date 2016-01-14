@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2015  Wu, Xingbo <wuxb45@gmail.com>
+ *
+ * All rights reserved. No warranty, explicit or implicit, provided.
+ */
+// Statistics on the GET events of the trace in the original format (Yuehai's).
+
 #include <stdint.h>
 #include <stdlib.h>
 #include "libtrace.h"

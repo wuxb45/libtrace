@@ -1,3 +1,11 @@
+/*
+ * Copyright (c) 2015  Wu, Xingbo <wuxb45@gmail.com>
+ *
+ * All rights reserved. No warranty, explicit or implicit, provided.
+ */
+// Print the trace in the original trace format (Yuehai's).
+// Input: the trace file.
+// Output: Text description of the trace.
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>

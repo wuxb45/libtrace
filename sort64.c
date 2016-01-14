@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2015  Wu, Xingbo <wuxb45@gmail.com>
+ *
+ * All rights reserved. No warranty, explicit or implicit, provided.
+ */
+// Sort a file containing uint64_t[].
+
 #define _GNU_SOURCE
 #define _LARGEFILE64_SOURCE
 

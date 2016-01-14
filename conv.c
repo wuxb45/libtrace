@@ -1,3 +1,12 @@
+/*
+ * Copyright (c) 2015  Wu, Xingbo <wuxb45@gmail.com>
+ *
+ * All rights reserved. No warranty, explicit or implicit, provided.
+ */
+// keymap: Pre-generated from the trace. Containing sorted keys in form of uint64_t[]
+// input: Trace stream in form of the original format (Yuehai's).
+// output: Grouped trace format. Each group contains a 64-bit operation group and 32 32-bit key.
+
 #define _GNU_SOURCE
 #define _LARGEFILE64_SOURCE
 

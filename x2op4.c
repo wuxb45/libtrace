@@ -1,3 +1,10 @@
+/*
+ * Copyright (c) 2015  Wu, Xingbo <wuxb45@gmail.com>
+ *
+ * All rights reserved. No warranty, explicit or implicit, provided.
+ */
+// Convert trace of samplex (2-30) format into trace of op4 (64-bit ops + 32 keys) format.
+
 #define _GNU_SOURCE
 #define _LARGEFILE64_SOURCE
 

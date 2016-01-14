@@ -1,3 +1,12 @@
+/*
+ * Copyright (c) 2015  Wu, Xingbo <wuxb45@gmail.com>
+ *
+ * All rights reserved. No warranty, explicit or implicit, provided.
+ */
+// Generate trace in 2-30 (samplex) format.
+// <range>: [1, <range>]
+// <nr-op>: number of events to be generated.
+// Output: An array of struct samplex[]
 #define _GNU_SOURCE
 #define _LARGEFILE64_SOURCE
 
