@@ -4,7 +4,7 @@ OPT := -ggdb -O0
 #OPT := -O3
 #OPT := -O3 -DNDEBUG
 
-BINS =  statzipf genzipf stat4 arc lirs lrux lru spstat sampley samplex vlen print4 sort64 keymap conv allstat getstat printer types
+BINS =  statzipf genzipf stat4 arc lirs lrux lru spstat sampley samplex vlen print4 sort64 keymap conv allstat getstat printer types x2op4 vlengen statsp statvlen
 all : $(BINS)
 
 % : %.c %.h $(COMMONH)
