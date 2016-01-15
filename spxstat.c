@@ -3,7 +3,7 @@
  *
  * All rights reserved. No warranty, explicit or implicit, provided.
  */
-// Statistics on the trace in the samplex format (sp).
+// Statistics on the trace in the samplex format (spx).
 #include <sys/mman.h>
 #include <assert.h>
 #include <stdint.h>

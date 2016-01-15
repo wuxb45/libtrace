@@ -3,7 +3,7 @@
  *
  * All rights reserved. No warranty, explicit or implicit, provided.
  */
-// Generate trace in 2-30 (samplex) format.
+// Generate trace in 2-30 (samplex, spx) format.
 // <range>: [1, <range>]
 // <nr-op>: number of events to be generated.
 // Output: An array of struct samplex[]

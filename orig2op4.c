@@ -5,7 +5,7 @@
  */
 // keymap: Pre-generated from the trace. Containing sorted keys in form of uint64_t[]
 // input: Trace stream in form of the original format (Yuehai's).
-// output: Grouped trace format. Each group contains a 64-bit operation group and 32 32-bit key.
+// output: trace in form of 64-bit ops + 32 32-bit keys (op4).
 
 #define _GNU_SOURCE
 #define _LARGEFILE64_SOURCE
