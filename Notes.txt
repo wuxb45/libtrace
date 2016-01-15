@@ -4,7 +4,7 @@ struct {
   uint32_t keys[32]; // 32 32-bit keys
 };
 
-sp:
+samplex (spx):
 struct {
   key:30;  // 30-bit key
   op: 2;   // 2-bit op
