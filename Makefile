@@ -16,8 +16,13 @@ all : $(BINS)
 
 %.bin : %.c %.h $(COMMONDEP)
 	clang -std=gnu11 $(OPT) -o $@ $< -llz4 -lm
+
 %.bin : %.c $(COMMONDEP)
 	clang -std=gnu11 $(OPT) -o $@ $< -llz4 -lm
 
 clean :
 	rm -f *.o *~ $(BINS)
+
+GCCINSTALL = "/usr/lib/gcc/$$(gcc -dumpmachine)/$$(gcc -dumpversion)"
+check :
+	cppcheck -I/usr/local/include -I/usr/include -I $(GCCINSTALL)/include -I $(GCCINSTALL)/include-fixed -DDUMMY --enable=all .
