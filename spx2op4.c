@@ -18,6 +18,8 @@
   int
 main(int argc ,char ** argv)
 {
+  (void)argc;
+  (void)argv;
   struct samplex xs[32];
   for (;;) {
     const size_t nr = fread(xs, sizeof(xs[0]), 32, stdin);

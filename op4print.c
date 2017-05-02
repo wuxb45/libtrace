@@ -15,6 +15,8 @@
 int
 main(int argc, char ** argv)
 {
+  (void)argc;
+  (void)argv;
   uint64_t limit = UINT64_C(0xffffffffffffffff);
   if (argc == 2) {
     limit = strtoull(argv[1], NULL, 10);

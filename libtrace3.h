@@ -45,7 +45,7 @@ random64(void)
 
 static bool __set_on_miss = true;
 
-  static void
+  void
 runtrace(const char * const tracefile, const char * const sizefile,
     const uint32_t nr_keys, const uint64_t max_cap, const struct rep_api * const api)
 {

@@ -18,13 +18,13 @@
 
 #define MAXLOW (UINT64_C(0x180000000))
 #define LOWMARK (UINT64_C(0x100000))
-  static int 
-__comp(const void * const p1, const void * const p2) 
+  static int
+__comp(const void * const p1, const void * const p2)
 {
   const uint64_t v1 = *((const uint64_t *)p1);
   const uint64_t v2 = *((const uint64_t *)p2);
   if (v1 > v2) {
-    return -1; 
+    return -1;
   } else if (v1 < v2) {
     return 1;
   } else {
@@ -35,6 +35,8 @@ __comp(const void * const p1, const void * const p2)
   int
 main(int argc ,char ** argv)
 {
+  (void)argc;
+  (void)argv;
   uint64_t * const highs =   (typeof(highs))mmap(NULL, LOWMARK * sizeof(highs[0]), PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_HUGETLB | MAP_ANONYMOUS, -1, 0);
   uint64_t * const lows =     (typeof(lows))mmap(NULL, MAXLOW * sizeof(lows[0]), PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_HUGETLB | MAP_ANONYMOUS, -1, 0);
   uint64_t * const counts = (typeof(counts))mmap(NULL, MAXLOW * sizeof(counts[0]), PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_HUGETLB | MAP_ANONYMOUS, -1, 0);

@@ -19,7 +19,7 @@ struct lirs {
   uint64_t cur_resi_cap;
   uint64_t max_hir_cap;
   uint64_t cur_hir_cap;
-  
+
   // stat
   uint64_t nr_set;
   uint64_t nr_add;
@@ -146,7 +146,6 @@ lirs_hir_remove(struct lirs * const lirs, const uint32_t key)
 {
   assert(lirs_resident(lirs, key));
   assert(lirs_in_hir(lirs, key));
-  const uint32_t nr_keys = lirs->nr_keys;
   const uint32_t hnext = lirs->arr[key].hnext;
   const uint32_t hprev = lirs->arr[key].hprev;
   lirs->arr[hnext].hprev = hprev;

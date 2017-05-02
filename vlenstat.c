@@ -10,8 +10,10 @@
 #include <inttypes.h>
 
 int
-main()
+main(int argc, char ** argv)
 {
+  (void)argc;
+  (void)argv;
   uint32_t len;
   uint64_t n =0;
   uint64_t sum = 0;

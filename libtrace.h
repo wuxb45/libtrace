@@ -34,7 +34,7 @@ struct event {
   uint64_t hkey;
 };
 
-  static bool
+  bool
 next_event(FILE * const input, uint64_t * const time_last, struct event * const out)
 {
   uint8_t flags;
@@ -42,7 +42,6 @@ next_event(FILE * const input, uint64_t * const time_last, struct event * const 
   uint8_t t1;
   uint16_t t2;
   uint32_t t4;
-  uint64_t t8;
   uint64_t delta;
   uint64_t hkey;
   int nread;

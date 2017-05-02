@@ -22,21 +22,6 @@ static uint64_t next_id = 0;
 #define N1 ((1024*1024*64))
 #define NX ((8192))
 
-// big->little
-  static int
-__comp(const void * const p1, const void * const p2)
-{
-  const uint64_t v1 = *((const uint64_t *)p1);
-  const uint64_t v2 = *((const uint64_t *)p2);
-  if (v1 > v2) {
-    return -1;
-  } else if (v1 < v2) {
-    return 1;
-  } else {
-    return 0;
-  }
-}
-
   void
 one_key(struct slot ** const slots, const uint64_t hkey)
 {
@@ -60,6 +45,8 @@ one_key(struct slot ** const slots, const uint64_t hkey)
 int
 main(int argc, char ** argv)
 {
+  (void)argc;
+  (void)argv;
   struct slot ** const slots = (typeof(slots))malloc(sizeof(*slots) * N1);
   for (uint64_t i = 0; i < N1; i++) {
     struct slot * const slot = (typeof(slot))malloc(sizeof(*slot) + (8 * sizeof(slot->hkey[0])));

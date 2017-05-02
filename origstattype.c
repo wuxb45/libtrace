@@ -12,6 +12,8 @@
 int
 main(int argc, char ** argv)
 {
+  (void)argc;
+  (void)argv;
   uint64_t get = 0;
   uint64_t set = 0;
   uint64_t add = 0;

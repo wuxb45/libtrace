@@ -12,6 +12,8 @@
   int
 main(int argc, char ** argv)
 {
+  (void)argc;
+  (void)argv;
   if (argc != 5) {
     printf("usage: %s <trace> <vlen> <nr_keys> <max_cap>\n", argv[0]);
     exit(0);

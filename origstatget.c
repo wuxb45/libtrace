@@ -60,6 +60,8 @@ one_get(struct slot ** const slots, const uint64_t hkey)
 int
 main(int argc, char ** argv)
 {
+  (void)argc;
+  (void)argv;
   struct slot ** const slots = (typeof(slots))malloc(sizeof(*slots) * N1);
   for (uint64_t i = 0; i < N1; i++) {
     struct slot * const slot = (typeof(slot))malloc(sizeof(*slot) + (8 * sizeof(slot->entries[0])));

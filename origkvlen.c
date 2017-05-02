@@ -31,7 +31,7 @@ main(int argc, char ** argv)
 
   struct event e;
   uint64_t ts = 0;
-  uint8_t k1; uint16_t k2; uint32_t k4;
+  uint8_t k1; uint32_t k4;
   uint8_t v1; uint16_t v2; uint32_t v4;
   while (next_event(stdin, &ts, &e)) {
 

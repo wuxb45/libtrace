@@ -18,13 +18,13 @@
 #include "libtrace3.h"
 #include "generator.h"
 
-  static int 
-__comp(const void * const p1, const void * const p2) 
+  static int
+__comp(const void * const p1, const void * const p2)
 {
   const uint64_t v1 = *((const uint64_t *)p1);
   const uint64_t v2 = *((const uint64_t *)p2);
   if (v1 < v2) {
-    return -1; 
+    return -1;
   } else if (v1 > v2) {
     return 1;
   } else {
@@ -89,6 +89,7 @@ main(int argc ,char ** argv)
   }
   const size_t nw = fwrite(xs, sizeof(xs[0]), trace_nr, stdout);
   assert(nw == trace_nr);
+  (void)nw;
   fflush(stdout);
   exit(0);
 }

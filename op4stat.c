@@ -29,6 +29,8 @@ __comp(const void * const p1, const void * const p2)
   int
 main(int argc, char ** argv)
 {
+  (void)argc;
+  (void)argv;
   uint64_t ops = 0;
   uint32_t keys[32];
 

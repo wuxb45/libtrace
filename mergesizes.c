@@ -18,13 +18,13 @@
 
 #include "libtrace.h"
 
-  static int 
-__comp(const void * const p1, const void * const p2) 
+  static int
+__comp(const void * const p1, const void * const p2)
 {
   const uint32_t v1 = *((typeof(&v1))p1);
   const uint32_t v2 = *((typeof(&v2))p2);
   if (v1 < v2) {
-    return -1; 
+    return -1;
   } else if (v1 > v2) {
     return 1;
   } else {
@@ -79,7 +79,7 @@ main(int argc, char ** argv)
   fflush(stdout);
   qsort(vlens, nr_vlen, sizeof(vlens[0]), __comp);
   const uint64_t inc = nr_vlen >> 16;
-  
+
   uint32_t * const sps = (typeof(sps))malloc(65536 * sizeof(sps[0]));
   for (uint64_t i = 0; i < 65536; i++) {
     sps[i] = vlens[i*inc];

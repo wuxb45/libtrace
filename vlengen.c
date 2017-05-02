@@ -11,6 +11,8 @@
   int
 main(int argc, char ** argv)
 {
+  (void)argc;
+  (void)argv;
   uint32_t sz[65536];
   for (uint64_t i = 0; i < 65536; i++) {
     sz[i] = random() % 200;

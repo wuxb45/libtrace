@@ -29,6 +29,8 @@ __comp(const void * const p1, const void * const p2)
   int
 main(int argc, char ** argv)
 {
+  (void)argc;
+  (void)argv;
   struct samplex keys[1024];
 
   uint64_t nr_get = 0;
