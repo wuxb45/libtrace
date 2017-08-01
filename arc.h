@@ -20,7 +20,7 @@ struct arc {
 
   uint64_t p;
   uint64_t caps[4];
-  
+
   // stat
   uint64_t nr_set;
   uint64_t nr_add;

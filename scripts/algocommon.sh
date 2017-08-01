@@ -23,11 +23,9 @@ bg_run_group()
   local rounds=${4}
   local outdir=${5}
   local paramx=${6}
-  
+
   for i in $(seq 1 ${rounds}); do
     bg_run_one ${tool} ${trace} ${x} ${outdir} ${paramx}
     x=$(($x + ($x / 4)))
   done
 }
-
-
