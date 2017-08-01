@@ -2,9 +2,9 @@
 COMMONDEP := libtrace3.h libtrace2.h libtrace.h Makefile
 #OPT := -ggdb -O0
 #OPT := -O3
-OPT := -Wall -Wextra -march=native -O3
+OPT := -Wall -Wextra -mtune=native -march=native -O3 -flto
 
-BINNAMES := arc lirs lrux lru mergesizes \
+BINNAMES := arc lirs lrux lru mergesizes replay \
     op42spx op4print op4stat op4genzipf op42keys \
     orig2op4 origkeymap origprint origstat origstatget origstattype origvlen origkvlen \
     spx2op4 spxgenzipf spxstat spxstatv \
@@ -13,6 +13,7 @@ BINNAMES := arc lirs lrux lru mergesizes \
 BINS := $(patsubst %,%.bin,$(BINNAMES))
 
 all : $(BINS)
+replay.bin : replay.c replay.h lru.h lirs.h arc.h
 
 %.bin : %.c %.h $(COMMONDEP)
 	clang -std=gnu11 $(OPT) -o $@ $< -llz4 -lm

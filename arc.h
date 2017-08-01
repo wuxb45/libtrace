@@ -7,7 +7,7 @@
 
 #include <stdint.h>
 #include <stdlib.h>
-#include "libtrace3.h"
+#include "replay.h"
 
 #define ARC_T1 ((0))
 #define ARC_B1 ((1))

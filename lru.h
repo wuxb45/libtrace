@@ -8,7 +8,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-#include "libtrace3.h"
+#include "replay.h"
 
 struct lru {
   uint32_t nr_keys;
