@@ -8,7 +8,7 @@ BINNAMES := arc lirs lrux lru mergesizes \
     op42spx op4print op4stat op4genzipf op42keys \
     orig2op4 origkeymap origprint origstat origstatget origstattype origvlen origkvlen \
     spx2op4 spxgenzipf spxstat spxstatv \
-    u64sort vlengen vlenstat zipfstat \
+    u64sort vlengen vlenstat vlen124stat zipfstat \
 #
 BINS := $(patsubst %,%.bin,$(BINNAMES))
 
