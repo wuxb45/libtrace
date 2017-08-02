@@ -4,7 +4,7 @@ COMMONDEP := libtrace3.h libtrace2.h libtrace.h Makefile
 #OPT := -O3
 OPT := -Wall -Wextra -mtune=native -march=native -O3 -flto
 
-BINNAMES := arc lirs lrux lru mergesizes replay \
+BINNAMES := mergesizes replay \
     op42spx op4print op4stat op4genzipf op42keys \
     orig2op4 origkeymap origprint origstat origstatget origstattype origvlen origkvlen \
     spx2op4 spxgenzipf spxstat spxstatv \
