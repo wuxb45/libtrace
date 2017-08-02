@@ -82,8 +82,8 @@ lru_remove(struct lru * const lru, const uint32_t key)
     const uint32_t next = lru->arr[key].next;
     const uint32_t prev = lru->arr[key].prev;
 
-    assert(lru->cur_cap > lru->arr[key].size);
-    assert(lru->cur_keys > 0);
+    assert(lru->cur_cap >= lru->arr[key].size);
+    assert(lru->cur_keys);
     lru->cur_cap -= lru->arr[key].size;
     lru->cur_keys--;
     lru->arr[prev].next = next;
