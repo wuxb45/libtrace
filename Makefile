@@ -5,7 +5,8 @@ COMMONDEP := libtrace3.h libtrace2.h libtrace.h Makefile
 OPT := -Wall -Wextra -march=native -O3
 
 BINNAMES := arc lirs lrux lru mergesizes \
-    op42spx op4print op4stat op4genzipf op42keys \
+    op42spx op4print op4stat op4genzipf op42keys op4types \
+    u32fix u32split \
     orig2op4 origkeymap origprint origstat origstatget origstattype origvlen origkvlen \
     spx2op4 spxgenzipf spxstat spxstatv \
     u64sort vlengen vlenstat vlen124stat zipfstat \
