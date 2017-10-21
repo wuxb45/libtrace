@@ -10,7 +10,7 @@
   int
 main(int argc, char ** argv)
 {
-  if (argc != 2) {
+  if (argc != 3) {
     printf("Usage: %s <tracefile> <n>\n", argv[0]);
     exit(0);
   }
