@@ -11,16 +11,22 @@
 main(int argc, char ** argv)
 {
   if (argc != 2) {
-    printf("Usage: %s <tracefile>\n", argv[0]);
+    printf("Usage: %s <tracefile> <n>\n", argv[0]);
     exit(0);
   }
+
   FILE * const fin = fopen(argv[1], "r");
   if (fin == NULL) exit(0);
-  FILE * fout [32];
+  int n = atoi(argv[2]);
+  FILE ** fout = (FILE **)malloc(sizeof(FILE*) * n);
   char name[1024];
-  for (int i = 0; i < 32; i++) {
-    sprintf(name, "%s.%02d", argv[1], i);
+  for (int i = 0; i < n; i++) {
+    sprintf(name, "%s.%04d", argv[1], i);
     fout[i] = fopen(name, "w");
+    if (fout[i] == NULL) {
+      printf("open output error\n");
+      exit(0);
+    }
   }
 
   uint32_t * const keys = malloc(sizeof(uint32_t) * 1024*1024);
@@ -31,12 +37,12 @@ main(int argc, char ** argv)
     if (nkeys == 0) break;
     for (size_t i = 0; i < nkeys; i++) {
       if (keys[i] > max) max = keys[i];
-      tmp = keys[i] /32;
-      fwrite(&tmp, sizeof(tmp), 1, fout[keys[i]%32]);
+      tmp = keys[i] /n;
+      fwrite(&tmp, sizeof(tmp), 1, fout[keys[i]%n]);
     }
   }
-  tmp = (max / 32) + 1;
-  for (int i = 0; i < 32; i++) {
+  tmp = (max / n) + 1;
+  for (int i = 0; i < n; i++) {
     fwrite(&tmp, sizeof(tmp), 1, fout[i]);
     fclose(fout[i]);
   }
